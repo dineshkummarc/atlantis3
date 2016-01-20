@@ -1,0 +1,16 @@
+{
+    "name": "atlantis/framework",
+    "description": "Atlantis CMS Framework",
+    "authors": [
+        {
+            "name": "Evgeni Dimitrov",
+            "email": "evgeni.dimitrov@aggressione.com"
+        }
+    ],
+    "autoload" : {
+         "prs4": {
+                "\\Atlantis" : "src/"
+         }
+    },
+    "require": {}
+}
