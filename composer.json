@@ -36,7 +36,8 @@
 		],
 		"post-create-project-cmd": [
 			"php artisan key:generate",
-			"chmod -R 775 storage"
+			"chmod -R 775 storage",
+			"php artisan atlantis:set:db"
 		]
 	},
 	"config": {
