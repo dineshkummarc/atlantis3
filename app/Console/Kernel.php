@@ -12,10 +12,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\Inspire',
-        'Atlantis\Commands\CreateModuleCommand',
-        'Atlantis\Commands\MigrateModuleCommand',
-        'Atlantis\Commands\AtlantisInstallCommand'
+        'App\Console\Commands\Inspire'
     ];
 
     /**
