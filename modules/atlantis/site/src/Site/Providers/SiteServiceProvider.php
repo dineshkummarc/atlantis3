@@ -15,7 +15,7 @@ class SiteServiceProvider extends \Atlantis\Providers\AtlantisServiceProvider {
   }
   
   public function register() {
-    parent::register();
+    //parent::register();
   }
   
 }
