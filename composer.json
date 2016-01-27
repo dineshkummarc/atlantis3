@@ -37,7 +37,7 @@
 		"post-create-project-cmd": [
 			"php artisan key:generate",
 			"chmod -R 775 storage",
-			"echo -e \"\\e[1;33m************Please run***************\n php artisan atlantis:set:db\n php artisan atlantis:install\n\\e[0m\""
+			"php install-instructions.php"
 		]
 	},
 	"config": {
