@@ -15,7 +15,7 @@
 
 
 <div id='loginForm'>
-  {!! Form::open() !!} 
+  {!! Form::open(["url" => "admin" . $urlQuery]) !!} 
     {!! Form::input("text", "username", '' , array("id" => "username")) !!}
       <br />
       {!! Form::input("password", "password", '' , array("id" => "password")) !!}
