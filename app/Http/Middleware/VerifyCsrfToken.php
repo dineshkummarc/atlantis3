@@ -13,7 +13,8 @@ class VerifyCsrfToken extends BaseVerifier {
    * @var array
    */
   protected $except = [
-          'check-master-login', # all routes to rest-api will be excluded.
+      /** all routes to rest-api will be excluded. * */
+      'get-logged-user'
   ];
 
   /**
