@@ -1,15 +1,22 @@
 <?php
 
+
+/*
+ * Setup: Api
+ * @Atlantis CMS
+ * v 1.0
+ */
+
 return [
-    'name' => 'Api', 
-    'author' => 'Atlantis CMS', 
+    'name' => 'Api',
+    'author' => 'Atlantis CMS',
     'version' => '1.0',
-    'path' => 'atlanits/api/src', 
-    'seedNamespace' => 'Module\Api\Seed', 
+    'path' => 'atlantis/api/src',
     'moduleNamespace' => 'Module\Api',
-    'seeder' => '\Module\Api\Seed\ApiSeeder', 
+    'seedNamespace' => 'Module\Api\Seed',    
+    'seeder' => '\Module\Api\Seed\ApiSeeder',
     'provider' => 'Module\Api\Providers\ApiServiceProvider',
     'migration' => 'modules/atlantis/api/src/Module/Api/Migrations/',
-    'extra' => null, 
+    'extra' => null,
     'active' => 1
    ];

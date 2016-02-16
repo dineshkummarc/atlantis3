@@ -7,7 +7,7 @@ return [
     'path' => 'atlantis/search/src',
     'seedNamespace' => 'Module\Search\Seed',
     'moduleNamespace' => 'Module\Search',
-    'seeder' => '',
+    'seeder' => 'Module\Search\Seed\SearchSeeder',
     'provider' => 'Module\Search\Providers\SearchServiceProvider',
     'migration' => '',
     'extra' => null,

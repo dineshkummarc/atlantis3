@@ -1,24 +1,30 @@
 <?php
 
-namespace Module\Api\Controllers;
+ namespace Module\Api\Controllers;
+
+/*
+ * Controller: Api
+ * @Atlantis CMS
+ * v 1.0
+ */
 
 use App\Http\Controllers\Controller;
-use Api\Helper\Json as Json;
-use Api\Models\Repositories\ApiUserRepository as Repo;
 
-class ApiController extends Controller {
-  
+class ApiController extends Controller
+{
 
-  public function __construct() {
-     
+
+  public function __construct()
+  {
+
 
   }
-  
-  public function index() {
-    
-       //echo Json::encode( Repo::login( "evgeni", "route66" ) );
-    
-   
+
+  public function index()
+  {
+
+       return \View::make('api::admin/blank' ,  [ 'msg'  => "Demo" ] );
+
   }
 
 }

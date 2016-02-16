@@ -1,3 +1,8 @@
 <?php
+/*
+ * Routes: Api
+ * @Atlantis CMS
+ * v 1.0
+ */
 
-Route::get('api/v1/auth' , 'Api\Controllers\ApiController@index'); 
+ //Route::controller('admin/modules/api' , 'Module\Api\Controllers\Admin\ApiAdminController');

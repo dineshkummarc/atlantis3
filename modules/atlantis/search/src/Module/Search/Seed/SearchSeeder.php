@@ -1,12 +1,12 @@
 <?php
 
-namespace Module\Api\Seed;
+namespace Module\Search\Seed;
 
-class ApiSeeder extends \Illuminate\Database\Seeder {
+class SearchSeeder extends \Illuminate\Database\Seeder {
   
   public function run() {
     
-     $setup = require( base_path(). '/modules/atlantis/api/src/Module/Api/Setup/Setup.php');
+     $setup = require( base_path(). '/modules/atlantis/search/src/Module/Search/Setup/Setup.php');
     
      //check for the module with the same name
     $result = \DB::table("modules")
@@ -28,5 +28,5 @@ class ApiSeeder extends \Illuminate\Database\Seeder {
       
     }
     
- } 
+ }
 }

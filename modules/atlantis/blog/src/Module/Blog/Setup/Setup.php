@@ -10,7 +10,7 @@ return [
     'author' => 'Atlantis CMS', 
     'version' => '1.0',
     'path' => 'atlantis/blog/src',
-    'seedNamespace' => 'Blog\Seed',
+    'seedNamespace' => 'Module\Blog\Seed',
     'moduleNamespace' => 'Module\Blog',
     'seeder' => '\Module\Blog\Seed\BlogSeeder',
     'provider' => 'Module\Blog\Providers\BlogServiceProvider',
