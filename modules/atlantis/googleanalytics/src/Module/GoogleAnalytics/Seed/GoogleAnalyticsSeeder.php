@@ -30,7 +30,7 @@ class GoogleAnalyticsSeeder extends \Illuminate\Database\Seeder {
     $data = $this->getData();
 
     foreach ($data as $row) {
-      DB::table('googleanalytics')->insert($row);
+      \DB::table('googleanalytics')->insert($row);
     }
  }
  
