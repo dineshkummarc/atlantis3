@@ -10,7 +10,7 @@ class GoogleAnalyticsSeeder extends \Illuminate\Database\Seeder {
     
      //check for the module with the same name
     $result = \DB::table("modules")
-            ->where("name", "=", "GoogleAnalytics")->first();
+            ->where("name", "=", $setup['name'])->first();
     
     if (is_null($result)) {
       
@@ -24,10 +24,25 @@ class GoogleAnalyticsSeeder extends \Illuminate\Database\Seeder {
                   'provider' => $setup['provider'],
                   'extra' => $setup['extra'],
                   'active' => $setup['active']
-              ]);
-      
+              ]);      
     }
     
+    $data = $this->getData();
+
+    foreach ($data as $row) {
+      DB::table('googleanalytics')->insert($row);
+    }
  }
+ 
+ private function getData() {
+
+    return [
+        [
+            'tracking_code' => 'GA-123',
+            'tag_manager_code' => 'GTM-123',
+            'active' => 'GTM'
+        ] 
+    ];
+  }
  
 }

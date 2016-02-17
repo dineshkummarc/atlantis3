@@ -3,7 +3,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBlankTable extends Migration {
+class CreateGATable extends Migration {
 
         /**
         * Run the migrations.
