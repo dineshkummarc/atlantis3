@@ -6,14 +6,32 @@
   @endif
   {!! Form::open(array('url' => $url, 'class' => $form->form_class, 'name' => $form->name, 'id' => 'form-' . $escaped_name)) !!}
   <input type="hidden" name="form_id" value="{{ $form->id }}">
-
+  @if (Session::has('success'))
+  <!-- show success message -->
+  <div class="success">   
+    <span class="success-msg">{{ Session::get('success') }}</span>    
+  </div>
+  @endif
+  @if ($errors->all())
+  <!-- show errors -->
+  <div class="errors">
+    @foreach($errors->all() as $error)
+    <span class="error-msg">{{ $error }}</span>        
+    @endforeach
+  </div>
+  @endif
+  <!-- build form items -->
+  @foreach($items as $item)
+  {!! $item !!}
+  @endforeach
+  <!-- submit button -->
   <div class="submit">
     @if ($form->ga == 1)
     <input type="submit" class="{{ $form->btn_class }}" value="{{ $form->btn_value }}" onClick="ga('send', 'event', 'Forms', '{{ $form->name }}', '{{ $form->btn_value }}');">
     @else
     <input type="submit" class="{{ $form->btn_class }}" value="{{ $form->btn_value }}">
     @endif
-  </div>
+  </div>  
   {!! Form::close() !!}
   @if (!empty($form->after_form_text))
   <div class="form-text-after">

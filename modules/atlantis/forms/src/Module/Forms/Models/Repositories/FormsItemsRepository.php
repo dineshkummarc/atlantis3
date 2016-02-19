@@ -34,6 +34,11 @@ class FormsItemsRepository {
     }
   }
   
+  /**
+   * 
+   * @param type $form_id
+   * @return \Module\Forms\Models\FormsItems
+   */
   public static function getItems($form_id) {
     
     return FormsItems::where('form_id', '=', $form_id)->get();
