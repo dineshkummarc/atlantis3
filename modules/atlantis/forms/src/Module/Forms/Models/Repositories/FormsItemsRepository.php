@@ -50,4 +50,10 @@ class FormsItemsRepository {
     $model = FormsItems::where('form_id', '=', $form_id)->delete();
   }
 
+  public static function findItem($data) {
+    
+    return FormsItems::firstOrCreate($data);
+    
+  }
+  
 }

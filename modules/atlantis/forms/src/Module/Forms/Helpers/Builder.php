@@ -84,7 +84,7 @@ class Builder {
           $value = '';
         }
 
-        $data[$k] = view('forms::items/input-text', ['item' => $item, 'required' => $required, 'value' => $value]);
+        $data[$k] = view('forms::items/input-text', ['item' => $item, 'required' => $required, 'field' => self::createInputText($item, $value)]);
 
         /** <input type="password"> */
       } else if ($item->field_type == self::$_TYPE_INPUT_PASSWORD) {
@@ -95,7 +95,7 @@ class Builder {
           $value = '';
         }
 
-        $data[$k] = view('forms::items/input-password', ['item' => $item, 'required' => $required, 'value' => $value]);
+        $data[$k] = view('forms::items/input-password', ['item' => $item, 'required' => $required, 'field' => self::createInputPassword($item, $value)]);
 
         /** <textarea></textarea> */
       } else if ($item->field_type == self::$_TYPE_TEXTAREA) {
@@ -106,44 +106,199 @@ class Builder {
           $value = '';
         }
 
-        $data[$k] = view('forms::items/textarea', ['item' => $item, 'required' => $required, 'value' => $value]);
-        
+        $data[$k] = view('forms::items/textarea', ['item' => $item, 'required' => $required, 'field' => self::createTextarea($item, $value)]);
+
         /** <input type="checkbox"> */
       } else if ($item->field_type == self::$_TYPE_CHECKBOX) {
 
-        $data[$k] = view('forms::items/checkbox', ['item' => $item, 'required' => $required, 'checkboxes' => $aFieldValues]);
-        
+        $data[$k] = view('forms::items/checkbox', ['item' => $item, 'required' => $required, 'checkboxes' => self::createCheckbox($aFieldValues, $item)]);
+
         /** <input type="radio"> */
       } else if ($item->field_type == self::$_TYPE_RADIO) {
-        
-        $data[$k] = view('forms::items/radio', ['item' => $item, 'required' => $required, 'radios' => $aFieldValues]);
-        
-        /** 
+
+        $data[$k] = view('forms::items/radio', ['item' => $item, 'required' => $required, 'radios' => self::createRadio($aFieldValues, $item)]);
+
+        /**
          * <select name="gender">
          * <option value="male">Male</option>
          * <option value="female">Female</option>
          * </select>
          */
       } else if ($item->field_type == self::$_TYPE_SELECT) {
-        
+
         $aSelects = array();
         $checked = NULL;
         foreach ($aFieldValues as $k => $value) {
-           
+
           if (stristr($value, '::checked')) {
-            $checked = $k;
             $value = str_replace('::checked', '', $value);
+            $checked = '[' . $k . '] => [' . $value . ']';
           }
-          
-          $aSelects[$k] = $value;
-          
+
+          $aSelects['[' . $k . '] => [' . $value . ']'] = $value;
         }
-        
-        $data[$k] = view('forms::items/select', ['item' => $item, 'required' => $required, 'selects' => $aSelects, 'checked' => $checked]);
+        //dd($aSelects);
+        $data[$k] = view('forms::items/select', ['item' => $item, 'required' => $required, 'field' => self::createSelect($item, $aSelects, $checked)]);
       }
     }
 
     return $data;
+  }
+
+  public static function buildCustomTemplate($form, $formItems) {
+
+    $errors = \Session::get('errors');
+    if ($errors != NULL) {
+    var_dump($errors->getMessages());
+    }
+    
+    
+    /** find all input fields */
+    preg_match_all('/{{(\w+)}}/im', $form->custom_form, $aMatchesFunc);
+    /** find all error fields */
+    preg_match_all('/{{{(\w+)}}}/im', $form->custom_form, $aMatchesFuncError);
+    
+    $customBody = $form->custom_form;
+    /** {{submit_button}} - always needed */
+    $customBody = preg_replace('/{{' . 'submit_button' . '}}/im', self::createSubmitButton($form), $customBody);
+    /** {{before_form_text}} - always needed */
+    $customBody = preg_replace('/{{' . 'before_form_text' . '}}/im', $form->before_form_text, $customBody);
+    /** {{after_form_text}} - always needed */
+    $customBody = preg_replace('/{{' . 'after_form_text' . '}}/im', $form->after_form_text, $customBody);
+
+    foreach ($aMatchesFunc[1] as $k => $token) {
+
+      foreach ($formItems as $item) {
+
+        $aFieldValues = unserialize($item->field_value);
+
+        if (isset(array_values($aFieldValues)[0])) {
+          $value = array_values($aFieldValues)[0];
+        } else {
+          $value = '';
+        }
+
+        if ($token == $item->field_name) {
+
+          $buildItem = '';
+
+          /** <input type="text"> */
+          if ($item->field_type == self::$_TYPE_INPUT_TEXT) {
+
+            $buildItem = self::createInputText($item, $value);
+
+            /** <input type="password"> */
+          } else if ($item->field_type == self::$_TYPE_INPUT_PASSWORD) {
+
+            $buildItem = self::createInputPassword($item, $value);
+
+            /** <textarea></textarea> */
+          } else if ($item->field_type == self::$_TYPE_TEXTAREA) {
+
+            $buildItem = self::createTextarea($item, $value);
+
+            /** <input type="checkbox"> */
+          } else if ($item->field_type == self::$_TYPE_CHECKBOX) {
+
+            $buildItem = self::createCheckbox($aFieldValues, $item);
+
+            /** <input type="radio"> */
+          } else if ($item->field_type == self::$_TYPE_RADIO) {
+
+            $buildItem = self::createRadio($aFieldValues, $item);
+
+            /**
+             * <select name="gender">
+             * <option value="male">Male</option>
+             * <option value="female">Female</option>
+             * </select>
+             */
+          } else if ($item->field_type == self::$_TYPE_SELECT) {
+
+            $aSelects = array();
+            $checked = NULL;
+            foreach ($aFieldValues as $k => $value) {
+
+              if (stristr($value, '::checked')) {
+                $value = str_replace('::checked', '', $value);
+                $checked = '[' . $k . '] => [' . $value . ']';
+              }
+
+              $aSelects['[' . $k . '] => [' . $value . ']'] = $value;
+            }
+
+            $buildItem = self::createSelect($item, $aSelects, $checked);
+          }
+
+          $customBody = preg_replace('/{{' . $token . '}}/im', $buildItem, $customBody);
+        }
+      }
+    }    
+
+    return $customBody;
+  }
+
+  public static function createInputText($item, $value) {
+
+    return \Form::input('text', $item->field_name, old($item->field_name, $value), unserialize($item->attributes));
+  }
+
+  public static function createInputPassword($item, $value) {
+
+    return \Form::input('password', $item->field_name, old($item->field_name, $value), unserialize($item->attributes));
+  }
+
+  public static function createTextarea($item, $value) {
+
+    return \Form::textarea($item->field_name, old($item->field_name, $value), unserialize($item->attributes));
+  }
+
+  public static function createSelect($item, $aSelects, $checked) {
+
+    return \Form::select($item->field_name, $aSelects, $checked, unserialize($item->attributes));
+  }
+
+  public static function createCheckbox($checkboxes, $item) {
+
+    $fields = '';
+
+    foreach ($checkboxes as $k => $checkbox) {
+      $fields .= '<label for="' . $k . '">';
+      if (stristr($checkbox, '::checked')) {
+        $fields .= \Form::checkbox($item->field_name . '[' . $k . ']', '[' . str_replace('::checked', '', $checkbox) . ']', TRUE, array_merge(unserialize($item->attributes), ['id' => $k])) . str_replace('::checked', '', $checkbox);
+      } else {
+        $fields .= \Form::checkbox($item->field_name . '[' . $k . ']', '[' . $checkbox . ']', FALSE, array_merge(unserialize($item->attributes), ['id' => $k])) . $checkbox;
+      }
+      $fields .= '</label>';
+    }
+
+    return $fields;
+  }
+
+  public static function createRadio($radios, $item) {
+
+    $fields = '';
+
+    foreach ($radios as $k => $radio) {
+      $fields .= '<label for="' . $k . '">';
+      if (stristr($radio, '::checked')) {
+        $fields .= \Form::radio($item->field_name, '[' . $k . '] => [' . str_replace('::checked', '', $radio) . ']', TRUE, array_merge(unserialize($item->attributes), ['id' => $k])) . str_replace('::checked', '', $radio);
+      } else {
+        $fields .= \Form::radio($item->field_name, '[' . $k . '] => [' . $radio . ']', FALSE, array_merge(unserialize($item->attributes), ['id' => $k])) . $radio;
+      }
+      $fields .= '</label>';
+    }
+
+    return $fields;
+  }
+
+  public static function createSubmitButton($form) {
+
+    if ($form->ga == 1) {
+      return '<input type="submit" class="' . $form->btn_class . '" value="' . $form->btn_value . '" onClick="' . "ga('send', 'event', 'Forms', '" . $form->name . "', '" . $form->btn_value . "');" . '">';
+    } else {
+      return '<input type="submit" class="' . $form->btn_class . '" value="' . $form->btn_value . '">';
+    }
   }
 
   public static function getPostItems() {
@@ -219,15 +374,15 @@ class Builder {
         [
             'label' => 'Send me details',
             'field_type' => self::$_TYPE_CHECKBOX,
-            'field_name' => 'checkboxes', //is not required
+            'field_name' => 'send_details',
             'validation' => '',
             'attributes' => [
                 'class' => 'checkbox-class'
             ],
             'validation_msg' => '',
             'field_value' => [
-                'send_detail_mail_1' => 'send_details to mail1::checked',
-                'send_detail_mail_2' => 'send details to mail2'
+                'send_details_mail_1' => 'send details to mail1::checked',
+                'send_details_mail_2' => 'send details to mail2'
             ],
             'weight' => 5
         ],
