@@ -78,16 +78,25 @@ class FormsController extends Controller {
   /*
    * {{submit_button}} - add submit button / always needed
    */
+
   private function customTemplateBuild($form, $formItems) {
 
     $aData = array();
-    $aData['content'] = FormsBuilder::buildCustomTemplate($form, $formItems);
+    $captcha = NULL;
+
+    if ($form->captcha == 1) {
+
+      $captchaHelper = new \Module\Forms\Helpers\Captcha(unserialize($form->captcha_config));
+      $captcha = $captchaHelper->get();
+    }
+
+    $aData['content'] = FormsBuilder::buildCustomTemplate($form, $formItems, $captcha);
     $aData['form'] = $form;
     $aData['escaped_name'] = strtolower(str_replace(" ", "-", $form->name));
     $aData['url'] = request()->url();
 
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->get('form_id') == $form->id) {
-      
+
       $validator = new FormsValidator($formItems);
       $validator->make(request()->all());
 
@@ -100,8 +109,8 @@ class FormsController extends Controller {
 
         return redirect()->back()->withErrors($validator->getErrors())->withInput()->send();
       }
-    }    
-    
+    }
+
     return view('forms::form-builder-custom', $aData);
   }
 

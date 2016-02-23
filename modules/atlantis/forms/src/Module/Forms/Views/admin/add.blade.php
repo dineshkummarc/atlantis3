@@ -40,6 +40,10 @@
   {!! Form::checkbox('captcha', 1, FALSE, ['class' => 'form-control']) !!}
 </p>
 <p>
+  <label>Select captcha</label>
+  {!! Form::select('select_captcha', $aCaptcha, NULL, ['class' => 'form-control']) !!}
+</p>
+<p>
   <label>Use Google Analytics</label>
   {!! Form::checkbox('ga', 1, TRUE, ['class' => 'form-control']) !!}
 </p>

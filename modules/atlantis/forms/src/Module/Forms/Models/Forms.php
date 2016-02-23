@@ -22,6 +22,7 @@ class Forms extends Base {
       'btn_value',
       'btn_class',
       'captcha',
+      'captcha_config',
       'ga',
       'before_form_text',
       'after_form_text',

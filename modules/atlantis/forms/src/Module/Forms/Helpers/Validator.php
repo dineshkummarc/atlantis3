@@ -39,7 +39,7 @@ class Validator {
         $aMsgs[$key] = $message;
       }      
     }  
-    //dd($aMsgs);
+    
     return new MessageBag($aMsgs);
   }
 

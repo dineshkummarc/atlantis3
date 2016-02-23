@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Module\Forms\Models\Repositories\FormsRepository;
 use Illuminate\Http\Request;
 use Module\Forms\Helpers\Builder as FormBuilder;
+use Module\Forms\Helpers\Captcha as CaptchaHelper;
 
 class FormsAdminController extends Controller {
 
@@ -18,7 +19,7 @@ class FormsAdminController extends Controller {
             . 'Atlantis\Models\Repositories\RoleUsersRepository,'
             . 'Atlantis\Models\Repositories\PermissionsRepository');
   }
-  
+
   /*
    * Show list
    * 
@@ -47,7 +48,10 @@ class FormsAdminController extends Controller {
 
   public function getAdd() {
 
+    $aCaptchas = CaptchaHelper::getAll($this->config);
+
     $aParams = array();
+    $aParams['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
 
     return view('forms::admin/add', $aParams);
   }
@@ -68,9 +72,12 @@ class FormsAdminController extends Controller {
 
     if (!$validator->fails()) {
 
+      $aCaptchas = CaptchaHelper::getAll($this->config);
+
       $postData = $request->all();
+      $postData['captcha_config'] = serialize($aCaptchas[$request->get('select_captcha')]);
       $postData['items'] = FormBuilder::getPostItems();
-      
+
       $modelDB->add($postData);
 
       return redirect('admin/modules/forms')->with('success', 'Success');
@@ -91,9 +98,21 @@ class FormsAdminController extends Controller {
 
     $oModel = FormsRepository::get($id);
 
-    $aParams = array();
+    $aCaptchas = CaptchaHelper::getAll($this->config);
+
+    $captcha_select = NULL;
     
+    foreach ($aCaptchas as $k => $captcha) {
+      if ($oModel->captcha_config == serialize($captcha)) {
+        $captcha_select = $k;
+      }
+    }
+    
+    $aParams = array();
+
     $aParams['oModel'] = $oModel;
+    $aParams['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
+    $aParams['captcha_select'] = $captcha_select;
 
     return view('forms::admin/edit', $aParams);
   }
@@ -113,28 +132,30 @@ class FormsAdminController extends Controller {
     $validator = $oModel->validationEdit($request->all());
 
     if (!$validator->fails()) {
-      
+
       $aData = $request->all();
+
+      $aCaptchas = CaptchaHelper::getAll($this->config);
+      $aData['captcha_config'] = serialize($aCaptchas[$request->get('select_captcha')]);
       
       if (!isset($aData['captcha'])) {
         $aData['captcha'] = 0;
       }
-      
+
       if (!isset($aData['ga'])) {
         $aData['ga'] = 0;
       }
-      
+
       if (!isset($aData['use_custom_form'])) {
         $aData['use_custom_form'] = 0;
       }
-      
+
       if (!isset($aData['email_check'])) {
         $aData['email_check'] = 0;
       }
-
-      $aData = $request->all();
-      $aData['items'] = FormBuilder::getPostItems();
       
+      $aData['items'] = FormBuilder::getPostItems();
+      //dd($aData);
       $oModel->edit($id, $aData);
 
       return redirect('admin/modules/forms')->with('success', 'Success');
@@ -158,6 +179,17 @@ class FormsAdminController extends Controller {
     } else {
       return redirect('admin/modules/forms')->with('error', 'Invalid ID');
     }
+  }
+
+  private function getCaptchasForSelect($aCaptchas) {
+
+    $aSelect = array();
+
+    foreach ($aCaptchas as $k => $captcha) {
+      $aSelect[$k] = $captcha['name'];
+    }
+
+    return $aSelect;
   }
 
 }

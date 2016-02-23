@@ -145,26 +145,49 @@ class Builder {
     return $data;
   }
 
-  public static function buildCustomTemplate($form, $formItems) {
-
-    $errors = \Session::get('errors');
-    if ($errors != NULL) {
-    var_dump($errors->getMessages());
-    }
-    
+  public static function buildCustomTemplate($form, $formItems, $captcha) {
     
     /** find all input fields */
     preg_match_all('/{{(\w+)}}/im', $form->custom_form, $aMatchesFunc);
     /** find all error fields */
-    preg_match_all('/{{{(\w+)}}}/im', $form->custom_form, $aMatchesFuncError);
-    
+    preg_match_all('/{!!(\w+)!!}/im', $form->custom_form, $aMatchesFuncError);
+
     $customBody = $form->custom_form;
+
+    /** check for errors from validation */
+    $errors = \Session::get('errors');
+    if ($errors != NULL) {
+      foreach ($aMatchesFuncError[1] as $err) {
+
+        foreach ($errors->getMessages() as $key => $err_message) {
+
+          if ($key == $err) {
+
+            $customBody = preg_replace('/{!!' . $err . '!!}/im', $err_message[0], $customBody);
+          }
+        }
+        $customBody = preg_replace('/{!!' . $err . '!!}/im', '', $customBody);
+      }
+    } else {
+
+      foreach ($aMatchesFuncError[1] as $err) {
+        /** remove error tags */
+        $customBody = preg_replace('/{!!' . $err . '!!}/im', '', $customBody);
+      }
+    }
+
     /** {{submit_button}} - always needed */
     $customBody = preg_replace('/{{' . 'submit_button' . '}}/im', self::createSubmitButton($form), $customBody);
     /** {{before_form_text}} - always needed */
     $customBody = preg_replace('/{{' . 'before_form_text' . '}}/im', $form->before_form_text, $customBody);
     /** {{after_form_text}} - always needed */
     $customBody = preg_replace('/{{' . 'after_form_text' . '}}/im', $form->after_form_text, $customBody);
+    /** {{captcha}} - always needed */
+    if ($captcha != NULL) {
+      $customBody = preg_replace('/{{' . 'captcha' . '}}/im', $captcha, $customBody);
+    } else {
+      $customBody = preg_replace('/{{' . 'captcha' . '}}/im', '', $customBody);
+    }
 
     foreach ($aMatchesFunc[1] as $k => $token) {
 
@@ -233,7 +256,7 @@ class Builder {
           $customBody = preg_replace('/{{' . $token . '}}/im', $buildItem, $customBody);
         }
       }
-    }    
+    }
 
     return $customBody;
   }
