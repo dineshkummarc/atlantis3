@@ -1,6 +1,7 @@
 <?php
 
 return [
-  'name' => 'SumCaptcha - 1+1',
-    'adapterNamespace' => \Module\Forms\Captcha\ReCaptcha\ReCaptchaAdapter::class
+  'name' => 'Test Captcha',
+    'namespace' => 'Module\Forms\Captcha\SumCaptcha',
+    'adapterNamespace' => \Module\Forms\Captcha\SumCaptcha\TestCaptcha::class
 ];

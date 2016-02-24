@@ -52,7 +52,7 @@ class FormsItemsRepository {
 
   public static function findItem($data) {
     
-    return FormsItems::firstOrCreate($data);
+    return FormsItems::firstOrNew($data);
     
   }
   

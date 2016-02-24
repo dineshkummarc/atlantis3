@@ -24,6 +24,12 @@
   @foreach($items as $item)
   {!! $item !!}
   @endforeach
+  {{-- Captcha --}}
+  @if($captcha != NULL)
+  <div class="captcha">
+    {!! $captcha !!}
+  </div>
+  @endif
   {{-- submit button --}}
   <div class="submit">
     {!! $submit_button !!}

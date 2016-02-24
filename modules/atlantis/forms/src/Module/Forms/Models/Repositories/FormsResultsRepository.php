@@ -21,20 +21,22 @@ class FormsResultsRepository {
 
         $item = FormsItemsRepository::findItem(['form_id' => $data['form_id'], 'field_name' => $key]);
 
-        $aResults[$i]['form_id'] = $data['form_id'];
-        $aResults[$i]['field_label'] = $item->label;
-        $aResults[$i]['field_name'] = $key;
-        $aResults[$i]['field_value'] = serialize($value);
-        $aResults[$i]['post_url'] = request()->url();
-        $aResults[$i]['IP'] = request()->ip();
-        $aResults[$i]['set_id'] = $model->id;
-        
-        FormsResults::create($aResults[$i]);
+        if ($item->id != NULL) {
 
-        $i++;
+          $aResults[$i]['form_id'] = $data['form_id'];
+          $aResults[$i]['field_label'] = $item->label;
+          $aResults[$i]['field_name'] = $key;
+          $aResults[$i]['field_value'] = serialize($value);
+          $aResults[$i]['post_url'] = request()->url();
+          $aResults[$i]['IP'] = request()->ip();
+          $aResults[$i]['set_id'] = $model->id;
+
+          FormsResults::create($aResults[$i]);
+
+          $i++;
+        }
       }
     }
-        
   }
 
 }

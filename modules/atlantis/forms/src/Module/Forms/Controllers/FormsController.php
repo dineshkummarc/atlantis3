@@ -7,6 +7,7 @@ use Module\Forms\Models\Repositories\FormsItemsRepository;
 use Module\Forms\Models\Repositories\FormsResultsRepository;
 use Module\Forms\Helpers\Builder as FormsBuilder;
 use Module\Forms\Helpers\Validator as FormsValidator;
+use Illuminate\Support\MessageBag;
 /**
  * Controller: Forms
  * @Atlantis CMS
@@ -51,25 +52,45 @@ class FormsController extends Controller {
   private function normalBuild($form, $formItems) {
 
     $aData = array();
+    $captcha = NULL;
+    $captchaView = NULL;
+
+    if ($form->captcha == 1) {
+
+      $captcha = new \Module\Forms\Helpers\Captcha($form->captcha_namespace);
+      $captchaView = $captcha->get();
+    }
+
     $aData['form'] = $form;
     $aData['escaped_name'] = strtolower(str_replace(" ", "-", $form->name));
     $aData['url'] = request()->url();
     $aData['items'] = FormsBuilder::buildItems($formItems);
     $aData['submit_button'] = FormsBuilder::createSubmitButton($form);
+    $aData['captcha'] = $captchaView;
 
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->get('form_id') == $form->id) {
       //dd(request()->all());
       $validator = new FormsValidator($formItems);
       $validator->make(request()->all());
 
-      if (!$validator->fails()) {
+      $captchaFails = FALSE;
+      if ($captcha != NULL) {
+        $captchaFails = $captcha->fails();
+      }
+
+      if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
         FormsResultsRepository::saveResults(request()->all());
         request()->session()->flash('success', $form->message);
         return redirect()->back()->send();
       } else {
 
-        return redirect()->back()->withErrors($validator->getErrors())->withInput()->send();
+        $messageBag = $validator->getErrors(new MessageBag());
+        if ($captcha != NULL) {
+          $messageBag = $captcha->getErrors($messageBag);
+        }
+
+        return redirect()->back()->withErrors($messageBag)->withInput()->send();
       }
     }
     return view('forms::form-builder', $aData);
@@ -83,14 +104,15 @@ class FormsController extends Controller {
 
     $aData = array();
     $captcha = NULL;
+    $captchaView = NULL;
 
     if ($form->captcha == 1) {
 
-      $captchaHelper = new \Module\Forms\Helpers\Captcha(unserialize($form->captcha_config));
-      $captcha = $captchaHelper->get();
+      $captcha = new \Module\Forms\Helpers\Captcha($form->captcha_namespace);
+      $captchaView = $captcha->get();
     }
 
-    $aData['content'] = FormsBuilder::buildCustomTemplate($form, $formItems, $captcha);
+    $aData['content'] = FormsBuilder::buildCustomTemplate($form, $formItems, $captchaView);
     $aData['form'] = $form;
     $aData['escaped_name'] = strtolower(str_replace(" ", "-", $form->name));
     $aData['url'] = request()->url();
@@ -100,14 +122,24 @@ class FormsController extends Controller {
       $validator = new FormsValidator($formItems);
       $validator->make(request()->all());
 
-      if (!$validator->fails()) {
+      $captchaFails = FALSE;
+      if ($captcha != NULL) {
+        $captchaFails = $captcha->fails();
+      }
+
+      if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
         FormsResultsRepository::saveResults(request()->all());
         request()->session()->flash('success', $form->message);
         return redirect()->back()->send();
       } else {
 
-        return redirect()->back()->withErrors($validator->getErrors())->withInput()->send();
+        $messageBag = $validator->getErrors(new MessageBag());
+        if ($captcha != NULL) {
+          $messageBag = $captcha->getErrors($messageBag);
+        }
+
+        return redirect()->back()->withErrors($messageBag)->withInput()->send();
       }
     }
 

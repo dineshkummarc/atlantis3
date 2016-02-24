@@ -10,6 +10,8 @@ use Module\Forms\Helpers\Captcha as CaptchaHelper;
 
 class FormsAdminController extends Controller {
 
+  private $config;
+  
   public function __construct() {
 
     $this->config = \Config::get('forms.setup');
@@ -29,6 +31,7 @@ class FormsAdminController extends Controller {
    */
 
   public function getIndex($id = null) {
+    
     $oModels = FormsRepository::getAll();
 
     $aParams = array();
@@ -75,7 +78,7 @@ class FormsAdminController extends Controller {
       $aCaptchas = CaptchaHelper::getAll($this->config);
 
       $postData = $request->all();
-      $postData['captcha_config'] = serialize($aCaptchas[$request->get('select_captcha')]);
+      $postData['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
       $postData['items'] = FormBuilder::getPostItems();
 
       $modelDB->add($postData);
@@ -99,11 +102,11 @@ class FormsAdminController extends Controller {
     $oModel = FormsRepository::get($id);
 
     $aCaptchas = CaptchaHelper::getAll($this->config);
-
+    
     $captcha_select = NULL;
     
     foreach ($aCaptchas as $k => $captcha) {
-      if ($oModel->captcha_config == serialize($captcha)) {
+      if ($oModel->captcha_namespace == $captcha['namespace']) {
         $captcha_select = $k;
       }
     }
@@ -136,7 +139,7 @@ class FormsAdminController extends Controller {
       $aData = $request->all();
 
       $aCaptchas = CaptchaHelper::getAll($this->config);
-      $aData['captcha_config'] = serialize($aCaptchas[$request->get('select_captcha')]);
+      $aData['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
       
       if (!isset($aData['captcha'])) {
         $aData['captcha'] = 0;

@@ -13,6 +13,7 @@ class Builder {
   public static $_TYPE_CHECKBOX = 'checkbox';
   public static $_TYPE_RADIO = 'radio';
   public static $_TYPE_SELECT = 'select';
+  public static $_TYPE_FILE = 'file';
 
   /**
    * Validation rules
@@ -21,6 +22,8 @@ class Builder {
   public static $_VALIDATION_EMAIL = 'required|email';
   public static $_VALIDATION_NUMERIC = 'required|numeric';
   public static $_VALIDATION_ALPHA_NUMERIC = 'required|alpha_num';
+  public static $_VALIDATION_IMAGE = 'mimes:jpeg,bmp,png';
+  public static $_VALIDATION_PDF = 'mimes:pdf';
 
   /**
    * Get Filed Types
@@ -35,7 +38,8 @@ class Builder {
         self::$_TYPE_TEXTAREA => 'TextArea',
         self::$_TYPE_CHECKBOX => 'Checkbox',
         self::$_TYPE_RADIO => 'Radio button',
-        self::$_TYPE_SELECT => 'Dropdown'
+        self::$_TYPE_SELECT => 'Dropdown',
+        self::$_TYPE_FILE => 'File'
     ];
   }
 
@@ -50,7 +54,9 @@ class Builder {
         self::$_VALIDATION_NOT_EMPTY => 'Not empty',
         self::$_VALIDATION_EMAIL => 'Email',
         self::$_VALIDATION_NUMERIC => 'Numeric',
-        self::$_VALIDATION_ALPHA_NUMERIC => 'Alpha Numeric'
+        self::$_VALIDATION_ALPHA_NUMERIC => 'Alpha Numeric',
+        self::$_VALIDATION_IMAGE => 'Image file (.jpeg, .bmp, .png)',
+        self::$_VALIDATION_PDF => 'PDF file'
     ];
   }
 
@@ -181,9 +187,9 @@ class Builder {
     /** {{before_form_text}} - always needed */
     $customBody = preg_replace('/{{' . 'before_form_text' . '}}/im', $form->before_form_text, $customBody);
     /** {{after_form_text}} - always needed */
-    $customBody = preg_replace('/{{' . 'after_form_text' . '}}/im', $form->after_form_text, $customBody);
+    $customBody = preg_replace('/{{' . 'after_form_text' . '}}/im', $form->after_form_text, $customBody);   
     /** {{captcha}} - always needed */
-    if ($captcha != NULL) {
+    if ($captcha != NULL) {       
       $customBody = preg_replace('/{{' . 'captcha' . '}}/im', $captcha, $customBody);
     } else {
       $customBody = preg_replace('/{{' . 'captcha' . '}}/im', '', $customBody);
@@ -194,7 +200,7 @@ class Builder {
       foreach ($formItems as $item) {
 
         $aFieldValues = unserialize($item->field_value);
-
+        
         if (isset(array_values($aFieldValues)[0])) {
           $value = array_values($aFieldValues)[0];
         } else {
@@ -251,6 +257,10 @@ class Builder {
             }
 
             $buildItem = self::createSelect($item, $aSelects, $checked);
+            
+          } else if($item->field_type == self::$_TYPE_FILE) {
+            
+            $buildItem = self::createFile($item);
           }
 
           $customBody = preg_replace('/{{' . $token . '}}/im', $buildItem, $customBody);
@@ -279,6 +289,10 @@ class Builder {
   public static function createSelect($item, $aSelects, $checked) {
 
     return \Form::select($item->field_name, $aSelects, $checked, unserialize($item->attributes));
+  }
+  public static function createFile($item) {
+    
+    return \Form::file($item->field_name, unserialize($item->attributes));
   }
 
   public static function createCheckbox($checkboxes, $item) {
@@ -425,6 +439,18 @@ class Builder {
             ],
             'weight' => 6
         ],
+        [
+            'label' => 'Upload file',
+            'field_type' => self::$_TYPE_FILE,
+            'field_name' => 'file',
+            'validation' => self::$_VALIDATION_IMAGE,
+            'attributes' => [
+                'class' => 'file-class'
+            ],
+            'validation_msg' => 'Please add valid file',
+            'field_value' => [],
+            'weight' => 7
+        ]
     ];
   }
 

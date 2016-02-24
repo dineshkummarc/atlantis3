@@ -2,13 +2,26 @@
 
 namespace Module\Forms\Helpers;
 
+use Illuminate\Support\MessageBag;
+
 class Captcha {
 
   private $adapterNamespace;
+  private $setupForms;
+  private $captcha;
+  private $captchaPath;
+  private $captchaConfig;
+  private $buildCaptcha;
 
-  public function __construct($captchaConfig) {
+  public function __construct($captchaNamespace) {    
+    
+    $this->captchaConfig = self::getCaptchaConfig($captchaNamespace);
+    $this->adapterNamespace = $this->captchaConfig['adapterNamespace'];
+    $this->setupForms = \Config::get('forms.setup');
+    $this->captchaPath = base_path() . \Config::get('modules_dir') . $this->setupForms['path'] . '/Module/Forms/Captcha/';
 
-    $this->adapterNamespace = $captchaConfig['adapterNamespace'];
+    $this->captcha = new $this->adapterNamespace();
+    $this->buildCaptcha = $this->captcha->build($this->captchaPath);
   }
 
   /**
@@ -18,8 +31,7 @@ class Captcha {
    */
   public function get() {
 
-    $captcha = new $this->adapterNamespace();
-    return $captcha->build();
+    return $this->buildCaptcha;
   }
 
   /**
@@ -27,8 +39,8 @@ class Captcha {
    * 
    * @return BOOL
    */
-  public function isValid() {
-    
+  public function fails() {
+    return $this->captcha->fails();
   }
 
   /**
@@ -36,8 +48,14 @@ class Captcha {
    * 
    * @return \Illuminate\Support\MessageBag
    */
-  public function getErrors() {
-    
+  public function getErrors(MessageBag $messageBag) {
+
+    if ($this->captcha->fails()) {
+
+      return $messageBag->add('captcha', 'Wrong captcha');
+    } else {
+      return $messageBag;
+    }
   }
 
   /**
@@ -70,6 +88,21 @@ class Captcha {
     }
 
     return $aCaptchas;
+  }
+
+  public static function getCaptchaConfig($captchaNamespace) {
+
+    $formsSetup = \Config::get('forms.setup');
+
+    $aConfigs = self::getAll($formsSetup);
+
+    foreach ($aConfigs as $config) {
+      if ($captchaNamespace == $config['namespace']) {
+        return $config;
+      }
+    }
+    
+    abort(404, 'Captcha config not found by namespace: ' . $captchaNamespace);
   }
 
 }
