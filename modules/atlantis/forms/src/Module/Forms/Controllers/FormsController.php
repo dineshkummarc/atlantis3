@@ -60,11 +60,14 @@ class FormsController extends Controller {
       $captcha = new \Module\Forms\Helpers\Captcha($form->captcha_namespace);
       $captchaView = $captcha->get();
     }
+    
+    $formsBuilder = new FormsBuilder($form, $formItems, $captchaView);
 
     $aData['form'] = $form;
     $aData['escaped_name'] = strtolower(str_replace(" ", "-", $form->name));
     $aData['url'] = request()->url();
-    $aData['items'] = FormsBuilder::buildItems($formItems);
+    $aData['items'] = $formsBuilder->buildItems();
+    $aData['custom_form_attributes'] = $formsBuilder->getCustomFormAttributes();
     $aData['submit_button'] = FormsBuilder::createSubmitButton($form);
     $aData['captcha'] = $captchaView;
 
@@ -80,7 +83,7 @@ class FormsController extends Controller {
 
       if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
-        FormsResultsRepository::saveResults(request()->all());
+        FormsResultsRepository::saveResults(request());
         request()->session()->flash('success', $form->message);
         return redirect()->back()->send();
       } else {
@@ -112,7 +115,10 @@ class FormsController extends Controller {
       $captchaView = $captcha->get();
     }
 
-    $aData['content'] = FormsBuilder::buildCustomTemplate($form, $formItems, $captchaView);
+    $formsBuilder = new FormsBuilder($form, $formItems, $captchaView);
+    
+    $aData['content'] = $formsBuilder->buildCustomTemplate();
+    $aData['custom_form_attributes'] = $formsBuilder->getCustomFormAttributes();
     $aData['form'] = $form;
     $aData['escaped_name'] = strtolower(str_replace(" ", "-", $form->name));
     $aData['url'] = request()->url();
@@ -129,7 +135,7 @@ class FormsController extends Controller {
 
       if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
-        FormsResultsRepository::saveResults(request()->all());
+        FormsResultsRepository::saveResults(request());
         request()->session()->flash('success', $form->message);
         return redirect()->back()->send();
       } else {

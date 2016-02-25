@@ -4,7 +4,7 @@
     {{ $form->before_form_text }}
   </div>
   @endif
-  {!! Form::open(array('url' => $url, 'class' => $form->form_class, 'name' => $form->name, 'id' => 'form-' . $escaped_name)) !!}
+  {!! Form::open(array_merge(['url' => $url, 'class' => $form->form_class, 'name' => $form->name, 'id' => 'form-' . $escaped_name], $custom_form_attributes)) !!}
   <input type="hidden" name="form_id" value="{{ $form->id }}">
   @if (Session::has('success'))
   {{-- show success message --}}

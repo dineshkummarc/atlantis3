@@ -22,8 +22,33 @@ class Builder {
   public static $_VALIDATION_EMAIL = 'required|email';
   public static $_VALIDATION_NUMERIC = 'required|numeric';
   public static $_VALIDATION_ALPHA_NUMERIC = 'required|alpha_num';
-  public static $_VALIDATION_IMAGE = 'mimes:jpeg,bmp,png';
+  public static $_VALIDATION_IMAGE = 'image';
+  public static $_VALIDATION_IMAGE_1M = 'image|max:1000';
+  public static $_VALIDATION_IMAGE_2M = 'image|max:2000';
   public static $_VALIDATION_PDF = 'mimes:pdf';
+  public static $_VALIDATION_PDF_1M = 'mimes:pdf|max:1000';
+  public static $_VALIDATION_PDF_2M = 'mimes:pdf|max:2000';
+  public static $_VALIDATION_EXEL = 'mimes:xlsx,xls';
+  public static $_VALIDATION_EXEL_1M = 'mimes:xlsx,xls|max:1000';
+  public static $_VALIDATION_EXEL_2M = 'mimes:xlsx,xls|max:2000';
+  public static $_VALIDATION_CSV = 'mimes:csv,txt';
+  public static $_VALIDATION_CSV_1M = 'mimes:csv,txt|max:1000';
+  public static $_VALIDATION_CSV_2M = 'mimes:csv,txt|max:2000';
+
+  /**
+   * Private variables 
+   */
+  private $form;
+  private $formItems;
+  private $captcha;
+  private $customFormAttributes = array();
+
+  public function __construct($form, $formItems, $captcha = NULL) {
+
+    $this->form = $form;
+    $this->formItems = $formItems;
+    $this->captcha = $captcha;
+  }
 
   /**
    * Get Filed Types
@@ -55,8 +80,18 @@ class Builder {
         self::$_VALIDATION_EMAIL => 'Email',
         self::$_VALIDATION_NUMERIC => 'Numeric',
         self::$_VALIDATION_ALPHA_NUMERIC => 'Alpha Numeric',
-        self::$_VALIDATION_IMAGE => 'Image file (.jpeg, .bmp, .png)',
-        self::$_VALIDATION_PDF => 'PDF file'
+        self::$_VALIDATION_IMAGE => 'Image file',
+        self::$_VALIDATION_IMAGE_1M => 'Image file - 1 Megabyte',
+        self::$_VALIDATION_IMAGE_2M => 'Image file - 2 Megabytes',
+        self::$_VALIDATION_PDF => 'PDF file',
+        self::$_VALIDATION_PDF_1M => 'PDF file - 1 Megabyte',
+        self::$_VALIDATION_PDF_2M => 'PDF file - 2 Megabytes',
+        self::$_VALIDATION_EXEL => 'MS Exel file',
+        self::$_VALIDATION_EXEL_1M => 'MS Exel file - 1 Megabytes',
+        self::$_VALIDATION_EXEL_2M => 'MS Exel file - 2 Megabytes',
+        self::$_VALIDATION_CSV => 'CSV file',
+        self::$_VALIDATION_CSV_1M => 'CSV file - 1 Megabytes',
+        self::$_VALIDATION_CSV_2M => 'CSV file - 2 Megabytes',
     ];
   }
 
@@ -67,11 +102,11 @@ class Builder {
    * @return  array
    * @param \Module\Forms\Models\FormsItems $items
    */
-  public static function buildItems($items) {
+  public function buildItems() {
 
     $data = array();
 
-    foreach ($items as $k => $item) {
+    foreach ($this->formItems as $k => $item) {
 
       $aFieldValues = unserialize($item->field_value);
 
@@ -143,22 +178,31 @@ class Builder {
 
           $aSelects['[' . $k . '] => [' . $value . ']'] = $value;
         }
-        //dd($aSelects);
+
         $data[$k] = view('forms::items/select', ['item' => $item, 'required' => $required, 'field' => self::createSelect($item, $aSelects, $checked)]);
+
+        /**
+         * <input type="file">
+         */
+      } else if ($item->field_type == self::$_TYPE_FILE) {
+
+        $data[$k] = view('forms::items/file', ['item' => $item, 'required' => $required, 'field' => self::createFile($item)]);
+
+        $this->addCustomFormAttributtes('enctype', 'multipart/form-data');
       }
     }
 
     return $data;
   }
 
-  public static function buildCustomTemplate($form, $formItems, $captcha) {
-    
-    /** find all input fields */
-    preg_match_all('/{{(\w+)}}/im', $form->custom_form, $aMatchesFunc);
-    /** find all error fields */
-    preg_match_all('/{!!(\w+)!!}/im', $form->custom_form, $aMatchesFuncError);
+  public function buildCustomTemplate() {
 
-    $customBody = $form->custom_form;
+    /** find all input fields */
+    preg_match_all('/{{(\w+)}}/im', $this->form->custom_form, $aMatchesFunc);
+    /** find all error fields */
+    preg_match_all('/{!!(\w+)!!}/im', $this->form->custom_form, $aMatchesFuncError);
+
+    $customBody = $this->form->custom_form;
 
     /** check for errors from validation */
     $errors = \Session::get('errors');
@@ -183,24 +227,24 @@ class Builder {
     }
 
     /** {{submit_button}} - always needed */
-    $customBody = preg_replace('/{{' . 'submit_button' . '}}/im', self::createSubmitButton($form), $customBody);
+    $customBody = preg_replace('/{{' . 'submit_button' . '}}/im', self::createSubmitButton($this->form), $customBody);
     /** {{before_form_text}} - always needed */
-    $customBody = preg_replace('/{{' . 'before_form_text' . '}}/im', $form->before_form_text, $customBody);
+    $customBody = preg_replace('/{{' . 'before_form_text' . '}}/im', $this->form->before_form_text, $customBody);
     /** {{after_form_text}} - always needed */
-    $customBody = preg_replace('/{{' . 'after_form_text' . '}}/im', $form->after_form_text, $customBody);   
+    $customBody = preg_replace('/{{' . 'after_form_text' . '}}/im', $this->form->after_form_text, $customBody);
     /** {{captcha}} - always needed */
-    if ($captcha != NULL) {       
-      $customBody = preg_replace('/{{' . 'captcha' . '}}/im', $captcha, $customBody);
+    if ($this->captcha != NULL) {
+      $customBody = preg_replace('/{{' . 'captcha' . '}}/im', $this->captcha, $customBody);
     } else {
       $customBody = preg_replace('/{{' . 'captcha' . '}}/im', '', $customBody);
     }
 
     foreach ($aMatchesFunc[1] as $k => $token) {
 
-      foreach ($formItems as $item) {
+      foreach ($this->formItems as $item) {
 
         $aFieldValues = unserialize($item->field_value);
-        
+
         if (isset(array_values($aFieldValues)[0])) {
           $value = array_values($aFieldValues)[0];
         } else {
@@ -257,10 +301,14 @@ class Builder {
             }
 
             $buildItem = self::createSelect($item, $aSelects, $checked);
-            
-          } else if($item->field_type == self::$_TYPE_FILE) {
-            
+
+            /**
+             * <input type="file">
+             */
+          } else if ($item->field_type == self::$_TYPE_FILE) {
+
             $buildItem = self::createFile($item);
+            $this->addCustomFormAttributtes('enctype', 'multipart/form-data');
           }
 
           $customBody = preg_replace('/{{' . $token . '}}/im', $buildItem, $customBody);
@@ -269,6 +317,21 @@ class Builder {
     }
 
     return $customBody;
+  }
+
+  /**
+   * Always use after buildItems() or buildCustomTemplate()
+   * 
+   * @return array
+   */
+  public function getCustomFormAttributes() {
+
+    return $this->customFormAttributes;
+  }
+
+  private function addCustomFormAttributtes($key, $value) {
+
+    $this->customFormAttributes = array_merge($this->customFormAttributes, [$key => $value]);
   }
 
   public static function createInputText($item, $value) {
@@ -290,8 +353,9 @@ class Builder {
 
     return \Form::select($item->field_name, $aSelects, $checked, unserialize($item->attributes));
   }
+
   public static function createFile($item) {
-    
+
     return \Form::file($item->field_name, unserialize($item->attributes));
   }
 
@@ -341,109 +405,112 @@ class Builder {
   public static function getPostItems() {
 
     return [
-        [
-            'label' => 'Name',
-            'field_type' => self::$_TYPE_INPUT_TEXT,
-            'field_name' => 'name',
-            'validation' => self::$_VALIDATION_NOT_EMPTY,
-            'attributes' => [
-                'class' => 'name-class',
-                'placeholder' => 'Name'
-            ],
-            'validation_msg' => 'Name must not be empty',
-            'field_value' => [],
-            'weight' => 1
-        ],
-        [
-            'label' => 'Password',
-            'field_type' => self::$_TYPE_INPUT_PASSWORD,
-            'field_name' => 'password',
-            'validation' => self::$_VALIDATION_NOT_EMPTY,
-            'attributes' => [
-                'class' => 'pass-class',
-                'placeholder' => 'Password'
-            ],
-            'validation_msg' => 'Password must not be empty',
-            'field_value' => '',
-            'weight' => 2
-        ],
-        [
-            'label' => 'Email',
-            'field_type' => self::$_TYPE_INPUT_TEXT,
-            'field_name' => 'email',
-            'validation' => self::$_VALIDATION_EMAIL,
-            'attributes' => [
-                'class' => 'pass-class',
-                'placeholder' => 'Email'
-            ],
-            'validation_msg' => 'Please add valid email',
-            'field_value' => '',
-            'weight' => 7
-        ],
-        [
-            'label' => 'Gender',
-            'field_type' => self::$_TYPE_SELECT,
-            'field_name' => 'gender',
-            'validation' => '',
-            'attributes' => [
-                'class' => 'test-class'
-            ],
-            'validation_msg' => '',
-            'field_value' => [
-                'male' => 'Male',
-                'female' => 'Female::checked'
-            ],
-            'weight' => 3
-        ],
-        [
-            'label' => 'Details',
-            'field_type' => self::$_TYPE_TEXTAREA,
-            'field_name' => 'details',
-            'validation' => self::$_VALIDATION_NOT_EMPTY,
-            'attributes' => [
-                'class' => 'details-class',
-                'rows' => '8'
-            ],
-            'validation_msg' => 'Details must not be empty',
-            'field_value' => '',
-            'weight' => 4
-        ],
-        [
-            'label' => 'Send me details',
-            'field_type' => self::$_TYPE_CHECKBOX,
-            'field_name' => 'send_details',
-            'validation' => '',
-            'attributes' => [
-                'class' => 'checkbox-class'
-            ],
-            'validation_msg' => '',
-            'field_value' => [
-                'send_details_mail_1' => 'send details to mail1::checked',
-                'send_details_mail_2' => 'send details to mail2'
-            ],
-            'weight' => 5
-        ],
-        [
-            'label' => 'Select option',
-            'field_type' => self::$_TYPE_RADIO,
-            'field_name' => 'options',
-            'validation' => '',
-            'attributes' => [
-                'class' => 'options-class'
-            ],
-            'validation_msg' => '',
-            'field_value' => [
-                'option_1' => 'Option 1::checked',
-                'option_2' => 'Option 2',
-                'option_3' => 'Option 3',
-            ],
-            'weight' => 6
-        ],
+        /**
+          [
+          'label' => 'Name',
+          'field_type' => self::$_TYPE_INPUT_TEXT,
+          'field_name' => 'name',
+          'validation' => self::$_VALIDATION_NOT_EMPTY,
+          'attributes' => [
+          'class' => 'name-class',
+          'placeholder' => 'Name'
+          ],
+          'validation_msg' => 'Name must not be empty',
+          'field_value' => [],
+          'weight' => 1
+          ],
+          [
+          'label' => 'Password',
+          'field_type' => self::$_TYPE_INPUT_PASSWORD,
+          'field_name' => 'password',
+          'validation' => self::$_VALIDATION_NOT_EMPTY,
+          'attributes' => [
+          'class' => 'pass-class',
+          'placeholder' => 'Password'
+          ],
+          'validation_msg' => 'Password must not be empty',
+          'field_value' => '',
+          'weight' => 2
+          ],
+          [
+          'label' => 'Email',
+          'field_type' => self::$_TYPE_INPUT_TEXT,
+          'field_name' => 'email',
+          'validation' => self::$_VALIDATION_EMAIL,
+          'attributes' => [
+          'class' => 'pass-class',
+          'placeholder' => 'Email'
+          ],
+          'validation_msg' => 'Please add valid email',
+          'field_value' => '',
+          'weight' => 7
+          ],
+          [
+          'label' => 'Gender',
+          'field_type' => self::$_TYPE_SELECT,
+          'field_name' => 'gender',
+          'validation' => '',
+          'attributes' => [
+          'class' => 'test-class'
+          ],
+          'validation_msg' => '',
+          'field_value' => [
+          'male' => 'Male',
+          'female' => 'Female::checked'
+          ],
+          'weight' => 3
+          ],
+          [
+          'label' => 'Details',
+          'field_type' => self::$_TYPE_TEXTAREA,
+          'field_name' => 'details',
+          'validation' => self::$_VALIDATION_NOT_EMPTY,
+          'attributes' => [
+          'class' => 'details-class',
+          'rows' => '8'
+          ],
+          'validation_msg' => 'Details must not be empty',
+          'field_value' => '',
+          'weight' => 4
+          ],
+          [
+          'label' => 'Send me details',
+          'field_type' => self::$_TYPE_CHECKBOX,
+          'field_name' => 'send_details',
+          'validation' => '',
+          'attributes' => [
+          'class' => 'checkbox-class'
+          ],
+          'validation_msg' => '',
+          'field_value' => [
+          'send_details_mail_1' => 'send details to mail1::checked',
+          'send_details_mail_2' => 'send details to mail2'
+          ],
+          'weight' => 5
+          ],
+          [
+          'label' => 'Select option',
+          'field_type' => self::$_TYPE_RADIO,
+          'field_name' => 'options',
+          'validation' => '',
+          'attributes' => [
+          'class' => 'options-class'
+          ],
+          'validation_msg' => '',
+          'field_value' => [
+          'option_1' => 'Option 1::checked',
+          'option_2' => 'Option 2',
+          'option_3' => 'Option 3',
+          ],
+          'weight' => 6
+          ],
+         * 
+         */
         [
             'label' => 'Upload file',
             'field_type' => self::$_TYPE_FILE,
             'field_name' => 'file',
-            'validation' => self::$_VALIDATION_IMAGE,
+            'validation' => self::$_VALIDATION_CSV_2M,
             'attributes' => [
                 'class' => 'file-class'
             ],

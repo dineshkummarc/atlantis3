@@ -37,6 +37,7 @@
 		"post-create-project-cmd": [
 			"php artisan key:generate",
 			"chmod -R 775 storage",
+                        "chmod -R 775 media",
 			"php install-instructions.php"
 		]
 	},

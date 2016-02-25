@@ -7,7 +7,7 @@ use Module\Forms\Models\Repositories\FormsItemsRepository;
 
 class FormsResultsRepository {
 
-  static function saveResults($data) {
+  static function saveResults(\Illuminate\Http\Request $request) {
 
     $aResults = array();
 
@@ -16,20 +16,38 @@ class FormsResultsRepository {
     $model = FormsResults::create([]);
     $model->delete();
 
-    foreach ($data as $key => $value) {
+    foreach ($request->all() as $key => $value) {
       if ($key != '_token' && $key != 'form_id') {
 
-        $item = FormsItemsRepository::findItem(['form_id' => $data['form_id'], 'field_name' => $key]);
+        $item = FormsItemsRepository::findItem(['form_id' => $request->get('form_id'), 'field_name' => $key]);
 
         if ($item->id != NULL) {
 
-          $aResults[$i]['form_id'] = $data['form_id'];
-          $aResults[$i]['field_label'] = $item->label;
-          $aResults[$i]['field_name'] = $key;
-          $aResults[$i]['field_value'] = serialize($value);
-          $aResults[$i]['post_url'] = request()->url();
-          $aResults[$i]['IP'] = request()->ip();
-          $aResults[$i]['set_id'] = $model->id;
+          if ($request->hasFile($key)) {
+
+            $originalName = str_replace([' ', '.'], '_', $request->file($key)->getClientOriginalName());            
+            
+            $fileName = 'form_' . $request->get('form_id') . '_set_' . $model->id . '_' . $i . '_' . substr($originalName, 0, 30) . '.' . $request->file($key)->getClientOriginalExtension();
+
+            /** save file to media/user */
+            $request->file($key)->move(base_path() . '/media/user', $fileName);
+            
+            $aResults[$i]['form_id'] = $request->get('form_id');
+            $aResults[$i]['field_label'] = $item->label;
+            $aResults[$i]['field_name'] = $key;
+            $aResults[$i]['field_value'] = serialize($fileName);
+            $aResults[$i]['post_url'] = request()->url();
+            $aResults[$i]['IP'] = request()->ip();
+            $aResults[$i]['set_id'] = $model->id;
+          } else {
+            $aResults[$i]['form_id'] = $request->get('form_id');
+            $aResults[$i]['field_label'] = $item->label;
+            $aResults[$i]['field_name'] = $key;
+            $aResults[$i]['field_value'] = serialize($value);
+            $aResults[$i]['post_url'] = request()->url();
+            $aResults[$i]['IP'] = request()->ip();
+            $aResults[$i]['set_id'] = $model->id;
+          }
 
           FormsResults::create($aResults[$i]);
 

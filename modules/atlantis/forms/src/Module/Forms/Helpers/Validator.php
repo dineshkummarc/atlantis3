@@ -28,7 +28,7 @@ class Validator {
   public function getErrors(MessageBag $messageBag) {
 
     $errors = $this->baseValidator->errors();
-
+    
     foreach ($this->messages as $key => $message) {
 
       if ($errors->has($key)) {
