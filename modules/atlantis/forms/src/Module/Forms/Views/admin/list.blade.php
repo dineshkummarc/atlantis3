@@ -9,7 +9,7 @@
 
 @foreach ($oModels as $model)
 <div>
-  <a href="/admin/modules/forms/edit/{{ $model->id }}">{{ $model->name }}</a> | <a href="/admin/modules/forms/delete/{{ $model->id }}">[DELETE]</a>
+  <a href="/admin/modules/forms/edit/{{ $model->id }}">{{ $model->name }}</a> | <a href="/admin/modules/forms/delete/{{ $model->id }}">[DELETE]</a> | <a href="/admin/modules/forms/export-csv/{{ $model->id }}">[EXPORT CSV]</a>
 </div>
 @endforeach
 

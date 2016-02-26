@@ -60,7 +60,7 @@ class FormsController extends Controller {
       $captcha = new \Module\Forms\Helpers\Captcha($form->captcha_namespace);
       $captchaView = $captcha->get();
     }
-    
+
     $formsBuilder = new FormsBuilder($form, $formItems, $captchaView);
 
     $aData['form'] = $form;
@@ -85,7 +85,18 @@ class FormsController extends Controller {
         //save post data in DB 
         FormsResultsRepository::saveResults(request());
         request()->session()->flash('success', $form->message);
-        return redirect()->back()->send();
+
+        /**
+         * fire submit event with POST data
+         */
+        \Event::fire('form.submitted', [request()->all()]);
+
+        if (empty($form->redirect_url)) {
+
+          return redirect()->back()->send();
+        } else {
+          return redirect($form->redirect_url)->send();
+        }
       } else {
 
         $messageBag = $validator->getErrors(new MessageBag());
@@ -116,7 +127,7 @@ class FormsController extends Controller {
     }
 
     $formsBuilder = new FormsBuilder($form, $formItems, $captchaView);
-    
+
     $aData['content'] = $formsBuilder->buildCustomTemplate();
     $aData['custom_form_attributes'] = $formsBuilder->getCustomFormAttributes();
     $aData['form'] = $form;
@@ -137,7 +148,18 @@ class FormsController extends Controller {
         //save post data in DB 
         FormsResultsRepository::saveResults(request());
         request()->session()->flash('success', $form->message);
-        return redirect()->back()->send();
+
+        /**
+         * fire submit event with POST data
+         */
+        \Event::fire('form.submitted', [request()->all()]);
+
+        if (empty($form->redirect_url)) {
+
+          return redirect()->back()->send();
+        } else {
+          return redirect($form->redirect_url)->send();
+        }
       } else {
 
         $messageBag = $validator->getErrors(new MessageBag());

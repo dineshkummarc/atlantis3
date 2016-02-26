@@ -10,56 +10,39 @@ namespace Module\Forms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class FormsServiceProvider extends \Illuminate\Support\ServiceProvider
-{
+class FormsServiceProvider extends \Illuminate\Support\ServiceProvider {
 
-  public function register()
-  {
+  public function register() {
 
     $this->mergeConfigFrom(
             __DIR__ . '/../Setup/Setup.php', "forms.setup"
     );
-    
+
     $this->mergeConfigFrom(
             __DIR__ . '/../Setup/Config.php', "forms.config"
     );
-    
+
     $aConfig = \Config::get('forms.config');
-  
+
     if (isset($aConfig['appBind'])) {
       foreach ($aConfig['appBind'] as $key => $value) {
         $this->app->bind($key, $value);
       }
     }
 
-    $subscriber = new \Module\Forms\Events\FormsEvent();
+    $t = \App::make('Transport');
 
-    \Event::subscribe($subscriber);   
+    /** When form is submitted * */
+    $t->registerEvent('form.submitted');
 
     //routes for modules should be included in the register method to preceed the base routes
 
     include __DIR__ . '/../../../routes.php';
-
   }
 
-  public function boot()
-  {
-
-    $a = \App::make('Assets');
-
-    //  load assests if any
-    //$a->registerScripts(["jquery" => ["src" => "jquery...", "weight" => 10 ]]);
-
-    /**
-     * To register search provider
-     *
-     * $t = \App::make('Transport');
-     *
-     *  $t->setEventValue("search.providers", [  'search' => 'Module\Forms\Models\Search' , 'weight' => 10] );
-     */
-
+  public function boot() {
+    
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'forms');
-
   }
 
 }

@@ -4,6 +4,7 @@ namespace Module\Forms\Models\Repositories;
 
 use Module\Forms\Models\FormsResults;
 use Module\Forms\Models\Repositories\FormsItemsRepository;
+use Illuminate\Support\Facades\DB;
 
 class FormsResultsRepository {
 
@@ -25,13 +26,13 @@ class FormsResultsRepository {
 
           if ($request->hasFile($key)) {
 
-            $originalName = str_replace([' ', '.'], '_', $request->file($key)->getClientOriginalName());            
-            
+            $originalName = str_replace([' ', '.'], '_', $request->file($key)->getClientOriginalName());
+
             $fileName = 'form_' . $request->get('form_id') . '_set_' . $model->id . '_' . $i . '_' . substr($originalName, 0, 30) . '.' . $request->file($key)->getClientOriginalExtension();
 
             /** save file to media/user */
             $request->file($key)->move(base_path() . '/media/user', $fileName);
-            
+
             $aResults[$i]['form_id'] = $request->get('form_id');
             $aResults[$i]['field_label'] = $item->label;
             $aResults[$i]['field_name'] = $key;
@@ -55,6 +56,13 @@ class FormsResultsRepository {
         }
       }
     }
+  }
+
+  public static function getResults($form_id) {  
+    
+    return FormsResults::where('form_id', '=', $form_id)
+                    ->orderBy('set_id')
+                    ->get();
   }
 
 }

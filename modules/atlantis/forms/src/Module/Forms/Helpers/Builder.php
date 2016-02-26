@@ -28,9 +28,9 @@ class Builder {
   public static $_VALIDATION_PDF = 'mimes:pdf';
   public static $_VALIDATION_PDF_1M = 'mimes:pdf|max:1000';
   public static $_VALIDATION_PDF_2M = 'mimes:pdf|max:2000';
-  public static $_VALIDATION_EXEL = 'mimes:xlsx,xls';
-  public static $_VALIDATION_EXEL_1M = 'mimes:xlsx,xls|max:1000';
-  public static $_VALIDATION_EXEL_2M = 'mimes:xlsx,xls|max:2000';
+  public static $_VALIDATION_EXCEL = 'mimes:xlsx,xls';
+  public static $_VALIDATION_EXCEL_1M = 'mimes:xlsx,xls|max:1000';
+  public static $_VALIDATION_EXCEL_2M = 'mimes:xlsx,xls|max:2000';
   public static $_VALIDATION_CSV = 'mimes:csv,txt';
   public static $_VALIDATION_CSV_1M = 'mimes:csv,txt|max:1000';
   public static $_VALIDATION_CSV_2M = 'mimes:csv,txt|max:2000';
@@ -86,9 +86,9 @@ class Builder {
         self::$_VALIDATION_PDF => 'PDF file',
         self::$_VALIDATION_PDF_1M => 'PDF file - 1 Megabyte',
         self::$_VALIDATION_PDF_2M => 'PDF file - 2 Megabytes',
-        self::$_VALIDATION_EXEL => 'MS Exel file',
-        self::$_VALIDATION_EXEL_1M => 'MS Exel file - 1 Megabytes',
-        self::$_VALIDATION_EXEL_2M => 'MS Exel file - 2 Megabytes',
+        self::$_VALIDATION_EXCEL => 'MS Excel file',
+        self::$_VALIDATION_EXCEL_1M => 'MS Excel file - 1 Megabytes',
+        self::$_VALIDATION_EXCEL_2M => 'MS Excel file - 2 Megabytes',
         self::$_VALIDATION_CSV => 'CSV file',
         self::$_VALIDATION_CSV_1M => 'CSV file - 1 Megabytes',
         self::$_VALIDATION_CSV_2M => 'CSV file - 2 Megabytes',
@@ -405,7 +405,7 @@ class Builder {
   public static function getPostItems() {
 
     return [
-        /**
+        
           [
           'label' => 'Name',
           'field_type' => self::$_TYPE_INPUT_TEXT,
@@ -504,8 +504,7 @@ class Builder {
           ],
           'weight' => 6
           ],
-         * 
-         */
+        /**
         [
             'label' => 'Upload file',
             'field_type' => self::$_TYPE_FILE,
@@ -518,6 +517,8 @@ class Builder {
             'field_value' => [],
             'weight' => 7
         ]
+         * 
+         */
     ];
   }
 

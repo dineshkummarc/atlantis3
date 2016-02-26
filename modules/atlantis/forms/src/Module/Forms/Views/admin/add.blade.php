@@ -69,6 +69,10 @@
   <label>Successful Submit Message</label>
   {!! Form::textarea('message', old('message'), ['rows' => 5, 'class' => 'form-control']) !!}
 </p>
+<p>
+  <label>Redirect url</label>
+  {!! Form::input('text', 'redirect_url', old('redirect_url'), ['class' => 'form-control']) !!}
+</p>
 
 <hr>
 

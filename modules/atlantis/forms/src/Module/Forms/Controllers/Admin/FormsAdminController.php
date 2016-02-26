@@ -11,7 +11,7 @@ use Module\Forms\Helpers\Captcha as CaptchaHelper;
 class FormsAdminController extends Controller {
 
   private $config;
-  
+
   public function __construct() {
 
     $this->config = \Config::get('forms.setup');
@@ -30,8 +30,8 @@ class FormsAdminController extends Controller {
    * Responds to requests to GET
    */
 
-  public function getIndex($id = null) {
-    
+  public function getIndex() {
+
     $oModels = FormsRepository::getAll();
 
     $aParams = array();
@@ -97,20 +97,20 @@ class FormsAdminController extends Controller {
    * Responds to requests to GET
    */
 
-  public function getEdit($id = null) {
+  public function getEdit($id = NULL) {
 
     $oModel = FormsRepository::get($id);
 
     $aCaptchas = CaptchaHelper::getAll($this->config);
-    
+
     $captcha_select = NULL;
-    
+
     foreach ($aCaptchas as $k => $captcha) {
       if ($oModel->captcha_namespace == $captcha['namespace']) {
         $captcha_select = $k;
       }
     }
-    
+
     $aParams = array();
 
     $aParams['oModel'] = $oModel;
@@ -128,7 +128,7 @@ class FormsAdminController extends Controller {
    * Responds to requests to POST
    */
 
-  public function postEdit($id = null, Request $request) {
+  public function postEdit($id = NULL, Request $request) {
 
     $oModel = new FormsRepository();
 
@@ -140,7 +140,7 @@ class FormsAdminController extends Controller {
 
       $aCaptchas = CaptchaHelper::getAll($this->config);
       $aData['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
-      
+
       if (!isset($aData['captcha'])) {
         $aData['captcha'] = 0;
       }
@@ -156,7 +156,7 @@ class FormsAdminController extends Controller {
       if (!isset($aData['email_check'])) {
         $aData['email_check'] = 0;
       }
-      
+
       $aData['items'] = FormBuilder::getPostItems();
       //dd($aData);
       $oModel->edit($id, $aData);
@@ -175,13 +175,21 @@ class FormsAdminController extends Controller {
    * Responds to requests to GET
    */
 
-  public function getDelete($id = null) {
+  public function getDelete($id = NULL) {
 
     if (FormsRepository::deleteEntry($id)) {
       return redirect('admin/modules/forms')->with('success', 'Success');
     } else {
       return redirect('admin/modules/forms')->with('error', 'Invalid ID');
     }
+  }
+
+  public function getExportCsv($id = NULL) {
+
+    $model = \Module\Forms\Models\Repositories\FormsResultsRepository::getResults($id);
+
+    \Module\Forms\Helpers\Export::toCSV($model, $id);    
+    
   }
 
   private function getCaptchasForSelect($aCaptchas) {

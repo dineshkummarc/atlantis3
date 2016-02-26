@@ -26,6 +26,7 @@ class Forms extends Base {
       'ga',
       'before_form_text',
       'after_form_text',
+      'redirect_url',
       'use_custom_form',
       'custom_form'
   ];
