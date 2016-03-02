@@ -7,6 +7,8 @@
     RewriteBase /
 
     # Redirect Trailing Slashes...
+    RewriteRule ^(.*?)\.(css|js|jpg|jpeg|png|pdf|eot|ttf|woff|woff2)$ - [L,R=301]
+
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 
     RewriteRule ^(?:app|bootstrap|config|database|modules|resources|storage|vendor)\b index.php/$0 [L]
