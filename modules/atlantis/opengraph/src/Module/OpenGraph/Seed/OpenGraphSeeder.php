@@ -1,20 +1,20 @@
 <?php
 
- namespace Module\CKEditor\Seed;
+ namespace Module\OpenGraph\Seed;
 
 /*
- * Seed: CKEditor
+ * Seed: OpenGraph
  * @Atlantis CMS
  * v 1.0
  */
 
-class CKEditorSeeder extends \Illuminate\Database\Seeder
+class OpenGraphSeeder extends \Illuminate\Database\Seeder
 {
 
   public function run()
   {
 
-     $setup = require(base_path(). '/modules/atlantis/ckeditor/src/Module/CKEditor/Setup/Setup.php');
+     $setup = require(base_path(). '/modules/atlantis/opengraph/src/Module/OpenGraph/Setup/Setup.php');
 
      //check for the module with the same name
     $result = \DB::table("modules")

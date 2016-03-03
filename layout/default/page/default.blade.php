@@ -1,5 +1,11 @@
 @extends('atlantis::page/shell')
 
+@section('headTags')
+@parent
+{{-- Add custom tags in <head> per template --}}
+{{-- <meta name="test"> --}}
+@stop
+
 @section('tracking_header')
 @parent
 {{-- Add tracking header per template --}}

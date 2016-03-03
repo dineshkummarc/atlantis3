@@ -16,11 +16,12 @@ return [
     'seeder' => '\Module\CKEditor\Seed\CKEditorSeeder',
     'provider' => 'Module\CKEditor\Providers\CKEditorServiceProvider',
     'migration' => 'modules/atlantis/ckeditor/src/Module/CKEditor/Migrations/',
-    'extra' => null,
+    'extra' => [
+        /**
+         * only for editor modules like CKEditor, Redaktor...
+         */
+        'type' => 'editor',
+        'editorClass' => 'Module\CKEditor\CKEditorBuilder'
+    ],
     'active' => 1,
-    /**
-     * only for editor modules like CKEditor, Redaktor...
-     */
-    'type' => 'editor',
-    'editorClass' => 'Module\CKEditor\CKEditorBuilder'
 ];
