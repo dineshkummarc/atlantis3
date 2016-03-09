@@ -8,22 +8,32 @@ namespace Module\OpenWeather\Providers;
  * v 1.0
  */
 
-class OpenWeatherServiceProvider extends \Illuminate\Support\ServiceProvider
-{
+class OpenWeatherServiceProvider extends \Illuminate\Support\ServiceProvider {
 
-  public function register()
-  {
+  /**
+   * The Artisan commands provided by your application.
+   *
+   * @var array
+   */
+  protected $commands = [
+      \Module\OpenWeather\Commands\GetDataCommand::class
+  ];
+
+  public function register() {
+
+    /** Register artisan commands * */
+    $this->commands($this->commands);
 
     $this->mergeConfigFrom(
             __DIR__ . '/../Setup/Setup.php', "openweather.setup"
     );
-    
+
     $this->mergeConfigFrom(
             __DIR__ . '/../Setup/Config.php', "openweather.config"
     );
-    
+
     $aConfig = \Config::get('openweather.config');
-  
+
     if (isset($aConfig['appBind'])) {
       foreach ($aConfig['appBind'] as $key => $value) {
         $this->app->bind($key, $value);
@@ -32,16 +42,14 @@ class OpenWeatherServiceProvider extends \Illuminate\Support\ServiceProvider
 
     $subscriber = new \Module\OpenWeather\Events\OpenWeatherEvent();
 
-    \Event::subscribe($subscriber);   
+    \Event::subscribe($subscriber);
 
     //routes for modules should be included in the register method to preceed the base routes
 
     include __DIR__ . '/../../../routes.php';
-
   }
 
-  public function boot()
-  {
+  public function boot() {
 
     $a = \App::make('Assets');
 
@@ -55,9 +63,8 @@ class OpenWeatherServiceProvider extends \Illuminate\Support\ServiceProvider
      *
      *  $t->setEventValue("search.providers", [  'search' => 'Module\OpenWeather\Models\Search' , 'weight' => 10] );
      */
-
+    //$this->loadViewsFrom(base_path() . '/layout/test/', 'openweather');
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'openweather');
-
   }
 
 }
