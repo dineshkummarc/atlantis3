@@ -12,18 +12,18 @@
     @show
 
     @section('tracking_header')
-    {!! $tracking_header; !!}
+    {!! $tracking_header !!}
     @show
 
     @section('scripts')
     @foreach($_scripts as $script)
-    {!! Html::script( $script ) !!}
+    {!! $script !!}
     @endforeach
     @show
 
     @section('styles')
     @foreach($_styles as $style) 
-    {!! Html::style( $style ) !!}
+    {!! $style !!}
     @endforeach
     @show
 

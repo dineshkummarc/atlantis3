@@ -38,18 +38,7 @@ class OpenGraphServiceProvider extends \Illuminate\Support\ServiceProvider {
     $subscriber = new \Module\OpenGraph\Events\OpenGraphEvent();
 
     \Event::subscribe($subscriber);
-
-    //$a = \App::make('Assets');
-    //  load assests if any
-    //$a->registerScripts(["jquery" => ["src" => "jquery...", "weight" => 10 ]]);
-
-    /**
-     * To register search provider
-     *
-     * $t = \App::make('Transport');
-     *
-     *  $t->setEventValue("search.providers", [  'search' => 'Module\OpenGraph\Models\Search' , 'weight' => 10] );
-     */
+    
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'opengraph');
   }
 

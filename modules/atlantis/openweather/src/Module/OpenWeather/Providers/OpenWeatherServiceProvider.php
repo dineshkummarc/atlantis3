@@ -51,19 +51,6 @@ class OpenWeatherServiceProvider extends \Illuminate\Support\ServiceProvider {
 
   public function boot() {
 
-    $a = \App::make('Assets');
-
-    //  load assests if any
-    //$a->registerScripts(["jquery" => ["src" => "jquery...", "weight" => 10 ]]);
-
-    /**
-     * To register search provider
-     *
-     * $t = \App::make('Transport');
-     *
-     *  $t->setEventValue("search.providers", [  'search' => 'Module\OpenWeather\Models\Search' , 'weight' => 10] );
-     */
-    //$this->loadViewsFrom(base_path() . '/layout/test/', 'openweather');
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'openweather');
   }
 

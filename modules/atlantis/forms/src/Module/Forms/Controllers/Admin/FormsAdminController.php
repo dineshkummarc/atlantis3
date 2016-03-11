@@ -2,25 +2,17 @@
 
 namespace Module\Forms\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Atlantis\Controllers\Admin\AdminModulesController;
 use Module\Forms\Models\Repositories\FormsRepository;
 use Illuminate\Http\Request;
 use Module\Forms\Helpers\Builder as FormBuilder;
 use Module\Forms\Helpers\Captcha as CaptchaHelper;
 
-class FormsAdminController extends Controller {
-
-  private $config;
+class FormsAdminController extends AdminModulesController {
 
   public function __construct() {
-
-    $this->config = \Config::get('forms.setup');
-
-    $this->middleware('Atlantis\Middleware\AdminAuth');
-    $this->middleware('Atlantis\Middleware\Permissions:' . $this->config['moduleNamespace'] . ','
-            . 'Atlantis\Models\Repositories\RoleUsersRepository,'
-            . 'Atlantis\Models\Repositories\PermissionsRepository');
-  }
+    parent::__construct(\Config::get('forms.setup'));
+  } 
 
   /*
    * Show list
@@ -51,7 +43,7 @@ class FormsAdminController extends Controller {
 
   public function getAdd() {
 
-    $aCaptchas = CaptchaHelper::getAll($this->config);
+    $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
 
     $aParams = array();
     $aParams['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
@@ -75,7 +67,7 @@ class FormsAdminController extends Controller {
 
     if (!$validator->fails()) {
 
-      $aCaptchas = CaptchaHelper::getAll($this->config);
+      $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
 
       $postData = $request->all();
       $postData['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
@@ -101,7 +93,7 @@ class FormsAdminController extends Controller {
 
     $oModel = FormsRepository::get($id);
 
-    $aCaptchas = CaptchaHelper::getAll($this->config);
+    $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
 
     $captcha_select = NULL;
 
@@ -138,7 +130,7 @@ class FormsAdminController extends Controller {
 
       $aData = $request->all();
 
-      $aCaptchas = CaptchaHelper::getAll($this->config);
+      $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
       $aData['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
 
       if (!isset($aData['captcha'])) {

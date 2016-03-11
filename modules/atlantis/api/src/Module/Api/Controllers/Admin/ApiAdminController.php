@@ -2,20 +2,13 @@
 
 namespace Module\Api\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\View\View;
+use Atlantis\Controllers\Admin\AdminModulesController;
 
-class ApiAdminController extends Controller {
+class ApiAdminController extends AdminModulesController {
 
   public function __construct() {
-  
-    $this->config = \Config::get('api.setup');
-    
-    $this->middleware('Atlantis\Middleware\AdminAuth');
-    $this->middleware('Atlantis\Middleware\Permissions:'. $this->config['moduleNamespace'] .','
-            . 'Atlantis\Models\Repositories\RoleUsersRepository,'
-            . 'Atlantis\Models\Repositories\PermissionsRepository');
-  }
+    parent::__construct(\Config::get('api.setup'));
+  } 
 
   public function getIndex($id = null) {
 

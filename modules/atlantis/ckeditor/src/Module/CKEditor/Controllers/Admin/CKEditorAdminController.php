@@ -2,20 +2,13 @@
 
 namespace Module\CKEditor\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\View\View;
+use Atlantis\Controllers\Admin\AdminModulesController;
 
-class CKEditorAdminController extends Controller {
+class CKEditorAdminController extends AdminModulesController {
 
   public function __construct() {
-  
-    $this->config = \Config::get('ckeditor.setup');
-    
-    $this->middleware('Atlantis\Middleware\AdminAuth');
-    $this->middleware('Atlantis\Middleware\Permissions:'. $this->config['moduleNamespace'] .','
-            . 'Atlantis\Models\Repositories\RoleUsersRepository,'
-            . 'Atlantis\Models\Repositories\PermissionsRepository');
-  }
+    parent::__construct(\Config::get('ckeditor.setup'));
+  } 
 
   public function getIndex($id = null) {
 

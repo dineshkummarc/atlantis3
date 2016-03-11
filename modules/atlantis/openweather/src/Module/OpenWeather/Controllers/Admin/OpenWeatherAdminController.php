@@ -2,21 +2,15 @@
 
 namespace Module\OpenWeather\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Atlantis\Controllers\Admin\AdminModulesController;
 use Illuminate\Http\Request;
 use Module\OpenWeather\Models\Repositories\OpenWeatherRepository;
 use Module\OpenWeather\Models\Repositories\OpenWeatherCitiesRepository;
 
-class OpenWeatherAdminController extends Controller {
+class OpenWeatherAdminController extends AdminModulesController {
 
   public function __construct() {
-
-    $this->config = \Config::get('openweather.setup');
-
-    $this->middleware('Atlantis\Middleware\AdminAuth');
-    $this->middleware('Atlantis\Middleware\Permissions:' . $this->config['moduleNamespace'] . ','
-            . 'Atlantis\Models\Repositories\RoleUsersRepository,'
-            . 'Atlantis\Models\Repositories\PermissionsRepository');
+    parent::__construct(\Config::get('openweather.setup'));
   }
 
   public function getIndex($id = null) {

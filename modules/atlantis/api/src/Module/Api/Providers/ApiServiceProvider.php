@@ -43,20 +43,7 @@ class ApiServiceProvider extends \Illuminate\Support\ServiceProvider
   }
 
   public function boot()
-  {
-
-    $a = \App::make('Assets');
-
-    //  load assests if any
-    //$a->registerScripts(["jquery" => ["src" => "jquery...", "weight" => 10 ]]);
-
-    /**
-     * To register search provider
-     *
-     * $t = \App::make('Transport');
-     *
-     *  $t->setEventValue("search.providers", [  'search' => 'Module\Api\Models\Search' , 'weight' => 10] );
-     */
+  {    
 
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'api');
 

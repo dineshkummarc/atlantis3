@@ -2,12 +2,11 @@
 
 namespace Module\Blog\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use Module\Blog\Models\Repositories\BlogRepository;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
+use Atlantis\Controllers\Admin\AdminModulesController;
 
-class BlogAdminController extends Controller {
+class BlogAdminController extends AdminModulesController {
 
   public $status = [
       'published' => 'publish',
@@ -19,14 +18,8 @@ class BlogAdminController extends Controller {
   ];
 
   public function __construct() {
-
-    $this->config = Config::get('blog.setup');
-
-    $this->middleware('Atlantis\Middleware\AdminAuth');
-    $this->middleware('Atlantis\Middleware\Permissions:' . $this->config['moduleNamespace'] . ','
-            . 'Atlantis\Models\Repositories\RoleUsersRepository,'
-            . 'Atlantis\Models\Repositories\PermissionsRepository');
-  }
+    parent::__construct(\Config::get('blog.setup'));
+  } 
 
   /*
    * Show list
@@ -37,7 +30,7 @@ class BlogAdminController extends Controller {
    */
 
   public function getIndex($id = null) {
-
+    
     $oBlogs = BlogRepository::getAll();
 
     $aParams = array();
