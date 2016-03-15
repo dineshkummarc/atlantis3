@@ -1,4 +1,4 @@
-@extends('atlantis-admin::admin-shell')
+@extends('atlantis::page/admin/admin-shell')
 
   @section('content')
   

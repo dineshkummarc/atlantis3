@@ -4,19 +4,19 @@ namespace Module\CKEditor;
 
 class CKEditorBuilder implements \Atlantis\Helpers\Interfaces\EditorBuilderInterface {
 
+  private $aData = array();
+  
   public function build($name, $value, $attributes) {
-
-    $aData = array();
     
     if (!array_key_exists('id', $attributes)) {
       $attributes['id'] = 'ckeditor-' . rand(0, 999);
     }
     
-    $aData['name'] = $name;
-    $aData['value'] = $value;
-    $aData['attributes'] = $attributes;
+    $this->aData['name'] = $name;
+    $this->aData['value'] = $value;
+    $this->aData['attributes'] = $attributes;
     
-    return view('ckeditor::ckeditor', $aData);
+    return view('ckeditor::ckeditor', $this->aData);
   }
 
   public function scripts() {
@@ -24,7 +24,8 @@ class CKEditorBuilder implements \Atlantis\Helpers\Interfaces\EditorBuilderInter
     $pathVendor = \Config::get('modules_dir') . \Config::get('ckeditor.setup.path') . '/Module/CKEditor/Vendor';
     
     return [
-        'ckeditor' => $pathVendor . '/ckeditor/ckeditor.js',
+        'ckeditor' => \Html::script($pathVendor . '/ckeditor/ckeditor.js'),
+        'ckeditor-scripts' => view('ckeditor::ckeditor-script', $this->aData)
     ];
   }
 
