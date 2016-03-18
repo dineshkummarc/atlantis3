@@ -2,7 +2,9 @@
   // instance, using default configuration.
   CKEDITOR.replace('{{ $attributes["id"] }}', {
     'allowedContent': true,
-    'enterMode': CKEDITOR.ENTER_BR
+    'enterMode': CKEDITOR.ENTER_BR,
+    'autoGrow_minHeight': '{{ $height }}',
+    'height': '{{ $height }}'
 
   });
 

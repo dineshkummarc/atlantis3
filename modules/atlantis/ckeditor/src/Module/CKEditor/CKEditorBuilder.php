@@ -12,6 +12,12 @@ class CKEditorBuilder implements \Atlantis\Helpers\Interfaces\EditorBuilderInter
       $attributes['id'] = 'ckeditor-' . rand(0, 999);
     }
     
+    $this->aData['height'] = '15em';
+    
+    if (array_key_exists('rows', $attributes)) {
+      $this->aData['height'] = $attributes['rows'] . 'em';
+    }
+    
     $this->aData['name'] = $name;
     $this->aData['value'] = $value;
     $this->aData['attributes'] = $attributes;

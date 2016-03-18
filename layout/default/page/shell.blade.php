@@ -9,11 +9,7 @@
     @foreach($_headTags as $tag)
     {!! $tag !!}
     @endforeach
-    @show
-
-    @section('tracking_header')
-    {!! $tracking_header !!}
-    @show
+    @show    
 
     @section('scripts')
     @foreach($_scripts as $script)
@@ -29,6 +25,11 @@
 
   </head>
   <body class="{!! $body_class !!}">
+    
+    @section('tracking_header')
+    {!! $tracking_header !!}
+    @show
+    
     @section('content')
     @show
   </body>
