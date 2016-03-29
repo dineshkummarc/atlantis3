@@ -18,12 +18,16 @@ class ApiSeeder extends \Illuminate\Database\Seeder {
               ->insert([
                   'name' => $setup['name'],
                   'author' => $setup['author'],
-                  'version' => $setup['version'], 
+                  'version' => $setup['version'],
                   'namespace' => $setup['moduleNamespace'],
                   'path' => $setup['path'],
                   'provider' => $setup['provider'],
-                  'extra' => $setup['extra'],
-                  'active' => $setup['active']
+                  'extra' => serialize($setup['extra']),
+                  'adminURL' => $setup['adminURL'],
+                  'icon' => $setup['icon'],
+                  'active' => 1,
+                  'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                  'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
               ]);
       
     }

@@ -31,7 +31,11 @@ class CKEditorSeeder extends \Illuminate\Database\Seeder
                   'path' => $setup['path'],
                   'provider' => $setup['provider'],
                   'extra' => serialize($setup['extra']),
-                  'active' => $setup['active']
+                  'adminURL' => $setup['adminURL'],
+                  'icon' => $setup['icon'],
+                  'active' => 1,
+                  'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                  'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
               ]);
 
      }

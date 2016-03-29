@@ -30,8 +30,12 @@ class FormsSeeder extends \Illuminate\Database\Seeder
                   'namespace' => $setup['moduleNamespace'],
                   'path' => $setup['path'],
                   'provider' => $setup['provider'],
-                  'extra' => $setup['extra'],
-                  'active' => $setup['active']
+                  'extra' => serialize($setup['extra']),
+                  'adminURL' => $setup['adminURL'],
+                  'icon' => $setup['icon'],
+                  'active' => 1,
+                  'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+                  'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
               ]);
 
      }

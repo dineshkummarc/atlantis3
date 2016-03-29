@@ -10,6 +10,8 @@ return [
     'name' => 'CKEditor',
     'author' => 'Atlantis CMS',
     'version' => '1.0',
+    'adminURL' => NULL, // admin/modules/ckeditor
+    'icon' => 'Pencil', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/ckeditor/src',
     'moduleNamespace' => 'Module\CKEditor',
     'seedNamespace' => 'Module\CKEditor\Seed',
@@ -22,6 +24,5 @@ return [
          */
         'type' => 'editor',
         'editorClass' => 'Module\CKEditor\CKEditorBuilder'
-    ],
-    'active' => 1,
+    ]
 ];
