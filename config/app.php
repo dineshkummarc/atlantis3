@@ -2,111 +2,66 @@
 
 return [
 
-    /*
-      |--------------------------------------------------------------------------
-      | Application Debug Mode
-      |--------------------------------------------------------------------------
-      |
-      | When your application is in debug mode, detailed error messages with
-      | stack traces will be shown on every error that occurs within your
-      | application. If disabled, a simple generic error page is shown.
-      |
-     */
+  /*
+  |--------------------------------------------------------------------------
+  | Default Authentication Driver
+  |--------------------------------------------------------------------------
+  |
+  | This option controls the authentication driver that will be utilized.
+  | This driver manages the retrieval and authentication of the users
+  | attempting to get access to protected areas of your application.
+  |
+  | Supported: "database", "eloquent"
+  |
+  */
 
-    'debug' => env('APP_DEBUG'),
-    /*
-      |--------------------------------------------------------------------------
-      | Application URL
-      |--------------------------------------------------------------------------
-      |
-      | This URL is used by the console to properly generate URLs when using
-      | the Artisan command line tool. You should set this to the root of
-      | your application so that it is used when running Artisan tasks.
-      |
-     */
-    'url' => 'http://localhost',
-    /*
-      |--------------------------------------------------------------------------
-      | Application Timezone
-      |--------------------------------------------------------------------------
-      |
-      | Here you may specify the default timezone for your application, which
-      | will be used by the PHP date and date-time functions. We have gone
-      | ahead and set this to a sensible default for you out of the box.
-      |
-     */
-    'timezone' => 'UTC',
-    /*
-      |--------------------------------------------------------------------------
-      | Application Locale Configuration
-      |--------------------------------------------------------------------------
-      |
-      | The application locale determines the default locale that will be used
-      | by the translation service provider. You are free to set this value
-      | to any of the locales which will be supported by the application.
-      |
-     */
-    'locale' => 'en',
-    /*
-      |--------------------------------------------------------------------------
-      | Application Fallback Locale
-      |--------------------------------------------------------------------------
-      |
-      | The fallback locale determines the locale to use when the current one
-      | is not available. You may change the value to correspond to any of
-      | the language folders that are provided through your application.
-      |
-     */
-    'fallback_locale' => 'en',
-    /*
-      |--------------------------------------------------------------------------
-      | Encryption Key
-      |--------------------------------------------------------------------------
-      |
-      | This key is used by the Illuminate encrypter service and should be set
-      | to a random, 32 character string, otherwise these encrypted strings
-      | will not be safe. Please do this before deploying an application!
-      |
-     */
-    'key' => env('APP_KEY', 'TnRkUldmxV6xGztOsqi3eBerOV6uh0UI'),
-    'cipher' => MCRYPT_RIJNDAEL_128,
-    /*
-      |--------------------------------------------------------------------------
-      | Logging Configuration
-      |--------------------------------------------------------------------------
-      |
-      | Here you may configure the log settings for your application. Out of
-      | the box, Laravel uses the Monolog PHP logging library. This gives
-      | you a variety of powerful log handlers / formatters to utilize.
-      |
-      | Available Settings: "single", "daily", "syslog", "errorlog"
-      |
-     */
-    'log' => 'daily',
-    /*
-      |--------------------------------------------------------------------------
-      | Autoloaded Service Providers
-      |--------------------------------------------------------------------------
-      |
-      | The service providers listed here will be automatically loaded on the
-      | request to your application. Feel free to add your own services to
-      | this array to grant expanded functionality to your applications.
-      |
-     */
-    'providers' => [
+  'driver' => 'eloquent',
 
-        'Atlantis\Providers\AtlantisServiceProvider'
-    ],
-    /*
-      |--------------------------------------------------------------------------
-      | Class Aliases
-      |--------------------------------------------------------------------------
-      |
-      | This array of class aliases will be registered when this application
-      | is started. However, feel free to register as many as you wish as
-      | the aliases are "lazy" loaded so they don't hinder performance.
-      |
-     */
-    'aliases' => [
-    ],
+  /*
+  |--------------------------------------------------------------------------
+  | Authentication Model
+  |--------------------------------------------------------------------------
+  |
+  | When using the "Eloquent" authentication driver, we need to know which
+  | Eloquent model should be used to retrieve your users. Of course, it
+  | is often just the "User" model but you may use whatever you like.
+  |
+  */
+
+  'model' => '\Atlantis\Models\User',
+
+  /*
+  |--------------------------------------------------------------------------
+  | Authentication Table
+  |--------------------------------------------------------------------------
+  |
+  | When using the "Database" authentication driver, we need to know which
+  | table should be used to retrieve your users. We have chosen a basic
+  | default value but you may easily change it to any table you like.
+  |
+  */
+
+  'table' => 'users',
+
+  /*
+  |--------------------------------------------------------------------------
+  | Password Reset Settings
+  |--------------------------------------------------------------------------
+  |
+  | Here you may set the options for resetting passwords including the view
+  | that is your password reset e-mail. You can also set the name of the
+  | table that maintains all of the reset tokens for your application.
+  |
+  | The expire time is the number of minutes that the reset token should be
+  | considered valid. This security feature keeps tokens short-lived so
+  | they have less time to be guessed. You may change this as needed.
+  |
+  */
+
+  'password' => [
+    'email' => 'emails.password',
+    'table' => 'password_resets',
+    'expire' => 60,
+  ],
+
 ];
