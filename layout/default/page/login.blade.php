@@ -1,4 +1,4 @@
-@extends('atlantis::page/shell')
+@extends('atlantis::' . config('frontend_shell_view'))
 
 
 @section('styles')

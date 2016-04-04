@@ -25,50 +25,52 @@
 
   </head>
   <body class="{!! $body_class !!}">
-
+    
+    @if (config('show_shortcut_bar'))
     <div class="admin-shortcut">
-       <link rel="stylesheet" href="vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/css/admin-bar.css"> 
-        <div class="row">
-            <div class="columns">
-                <div class="top-bar" id="user-menu">
-                    <div class="top-bar-left user-menu">
-                        <div class="account">
-                            <span class="icon icon-User left"></span>
-                            <div class="username">Milen</div>
-                            <div class="actions">
-                                <a href="#">Setings</a> / <a href="#">Loogout</a>
-                            </div>
-                        </div>
-                        <h3 class="menu-text left">Site Title</h3>
-                    </div>
-                    <span data-responsive-toggle="main-nav">
-                        <span class="menu-icon dark" data-toggle></span>
-                    </span>
-                    <div id="main-nav" class="top-bar-right">
-                        <ul class="dropdown menu" data-dropdown-menu>
-                            <li class="active"><a href="#">Pages</a></li>
-                            <li><a href="#">Patterns</a></li>
-                            <li><a href="#">Modules</a>
-                                <ul class="menu vertical">
-                                    <li><a href="#">One</a></li>
-                                    <li><a href="#">Two</a></li>
-                                    <li><a href="#">Three</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" class="icon icon-Tools"></a>
-                            </li>
-                        </ul>
-                    </div>
+      <link rel="stylesheet" href="vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/css/admin-bar.css"> 
+      <div class="row">
+        <div class="columns">
+          <div class="top-bar" id="user-menu">
+            <div class="top-bar-left user-menu">
+              <div class="account">
+                <span class="icon icon-User left"></span>
+                <div class="username">Milen</div>
+                <div class="actions">
+                  <a href="#">Setings</a> / <a href="#">Loogout</a>
                 </div>
+              </div>
+              <h3 class="menu-text left">Site Title</h3>
             </div>
-        </div>       
+            <span data-responsive-toggle="main-nav">
+              <span class="menu-icon dark" data-toggle></span>
+            </span>
+            <div id="main-nav" class="top-bar-right">
+              <ul class="dropdown menu" data-dropdown-menu>
+                <li class="active"><a href="#">Pages</a></li>
+                <li><a href="#">Patterns</a></li>
+                <li><a href="#">Modules</a>
+                  <ul class="menu vertical">
+                    <li><a href="#">One</a></li>
+                    <li><a href="#">Two</a></li>
+                    <li><a href="#">Three</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#" class="icon icon-Tools"></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>       
     </div>
+    @endif
     
     @section('tracking_header')
     {!! $tracking_header !!}
     @show
-    
+
     @section('content')
     @show
   </body>
