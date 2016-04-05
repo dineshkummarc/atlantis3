@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@section('title') {!! $_page->seo_title; !!} @show</title>
+    <title>@section('title') {!! $_page->seo_title !!} @show</title>
 
     @section('headTags')
     @foreach($_headTags as $tag)
@@ -26,7 +26,7 @@
   </head>
   <body class="{!! $body_class !!}">
     
-    @if (config('show_shortcut_bar'))
+    @if (config('show_shortcut_bar') && auth()->user() != NULL && auth()->user()->hasRole('admin-login'))
     <div class="admin-shortcut">
       <link rel="stylesheet" href="vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/css/admin-bar.css"> 
       <div class="row">
