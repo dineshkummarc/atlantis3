@@ -25,6 +25,7 @@
 @section('content')
 @parent
 <div id="content">
+  {{-- trans('site::messages.welcome') --}}
   {!! $content !!}
 </div>
 @stop  
