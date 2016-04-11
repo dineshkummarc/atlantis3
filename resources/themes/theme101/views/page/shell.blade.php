@@ -71,7 +71,15 @@
     {!! $tracking_header !!}
     @show
 
+    @if (isset($patt_header))
+    {!! $patt_header !!}
+    @endif
+    
     @section('content')
     @show
+    
+    @if (isset($patt_footer))
+    {!! $patt_footer !!}
+    @endif
   </body>
 </html>
