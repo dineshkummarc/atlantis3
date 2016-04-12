@@ -42,7 +42,15 @@ class FormsServiceProvider extends \Illuminate\Support\ServiceProvider {
 
   public function boot() {
     
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'forms');
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/forms/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'forms');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'forms');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'forms-admin');
   }
 
 }

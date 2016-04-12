@@ -21,6 +21,16 @@ class VanityurlServiceProvider extends \Illuminate\Support\ServiceProvider {
 
   public function boot() {
     
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/vanityurl/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'vanityurl');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'vanityurl');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'vanityurl-admin');
+    
   }
 
 }

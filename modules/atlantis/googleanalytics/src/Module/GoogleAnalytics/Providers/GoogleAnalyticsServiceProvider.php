@@ -4,7 +4,7 @@ namespace Module\GoogleAnalytics\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class GoogleAnalyticsServiceProvider extends \Illuminate\Support\ServiceProvider {
+class GoogleAnalyticsServiceProvider extends ServiceProvider {
 
   public function register() {
 
@@ -23,7 +23,15 @@ class GoogleAnalyticsServiceProvider extends \Illuminate\Support\ServiceProvider
 
   public function boot() {
     
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'googleanalytics');
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/googleanalytics/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'googleanalytics');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'googleanalytics');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'googleanalytics-admin');
     
   }
 

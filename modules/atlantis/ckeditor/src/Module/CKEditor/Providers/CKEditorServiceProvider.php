@@ -45,7 +45,15 @@ class CKEditorServiceProvider extends \Illuminate\Support\ServiceProvider
   public function boot()
   {   
 
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'ckeditor');
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/ckeditor/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'ckeditor');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'ckeditor');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'ckeditor-admin');
 
   }
 

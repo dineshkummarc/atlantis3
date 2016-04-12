@@ -37,7 +37,7 @@ class BlogAdminController extends AdminModulesController {
 
     $aParams['oBlogs'] = $oBlogs;
 
-    return view('blog::admin/list', $aParams);
+    return view('blog-admin::admin/list', $aParams);
   }
 
   /*
@@ -56,7 +56,7 @@ class BlogAdminController extends AdminModulesController {
     $aParams['allow_comments_dropdown'] = $this->allow_comments;
     $aParams['nickname'] = auth()->user()->name;
 
-    return view('blog::admin/add', $aParams);
+    return view('blog-admin::admin/add', $aParams);
   }
 
   /*
@@ -104,7 +104,7 @@ class BlogAdminController extends AdminModulesController {
     $aParams['allow_comments_dropdown'] = $this->allow_comments;
     $aParams['oBlog'] = $oBlog;
 
-    return view('blog::admin/edit', $aParams);
+    return view('blog-admin::admin/edit', $aParams);
   }
 
   /*

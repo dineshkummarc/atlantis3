@@ -12,7 +12,7 @@ class CKEditorAdminController extends AdminModulesController {
 
   public function getIndex($id = null) {
 
-    return view("ckeditor::admin/blank");
+    return view("ckeditor-admin::admin/blank");
   }
 
 }

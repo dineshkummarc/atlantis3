@@ -30,7 +30,7 @@ class FormsAdminController extends AdminModulesController {
 
     $aParams['oModels'] = $oModels;
 
-    return view('forms::admin/list', $aParams);
+    return view('forms-admin::admin/list', $aParams);
   }
 
   /*
@@ -48,7 +48,7 @@ class FormsAdminController extends AdminModulesController {
     $aParams = array();
     $aParams['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
 
-    return view('forms::admin/add', $aParams);
+    return view('forms-admin::admin/add', $aParams);
   }
 
   /*
@@ -109,7 +109,7 @@ class FormsAdminController extends AdminModulesController {
     $aParams['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
     $aParams['captcha_select'] = $captcha_select;
 
-    return view('forms::admin/edit', $aParams);
+    return view('forms-admin::admin/edit', $aParams);
   }
 
   /*

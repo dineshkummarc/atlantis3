@@ -10,11 +10,11 @@ use Module\OpenWeather\Models\Repositories\OpenWeatherCitiesRepository;
 class OpenWeatherAdminController extends AdminModulesController {
 
   public function __construct() {
-    parent::__construct(\Config::get('openweather.setup'));
+    parent::__construct(\Config::get('openweather.setup'));   
   }
 
-  public function getIndex($id = null) {
-
+  public function getIndex($id = null) {  
+    
     $aData = array();
 
     $openWeather = OpenWeatherRepository::get();
@@ -41,7 +41,7 @@ class OpenWeatherAdminController extends AdminModulesController {
       $aData['id'] = NULL;
     }
 
-    return view("openweather::admin/openweather", $aData);
+    return view("openweather-admin::admin/openweather", $aData);
   }
 
   public function postAddId(Request $request) {

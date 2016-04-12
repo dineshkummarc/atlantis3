@@ -4,7 +4,7 @@ namespace Module\Search\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class SearchServiceProvider extends \Illuminate\Support\ServiceProvider {
+class SearchServiceProvider extends ServiceProvider {
 
   public function register() {
 
@@ -16,7 +16,15 @@ class SearchServiceProvider extends \Illuminate\Support\ServiceProvider {
 
   public function boot() {
     
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'search');
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/search/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'search');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'search');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'search-admin');
     
   }
 

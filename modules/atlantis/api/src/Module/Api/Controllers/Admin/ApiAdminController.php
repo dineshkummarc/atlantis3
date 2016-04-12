@@ -12,7 +12,7 @@ class ApiAdminController extends AdminModulesController {
 
   public function getIndex($id = null) {
 
-    return view("api::admin/blank");
+    return view("api-admin::admin/blank");
   }
 
 }

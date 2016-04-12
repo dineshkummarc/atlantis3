@@ -39,7 +39,15 @@ class OpenGraphServiceProvider extends \Illuminate\Support\ServiceProvider {
 
     \Event::subscribe($subscriber);
     
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'opengraph');
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/opengraph/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'opengraph');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'opengraph');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'opengraph-admin');
   }
 
 }

@@ -36,13 +36,21 @@ class BlogServiceProvider extends ServiceProvider {
 
   public function boot() {
 
-    $a = \App::make('Assets');
+    //$a = \App::make('Assets');
 
-    $t = \App::make('Transport');
+    //$t = \App::make('Transport');
 
-    $t->setEventValue("search.providers", [ 'search' => 'Module\Blog\Models\Search', 'weight' => 10]);
+    //$t->setEventValue("search.providers", [ 'search' => 'Module\Blog\Models\Search', 'weight' => 10]);
 
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'blog');
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/blog/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'blog');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'blog');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'blog-admin');
   }
 
 }

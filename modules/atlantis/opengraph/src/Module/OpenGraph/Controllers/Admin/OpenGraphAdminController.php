@@ -12,7 +12,7 @@ class OpenGraphAdminController extends AdminModulesController {
 
   public function getIndex($id = null) {
 
-    return view("opengraph::admin/blank");
+    return view("opengraph-admin::admin/blank");
   }
 
 }

@@ -45,7 +45,15 @@ class ApiServiceProvider extends \Illuminate\Support\ServiceProvider
   public function boot()
   {    
 
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'api');
+     $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/api/views/';
+
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'api');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'api');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'api-admin');
 
   }
 

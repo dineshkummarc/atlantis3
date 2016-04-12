@@ -50,8 +50,17 @@ class OpenWeatherServiceProvider extends \Illuminate\Support\ServiceProvider {
   }
 
   public function boot() {
+    
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/openweather/views/';
 
-    $this->loadViewsFrom(__DIR__ . '/../Views/', 'openweather');
+    if (is_dir($themeModViewPath)) {
+      $this->loadViewsFrom($themeModViewPath, 'openweather');
+    } else {
+      $this->loadViewsFrom(__DIR__ . '/../Views/', 'openweather');
+    }
+      
+    $this->loadViewsFrom(__DIR__ . '/../Views/', 'openweather-admin');
+    
   }
 
 }
