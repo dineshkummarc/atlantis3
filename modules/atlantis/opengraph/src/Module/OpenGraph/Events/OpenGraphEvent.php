@@ -9,6 +9,7 @@ namespace Module\OpenGraph\Events;
  */
 
 use Illuminate\Queue\SerializesModels;
+use Atlantis\Helpers\Assets;
 
 class OpenGraphEvent extends \Illuminate\Support\Facades\Event {
 
@@ -18,11 +19,9 @@ class OpenGraphEvent extends \Illuminate\Support\Facades\Event {
 
     $oMedia = \Atlantis\Models\Repositories\MediaRepository::getImage($oPage->preview_thumb_id);
 
-    $a = \App::make('Assets');
+    $this->openGraph($oPage, $oMedia);
 
-    $this->openGraph($oPage, $oMedia, $a);
-
-    $this->twitterTags($oPage, $oMedia, $a);
+    $this->twitterTags($oPage, $oMedia);
   }
 
   public function subscribe($events) {
@@ -30,7 +29,7 @@ class OpenGraphEvent extends \Illuminate\Support\Facades\Event {
     $events->listen('page.loaded', 'Module\OpenGraph\Events\OpenGraphEvent@setTags');
   }
 
-  private function openGraph($oPage, $oMedia, $a) {
+  private function openGraph($oPage, $oMedia) {
 
     if ($oMedia != NULL) {
       $image = url(config('user_media_upload') . $oMedia->original_filename);
@@ -39,31 +38,31 @@ class OpenGraphEvent extends \Illuminate\Support\Facades\Event {
     /**
      * Pinterest need to use <meta property="og:type" content="article" />
      */
-    $a->registerHeadTag('<meta property="og:type" content="website" />');
+    Assets::registerHeadTag('<meta property="og:type" content="website" />');
     //$a->registerHeadTag('<meta property="og:type" content="article" />');
     
-    $a->registerHeadTag('<meta property="og:title" content="' . htmlentities($oPage->seo_title) . '" />');
-    $a->registerHeadTag('<meta property="og:description" content="' . htmlentities($oPage->meta_description) . '" />');    
-    $a->registerHeadTag('<meta property="og:url" content="' . request()->url() . '" />');
-    $a->registerHeadTag('<meta property="og:site_name" content="' . htmlentities(config('site_name')) . '" />');
+    Assets::registerHeadTag('<meta property="og:title" content="' . htmlentities($oPage->seo_title) . '" />');
+    Assets::registerHeadTag('<meta property="og:description" content="' . htmlentities($oPage->meta_description) . '" />');    
+    Assets::registerHeadTag('<meta property="og:url" content="' . request()->url() . '" />');
+    Assets::registerHeadTag('<meta property="og:site_name" content="' . htmlentities(config('site_name')) . '" />');
     if (isset($image)) {
-      $a->registerHeadTag('<meta property="og:image" content="' . $image . '" />');
+      Assets::registerHeadTag('<meta property="og:image" content="' . $image . '" />');
     }
   }
 
-  private function twitterTags($oPage, $oMedia, $a) {
+  private function twitterTags($oPage, $oMedia) {
     
      if ($oMedia != NULL) {
       $image = url(config('user_media_upload') . $oMedia->original_filename);
     }
     
-    $a->registerHeadTag('<meta name="twitter:card" content="summary_large_image">');
-    $a->registerHeadTag('<meta name="twitter:site" content="@' . str_replace(' ', '', htmlentities(config('site_name'))) . '">');
-    $a->registerHeadTag('<meta name="twitter:creator" content="@' . str_replace(' ', '', htmlentities($oPage->author)) . '">');
-    $a->registerHeadTag('<meta name="twitter:title" content="' . htmlentities($oPage->seo_title) . '" />');
-    $a->registerHeadTag('<meta name="twitter:description" content="' . htmlentities($oPage->meta_description) . '" />');
+    Assets::registerHeadTag('<meta name="twitter:card" content="summary_large_image">');
+    Assets::registerHeadTag('<meta name="twitter:site" content="@' . str_replace(' ', '', htmlentities(config('site_name'))) . '">');
+    Assets::registerHeadTag('<meta name="twitter:creator" content="@' . str_replace(' ', '', htmlentities($oPage->author)) . '">');
+    Assets::registerHeadTag('<meta name="twitter:title" content="' . htmlentities($oPage->seo_title) . '" />');
+    Assets::registerHeadTag('<meta name="twitter:description" content="' . htmlentities($oPage->meta_description) . '" />');
     if (isset($image)) {
-      $a->registerHeadTag('<meta name="twitter:image" content="' . $image . '" />');
+      Assets::registerHeadTag('<meta name="twitter:image" content="' . $image . '" />');
     }
   }
 

@@ -25,7 +25,7 @@
 
   </head>
   <body class="{!! $body_class !!}">
-    
+
     @if (config('show_shortcut_bar') && auth()->user() != NULL && auth()->user()->hasRole('admin-login'))
     <div class="admin-shortcut">
       <link rel="stylesheet" href="vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/css/admin-bar.css"> 
@@ -66,7 +66,7 @@
       </div>       
     </div>
     @endif
-    
+
     @section('tracking_header')
     {!! $tracking_header !!}
     @show
@@ -74,12 +74,19 @@
     @if (isset($patt_header))
     {!! $patt_header !!}
     @endif
-    
+
     @section('content')
     @show
-    
+
     @if (isset($patt_footer))
     {!! $patt_footer !!}
     @endif
+
+    @section('js')
+    @foreach( $_js as $js )
+    {!! $js !!}
+    @endforeach     
+    @show
+
   </body>
 </html>

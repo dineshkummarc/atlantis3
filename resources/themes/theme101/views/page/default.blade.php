@@ -22,6 +22,13 @@
 {{-- Add styles per template --}}
 @stop
 
+@section('js')
+@parent
+{{-- Add js per template --}}
+{{--  <script>
+  $(document).ready(function () { ... --}}
+@stop
+
 @section('content')
 @parent
 <div id="content">

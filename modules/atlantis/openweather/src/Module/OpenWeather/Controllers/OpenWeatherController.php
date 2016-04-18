@@ -24,6 +24,9 @@ class OpenWeatherController extends Controller {
    */
   public function now() {
 
+    \Atlantis\Helpers\Assets::registerScript('https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js', 10);
+
+
     $openWeather = OpenWeatherRepository::get();
     $oData = OpenWeatherDataRepository::getNowData();
 
@@ -49,7 +52,9 @@ class OpenWeatherController extends Controller {
       $aData['error'] = 'Weather unavailable';
     }
 
-    //dd($aData);
+    if (!isset($aData['error'])) {
+      \Atlantis\Helpers\Assets::registerJS(view('openweather::now-js', $aData));
+    }
 
     return view('openweather::now', $aData);
   }
@@ -132,8 +137,8 @@ class OpenWeatherController extends Controller {
       $aData[$k]['day'] = array();
       if ($day_count > 0) {
         $mid_key = $this->getMiddleKey($d['day']);
-        
-         if ($openWeather->temperature == 'F') {
+
+        if ($openWeather->temperature == 'F') {
           $day_main_temp = Data::kelvinToFahrenheit(round(($day_main_temp / $day_count), 2)) . ' °F';
           $day_main_temp_min = Data::kelvinToFahrenheit(round(($day_main_temp_min / $day_count), 2)) . ' °F';
           $day_main_temp_max = Data::kelvinToFahrenheit(round(($day_main_temp_max / $day_count), 2)) . ' °F';
@@ -142,7 +147,7 @@ class OpenWeatherController extends Controller {
           $day_main_temp_min = Data::kelvinToFahrenheit(round(($day_main_temp_min / $day_count), 2)) . ' °C';
           $day_main_temp_max = Data::kelvinToFahrenheit(round(($day_main_temp_max / $day_count), 2)) . ' °C';
         }
-        
+
         $aData[$k]['day'] = [
             'main_temp' => $day_main_temp,
             'main_temp_min' => $day_main_temp_min,
@@ -161,7 +166,7 @@ class OpenWeatherController extends Controller {
       $aData[$k]['night'] = array();
       if ($night_count > 0) {
         $mid_key = $this->getMiddleKey($d['night']);
-        
+
         if ($openWeather->temperature == 'F') {
           $night_main_temp = Data::kelvinToFahrenheit(round(($night_main_temp / $night_count), 2)) . ' °F';
           $night_main_temp_min = Data::kelvinToFahrenheit(round(($night_main_temp_min / $night_count), 2)) . ' °F';
@@ -171,7 +176,7 @@ class OpenWeatherController extends Controller {
           $night_main_temp_min = Data::kelvinToFahrenheit(round(($day_main_temp_min / $night_count), 2)) . ' °C';
           $night_main_temp_max = Data::kelvinToFahrenheit(round(($day_main_temp_max / $night_count), 2)) . ' °C';
         }
-        
+
         $aData[$k]['night'] = [
             'main_temp' => $night_main_temp,
             'main_temp_min' => $night_main_temp_min,
@@ -226,11 +231,11 @@ class OpenWeatherController extends Controller {
   private function getMiddleKey($array) {
 
     $count = count($array);
-  
+
     if ($count % 2 === 0) {
-      return (int)floor(($count - 1) / 2);
+      return (int) floor(($count - 1) / 2);
     } else {
-      return (int)floor($count / 2);
+      return (int) floor($count / 2);
     }
   }
 
