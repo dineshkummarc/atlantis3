@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+
+class CreateMenuCachesTable extends Migration {
+
+  /**
+   * Run the migrations.
+   */
+  public function up() {
+    //
+    Schema::create('menu_caches', function(\Illuminate\Database\Schema\Blueprint $table) {
+      $table->increments('id');
+      $table->integer('menu_id')->nullable();
+      $table->text('compiled');
+      $table->timestamps();
+    });
+  }
+
+  /**
+   * Reverse the migrations.
+   */
+  public function down() {
+    Schema::drop('menu_caches');
+  }
+
+}
