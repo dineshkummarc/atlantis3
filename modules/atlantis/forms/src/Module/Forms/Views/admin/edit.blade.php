@@ -67,7 +67,7 @@
 
 <p>
   <label>Successful Submit Message</label>
-  {!! Form::textarea('message', old('message', $oModel->message), ['rows' => 5, 'class' => 'form-control']) !!}
+  {!! \Editor::set('message', old('message', $oModel->message), ['rows' => 5, 'class' => 'form-control']) !!}
 </p>
 <p>
   <label>Redirect url</label>
@@ -78,6 +78,10 @@
 <p>
   <label>Should this form email its results?</label>
   {!! Form::checkbox('email_check', 1, $oModel->email_check, ['class' => 'form-control']) !!}
+</p>
+<p>
+  <label>Email From</label>
+  {!! Form::input('text', 'email_from', old('email_from', $oModel->email_from), ['class' => 'form-control']) !!}
 </p>
 <p>
   <label>Form Email Recipients, Comma Separated</label>

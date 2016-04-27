@@ -37,6 +37,9 @@ class FormsRepository {
       $item['form_id'] = $model->id;
       FormsItemsRepository::add($item);
     }
+    
+    return $model->id;
+    
   }
 
   public function edit($id, $data) {

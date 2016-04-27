@@ -405,120 +405,120 @@ class Builder {
   public static function getPostItems() {
 
     return [
-        
-          [
-          'label' => 'Name',
-          'field_type' => self::$_TYPE_INPUT_TEXT,
-          'field_name' => 'name',
-          'validation' => self::$_VALIDATION_NOT_EMPTY,
-          'attributes' => [
-          'class' => 'name-class',
-          'placeholder' => 'Name'
-          ],
-          'validation_msg' => 'Name must not be empty',
-          'field_value' => [],
-          'weight' => 1
-          ],
-          [
-          'label' => 'Password',
-          'field_type' => self::$_TYPE_INPUT_PASSWORD,
-          'field_name' => 'password',
-          'validation' => self::$_VALIDATION_NOT_EMPTY,
-          'attributes' => [
-          'class' => 'pass-class',
-          'placeholder' => 'Password'
-          ],
-          'validation_msg' => 'Password must not be empty',
-          'field_value' => '',
-          'weight' => 2
-          ],
-          [
-          'label' => 'Email',
-          'field_type' => self::$_TYPE_INPUT_TEXT,
-          'field_name' => 'email',
-          'validation' => self::$_VALIDATION_EMAIL,
-          'attributes' => [
-          'class' => 'pass-class',
-          'placeholder' => 'Email'
-          ],
-          'validation_msg' => 'Please add valid email',
-          'field_value' => '',
-          'weight' => 7
-          ],
-          [
-          'label' => 'Gender',
-          'field_type' => self::$_TYPE_SELECT,
-          'field_name' => 'gender',
-          'validation' => '',
-          'attributes' => [
-          'class' => 'test-class'
-          ],
-          'validation_msg' => '',
-          'field_value' => [
-          'male' => 'Male',
-          'female' => 'Female::checked'
-          ],
-          'weight' => 3
-          ],
-          [
-          'label' => 'Details',
-          'field_type' => self::$_TYPE_TEXTAREA,
-          'field_name' => 'details',
-          'validation' => self::$_VALIDATION_NOT_EMPTY,
-          'attributes' => [
-          'class' => 'details-class',
-          'rows' => '8'
-          ],
-          'validation_msg' => 'Details must not be empty',
-          'field_value' => '',
-          'weight' => 4
-          ],
-          [
-          'label' => 'Send me details',
-          'field_type' => self::$_TYPE_CHECKBOX,
-          'field_name' => 'send_details',
-          'validation' => '',
-          'attributes' => [
-          'class' => 'checkbox-class'
-          ],
-          'validation_msg' => '',
-          'field_value' => [
-          'send_details_mail_1' => 'send details to mail1::checked',
-          'send_details_mail_2' => 'send details to mail2'
-          ],
-          'weight' => 5
-          ],
-          [
-          'label' => 'Select option',
-          'field_type' => self::$_TYPE_RADIO,
-          'field_name' => 'options',
-          'validation' => '',
-          'attributes' => [
-          'class' => 'options-class'
-          ],
-          'validation_msg' => '',
-          'field_value' => [
-          'option_1' => 'Option 1::checked',
-          'option_2' => 'Option 2',
-          'option_3' => 'Option 3',
-          ],
-          'weight' => 6
-          ],
-        /**
+
         [
-            'label' => 'Upload file',
-            'field_type' => self::$_TYPE_FILE,
-            'field_name' => 'file',
-            'validation' => self::$_VALIDATION_CSV_2M,
+            'label' => 'Name',
+            'field_type' => self::$_TYPE_INPUT_TEXT,
+            'field_name' => 'name',
+            'validation' => self::$_VALIDATION_NOT_EMPTY,
             'attributes' => [
-                'class' => 'file-class'
+                'class' => 'name-class',
+                'placeholder' => 'Name'
             ],
-            'validation_msg' => 'Please add valid file',
+            'validation_msg' => 'Name must not be empty',
             'field_value' => [],
+            'weight' => 1
+        ],
+        [
+            'label' => 'Password',
+            'field_type' => self::$_TYPE_INPUT_PASSWORD,
+            'field_name' => 'password',
+            'validation' => self::$_VALIDATION_NOT_EMPTY,
+            'attributes' => [
+                'class' => 'pass-class',
+                'placeholder' => 'Password'
+            ],
+            'validation_msg' => 'Password must not be empty',
+            'field_value' => '',
+            'weight' => 2
+        ],
+        [
+            'label' => 'Email',
+            'field_type' => self::$_TYPE_INPUT_TEXT,
+            'field_name' => 'email',
+            'validation' => self::$_VALIDATION_EMAIL,
+            'attributes' => [
+                'class' => 'pass-class',
+                'placeholder' => 'Email'
+            ],
+            'validation_msg' => 'Please add valid email',
+            'field_value' => '',
             'weight' => 7
-        ]
-         * 
-         */
+        ],
+        [
+            'label' => 'Gender',
+            'field_type' => self::$_TYPE_SELECT,
+            'field_name' => 'gender',
+            'validation' => '',
+            'attributes' => [
+                'class' => 'test-class'
+            ],
+            'validation_msg' => '',
+            'field_value' => [
+                'male' => 'Male',
+                'female' => 'Female::checked'
+            ],
+            'weight' => 3
+        ],
+        [
+            'label' => 'Details',
+            'field_type' => self::$_TYPE_TEXTAREA,
+            'field_name' => 'details',
+            'validation' => self::$_VALIDATION_NOT_EMPTY,
+            'attributes' => [
+                'class' => 'details-class',
+                'rows' => '8'
+            ],
+            'validation_msg' => 'Details must not be empty',
+            'field_value' => '',
+            'weight' => 4
+        ],
+        [
+            'label' => 'Send me details',
+            'field_type' => self::$_TYPE_CHECKBOX,
+            'field_name' => 'send_details',
+            'validation' => '',
+            'attributes' => [
+                'class' => 'checkbox-class'
+            ],
+            'validation_msg' => '',
+            'field_value' => [
+                'send_details_mail_1' => 'send details to mail1::checked',
+                'send_details_mail_2' => 'send details to mail2'
+            ],
+            'weight' => 5
+        ],
+        [
+            'label' => 'Select option',
+            'field_type' => self::$_TYPE_RADIO,
+            'field_name' => 'options',
+            'validation' => '',
+            'attributes' => [
+                'class' => 'options-class'
+            ],
+            'validation_msg' => '',
+            'field_value' => [
+                'option_1' => 'Option 1::checked',
+                'option_2' => 'Option 2',
+                'option_3' => 'Option 3',
+            ],
+            'weight' => 6
+        ],
+            /**
+              [
+              'label' => 'Upload file',
+              'field_type' => self::$_TYPE_FILE,
+              'field_name' => 'file',
+              'validation' => self::$_VALIDATION_CSV_2M,
+              'attributes' => [
+              'class' => 'file-class'
+              ],
+              'validation_msg' => 'Please add valid file',
+              'field_value' => [],
+              'weight' => 7
+              ]
+             * 
+             */
     ];
   }
 

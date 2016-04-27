@@ -25,7 +25,7 @@ class FormsController extends Controller {
    * <div data-pattern-func="module:forms@build-1"></div>
    */
   public function build($aParams = NULL) {
-
+    
     if (isset($aParams[0])) {
 
       $form_id = $aParams[0];

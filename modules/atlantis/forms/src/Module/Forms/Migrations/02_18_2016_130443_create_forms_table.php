@@ -20,6 +20,7 @@ class CreateFormsTable extends Migration {
       $table->string("name", 255)->nullable();
       $table->text("message")->nullable();
       $table->integer("email_check")->default(0);
+      $table->string("email_from", 255)->nullable();
       $table->text("emails")->nullable();
       $table->string("form_class", 255)->nullable();
       $table->string("btn_value", 255)->nullable();

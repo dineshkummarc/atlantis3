@@ -12,53 +12,75 @@ class FormsAdminController extends AdminModulesController {
 
   public function __construct() {
     parent::__construct(\Config::get('forms.setup'));
-  } 
+  }
 
-  /*
+  /**
    * Show list
    * 
    * admin/modules/forms
    * 
    * Responds to requests to GET
    */
-
   public function getIndex() {
+
+    $aData = array();
+
+    if (\Session::get('info') != NULL) {
+      $aData['msgInfo'] = \Session::get('info');
+    }
+
+    if (\Session::get('success') != NULL) {
+      $aData['msgSuccess'] = \Session::get('success');
+    }
+
+    if (\Session::get('error') != NULL) {
+      $aData['msgError'] = \Session::get('error');
+    }
 
     $oModels = FormsRepository::getAll();
 
-    $aParams = array();
+    $aData['oModels'] = $oModels;
 
-    $aParams['oModels'] = $oModels;
-
-    return view('forms-admin::admin/list', $aParams);
+    return view('forms-admin::admin/list', $aData);
   }
 
-  /*
+  /**
    * Show add view
    * 
    * admin/modules/forms/add
    * 
    * Responds to requests to GET
    */
-
   public function getAdd() {
 
+    $aData = array();
+
+    if (\Session::get('info') != NULL) {
+      $aData['msgInfo'] = \Session::get('info');
+    }
+
+    if (\Session::get('success') != NULL) {
+      $aData['msgSuccess'] = \Session::get('success');
+    }
+
+    if (\Session::get('error') != NULL) {
+      $aData['msgError'] = \Session::get('error');
+    }
+    
     $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
 
-    $aParams = array();
-    $aParams['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
+    $aData['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
 
-    return view('forms-admin::admin/add', $aParams);
+    return view('forms-admin::admin/add', $aData);
   }
 
-  /*
-   * Save new entry
+  /**
+   * Save new form
    * 
    * admin/modules/forms/add
    * 
    * Responds to requests to POST 
    */
-
   public function postAdd(Request $request) {
 
     $modelDB = new FormsRepository();
@@ -69,13 +91,19 @@ class FormsAdminController extends AdminModulesController {
 
       $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
 
-      $postData = $request->all();
-      $postData['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
-      $postData['items'] = FormBuilder::getPostItems();
+      $data = $request->all();
+      $data['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
+      $data['items'] = FormBuilder::getPostItems();
 
-      $modelDB->add($postData);
+      $id = $modelDB->add($data);
+      
+      \Session::flash('success', 'Form ' . $data['name'] . ' was created');
 
-      return redirect('admin/modules/forms')->with('success', 'Success');
+      if ($request->get('_update')) {
+        return redirect('admin/modules/forms/edit/' . $id);
+      } else {
+        return redirect('admin/modules/forms');
+      }     
     } else {
       return redirect('admin/modules/forms/add')->withErrors($validator)->withInput();
     }
@@ -112,14 +140,13 @@ class FormsAdminController extends AdminModulesController {
     return view('forms-admin::admin/edit', $aParams);
   }
 
-  /*
-   * Edit blog entry
+  /**
+   * Edit
    * 
    * admin/modules/forms/edit/{id}
    * 
    * Responds to requests to POST
    */
-
   public function postEdit($id = NULL, Request $request) {
 
     $oModel = new FormsRepository();
@@ -159,18 +186,17 @@ class FormsAdminController extends AdminModulesController {
     }
   }
 
-  /*
-   * Delete entry
+  /**
+   * Delete
    * 
    * admin/modules/forms/delete/{id}
    * 
    * Responds to requests to GET
    */
-
   public function getDelete($id = NULL) {
 
     if (FormsRepository::deleteEntry($id)) {
-      return redirect('admin/modules/forms')->with('success', 'Success');
+      return redirect('admin/modules/forms')->with('success', 'Form was deleted');
     } else {
       return redirect('admin/modules/forms')->with('error', 'Invalid ID');
     }
@@ -180,8 +206,7 @@ class FormsAdminController extends AdminModulesController {
 
     $model = \Module\Forms\Models\Repositories\FormsResultsRepository::getResults($id);
 
-    \Module\Forms\Helpers\Export::toCSV($model, $id);    
-    
+    \Module\Forms\Helpers\Export::toCSV($model, $id);
   }
 
   private function getCaptchasForSelect($aCaptchas) {

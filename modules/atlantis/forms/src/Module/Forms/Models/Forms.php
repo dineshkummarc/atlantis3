@@ -17,6 +17,7 @@ class Forms extends Base {
       'name',
       'message',
       'email_check',
+      'email_from',
       'emails',
       'form_class',
       'btn_value',
