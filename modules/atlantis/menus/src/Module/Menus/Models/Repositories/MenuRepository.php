@@ -5,6 +5,7 @@ namespace Module\Menus\Models\Repositories;
 use Module\Menus\Models\Menu;
 use Module\Menus\Models\MenuItems;
 use Illuminate\Support\Facades\Validator;
+use Module\Menus\Helpers\MenuBuilder;
 
 class MenuRepository {
 
@@ -68,7 +69,7 @@ class MenuRepository {
       }
     }
     
-    \Atlantis\Helpers\MenuBuilder::makeCache($model->id);
+    MenuBuilder::makeCache($model->id);
 
     return $model->id;
   }
@@ -177,7 +178,7 @@ class MenuRepository {
       }
     }
 
-    \Atlantis\Helpers\MenuBuilder::makeCache($id);
+    MenuBuilder::makeCache($id);
   }
 
   public static function deleteMenu($id) {
@@ -191,7 +192,7 @@ class MenuRepository {
     $menus = MenuRepository::getAll();
     
     foreach ($menus as $menu) {
-      \Atlantis\Helpers\MenuBuilder::makeCache($menu->id);
+      MenuBuilder::makeCache($menu->id);
     }
   }
 

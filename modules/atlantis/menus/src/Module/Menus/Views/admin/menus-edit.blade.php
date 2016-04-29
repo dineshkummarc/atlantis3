@@ -64,11 +64,10 @@
         </ul>
         <div class="tabs-content" data-tabs-content="example-tabs">
           <div class="tabs-panel is-active" id="panel1">
-
             <div class="row">
-              <div class="columns large-9">
+              <div class="columns large-3">
                 <div class="row">
-                  <div class="columns medium-4">
+                  <div class="columns">
                     @if ($errors->get('name'))
                     <label for="name" class="is-invalid-label"><span class="form-error is-visible">{{ $errors->get('name')[0] }}</span>
                       <span class="icon icon-Help top" data-tooltip title="This will be used to identify the Menu."></span>
@@ -81,80 +80,98 @@
                     </label>
                     @endif
                   </div>
-                  <div class="columns medium-4">
+                  <div class="columns ">
                     <label for="css">Menu CSS Class
                       <span class="icon icon-Help top" data-tooltip title="Css class for the menu."></span>
                       {!! Form::input('text', 'css', old('css', $menu->css), ['id'=>'css']) !!}
                     </label>                    
                   </div>
-                  <div class="columns medium-4 end">
+                  <div class="columns ">
                     <label for="element_id">Menu Element ID
                       <span class="icon icon-Help top" data-tooltip title="ID of the menu."></span>
                       {!! Form::input('text', 'element_id', old('element_id', $menu->element_id), ['id'=>'element_id']) !!}
                     </label>
-                  </div>                 
+                  </div>  
+                  <div class="columns">
+                    <a id="add-menu-item" data-tooltip href="#" title="Add New Item" class="button alert small">Add New Item</a>
+                  </div>               
                 </div>
               </div>              
-            </div>
-
-            <div class="row">
-              <div class="columns large-12">
+              <div class="columns large-7 end">
                 <hr>
                 @foreach ($menu_items as $k => $item)                 
                 <div class="row menu-item" id="row_items_{!! $k + 1 !!}">
-                  <div class="columns large-3">
-                    <label for="">
-                      Item Label
-                      {!! Form::input('text', 'label[' . $item->id . ']', $item->label, []) !!}
+
+                  <div class="columns">
+                    <label for="" class="item-title">                        
+                      @if (empty($item->label))
+                      NEW ITEM
+                      @else                      
+                      {{ $item->label }}
+                      @endif
                     </label>
+                    <code>                   
+                      /{{ $item->url }}
+                    </code>
+                    <span class="actions">
+                      <a data-toggle="advanced-item{!! $k + 1 !!}" class=""><span data-tooltip title="Show Advanced Settings" class="icon icon-Settings top"></span></a>
+                    </span>
                   </div>
-                  <div class="columns large-3">
-                    <label for="">
-                      Item URL
-                      {!! Form::input('text', 'url[' . $item->id . ']', $item->url, []) !!}
-                    </label>
-                  </div>
-                  <div class="columns large-1">
-                    <label for="">
-                      Weight
-                      {!! Form::input('number', 'weight[' . $item->id . ']', $item->weight, ['required'=>'required', 'min'=>'1']) !!}
-                    </label>
-                  </div>
-                  <div class="columns large-3">
-                    <label for="">
-                      Item Attributes
-                      {!! Form::input('text', 'attributes[' . $item->id . ']', $item->attributes, []) !!}
-                    </label>
-                  </div>
-                  <div class="columns large-2">
-                    <a data-toggle="advanced-item{!! $k + 1 !!}" class="button alert small"><span data-tooltip title="Show Advanced Settings" class="icon icon-Settings top"></span></a>
-                    <a id="btn_delete_{!! $k + 1 !!}" data-tooltip href="#" title="Delete Item" class="button alert small"><span class="icon icon-Delete"></span></a>
-                  </div>
-                  <div class="columns large-12 advanced" data-length="1" id="advanced-item{!! $k + 1 !!}" data-toggler=".expanded">
-                    <div class="row">
-                      <div class="columns large-4">
+                  <div class="columns">
+                    <div class="row advanced" data-length="1" id="advanced-item{!! $k + 1 !!}" data-toggler=".expanded">
+                      <div class="columns large-3">
+                        <label for="">
+                          Item Label
+                          {!! Form::input('text', 'label[' . $item->id . ']', $item->label, []) !!}
+                        </label>
+                      </div>
+                      <div class="columns large-3">
+                        <label for="">
+                          Item URL
+                          {!! Form::input('text', 'url[' . $item->id . ']', $item->url, []) !!}
+                        </label>
+                      </div>
+
+                      <div class="columns large-3">
+                        <label for="">
+                          Item Attributes
+                          {!! Form::input('text', 'attributes[' . $item->id . ']', $item->attributes, []) !!}
+                        </label>
+                      </div>
+                      <div class="columns large-2 end">
+                        <label for="">
+                          Weight
+                          {!! Form::input('number', 'weight[' . $item->id . ']', $item->weight, ['required'=>'required', 'min'=>'1']) !!}
+                        </label>
+                      </div>
+
+                      <div class="columns large-3">
                         <label for="">
                           Class
                           {!! Form::input('text', 'class[' . $item->id . ']', $item->class, []) !!}
                         </label>  
                       </div>
-                      <div class="columns large-4">
+                      <div class="columns large-3">
                         <label for="">
                           Item onClick
                           {!! Form::input('text', 'onclick[' . $item->id . ']', $item->onclick, []) !!}
                         </label>
                       </div>
-                      <div class="columns large-4">
+                      <div class="columns large-3">
                         <label for="">
                           Child Menu
                           {!! Form::select('child_id[' . $item->id . ']', $menus, $item->child_id, []) !!}
                         </label>
                       </div>
+                      <div class="columns large-12">
+                        <a id="btn_delete_{!! $k + 1 !!}" data-tooltip href="#" title="Delete Item" class="button alert small">Delete Item</a>
+                      </div>
                     </div>
                   </div>
+
                 </div>                
                 @endforeach
-                <a id="add-menu-item" data-tooltip href="#" title="Add New Item" class="button alert small"><span class="icon icon-Files"></span></a>
+                
               </div>
             </div>
           </div>
