@@ -26,7 +26,7 @@
   </head>
   <body class="{!! $body_class !!}">
 
-    @if (config('show_shortcut_bar') && auth()->user() != NULL && auth()->user()->hasRole('admin-login'))
+    @if (config('atlantis.show_shortcut_bar') && auth()->user() != NULL && auth()->user()->hasRole('admin-login'))
     <div class="admin-shortcut">
       <link rel="stylesheet" href="vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/css/admin-bar.css"> 
       <div class="row">

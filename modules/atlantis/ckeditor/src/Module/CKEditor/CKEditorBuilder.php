@@ -27,7 +27,7 @@ class CKEditorBuilder implements \Atlantis\Helpers\Interfaces\EditorBuilderInter
 
   public function scripts() {
 
-    $pathVendor = \Config::get('modules_dir') . \Config::get('ckeditor.setup.path') . '/Module/CKEditor/Vendor';
+    $pathVendor = config('atlantis.modules_dir') . config('ckeditor.setup.path') . '/Module/CKEditor/Vendor';
 
     return [$pathVendor . '/ckeditor/ckeditor.js'];
   }

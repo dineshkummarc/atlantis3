@@ -1,4 +1,4 @@
-@extends('atlantis::' . config('frontend_shell_view'))
+@extends('atlantis::' . config('atlantis.frontend_shell_view'))
 
 @section('headTags')
 @parent

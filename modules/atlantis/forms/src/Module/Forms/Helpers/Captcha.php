@@ -17,8 +17,8 @@ class Captcha {
     
     $this->captchaConfig = self::getCaptchaConfig($captchaNamespace);
     $this->adapterNamespace = $this->captchaConfig['adapterNamespace'];
-    $this->setupForms = \Config::get('forms.setup');
-    $this->captchaPath = base_path() . \Config::get('modules_dir') . $this->setupForms['path'] . '/Module/Forms/Captcha/';
+    $this->setupForms = config('forms.setup');
+    $this->captchaPath = base_path() . config('atlantis.modules_dir') . $this->setupForms['path'] . '/Module/Forms/Captcha/';
 
     $this->captcha = new $this->adapterNamespace();
     $this->buildCaptcha = $this->captcha->build($this->captchaPath);
@@ -65,7 +65,7 @@ class Captcha {
    */
   public static function getAll($formsSetup) {
 
-    $captchaPath = base_path() . \Config::get('modules_dir') . $formsSetup['path'] . '/Module/Forms/Captcha';
+    $captchaPath = base_path() . config('atlantis.modules_dir') . $formsSetup['path'] . '/Module/Forms/Captcha';
 
     $dirs = array_diff(scandir($captchaPath), array('.', '..'));
 
@@ -92,7 +92,7 @@ class Captcha {
 
   public static function getCaptchaConfig($captchaNamespace) {
 
-    $formsSetup = \Config::get('forms.setup');
+    $formsSetup = config('forms.setup');
 
     $aConfigs = self::getAll($formsSetup);
 

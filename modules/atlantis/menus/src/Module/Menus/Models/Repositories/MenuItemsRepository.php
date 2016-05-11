@@ -38,7 +38,7 @@ class MenuItemsRepository {
 
 
   public static function getItems($menu_id) {
-    return MenuItems::where('menu_id', '=', $menu_id)->get();
+    return MenuItems::where('menu_id', '=', $menu_id)->orderBy('weight', 'asc')->get();
   }
   
   public static function getAll() {

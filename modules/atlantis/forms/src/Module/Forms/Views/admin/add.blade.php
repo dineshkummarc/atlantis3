@@ -15,7 +15,7 @@
   <section class="greeting">
     <div class="row">
       <div class="columns ">
-        <h1 class="huge page-title">Add Menu</h1>
+        <h1 class="huge page-title">Add Form</h1>
         @if (isset($msgInfo))
         <div class="callout warning">
           <h5>{!! $msgInfo !!}</h5>
