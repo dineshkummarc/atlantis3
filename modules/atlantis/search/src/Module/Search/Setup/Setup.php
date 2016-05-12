@@ -12,5 +12,6 @@ return [
     'seeder' => 'Module\Search\Seed\SearchSeeder',
     'provider' => 'Module\Search\Providers\SearchServiceProvider',
     'migration' => '',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Module to perform search in the CMS content'
 ];

@@ -19,5 +19,6 @@ return [
     'seeder' => '\Module\OpenGraph\Seed\OpenGraphSeeder',
     'provider' => 'Module\OpenGraph\Providers\OpenGraphServiceProvider',
     'migration' => 'modules/atlantis/opengraph/src/Module/OpenGraph/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Generates and populates the proper header tags so your pages are easily shareable using social networks.'
    ];

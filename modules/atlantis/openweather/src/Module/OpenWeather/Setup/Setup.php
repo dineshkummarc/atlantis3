@@ -19,5 +19,6 @@ return [
     'seeder' => '\Module\OpenWeather\Seed\OpenWeatherSeeder',
     'provider' => 'Module\OpenWeather\Providers\OpenWeatherServiceProvider',
     'migration' => 'modules/atlantis/openweather/src/Module/OpenWeather/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Module to retrieve weather data from www.openweather.com. Features daily and weekly forecasts.'
    ];

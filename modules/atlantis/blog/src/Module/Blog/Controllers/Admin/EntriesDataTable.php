@@ -49,6 +49,16 @@ class EntriesDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterfac
             ]
         ],
         [
+            'title' => 'Status',
+            'class-th' => '',
+            'class-td' => 'status',
+            'key' => 'status',
+            'order' => [
+                'sorting' => FALSE,
+                'order' => 'ASC'
+            ]
+        ],
+        [
             'title' => 'Updated at',
             'class-th' => '',
             'class-td' => 'template-class',
@@ -69,7 +79,7 @@ class EntriesDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterfac
   public function bulkActions() {
 
     return [
-        'url' => 'admin/users/bulk-action',
+        'url' => 'admin/modules/blog/bulk-action',
         'actions' => [
             [
                 'name' => 'Delete',
@@ -91,6 +101,7 @@ class EntriesDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterfac
 
       $model->where('id', 'LIKE', '%' . $search . '%');
       $model->orWhere('title', 'LIKE', '%' . $search . '%');
+      $model->orWhere('status', 'LIKE', '%' . $search . '%');
     }
 
     /*
@@ -130,6 +141,7 @@ class EntriesDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterfac
           'checkbox' => '<span data-atl-checkbox>' . \Form::checkbox($obj->id, NULL, FALSE, ['data-id' => $obj->id]) . '</span>',
           'id' => $obj->id,
           'title' => $this->nameTd($obj),
+          'status' => $obj->status,
           'updated_at' => $obj->updated_at
       ];
     }
@@ -145,10 +157,10 @@ class EntriesDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterfac
   private function nameTd($obj) {
 
     return '<span class="tags hidden">tags</span>
-                    <a class="item" href="/admin/users/edit/' . $obj->id . '">' . $obj->title . '</a>
+                    <a class="item" href="/admin/modules/blog/edit/' . $obj->id . '">' . $obj->title . '</a>
                     <span class="actions">
                       <a data-tooltip title="Edit Entry" href="/admin/modules/blog/edit/' . $obj->id . '" class="icon icon-Edit top"></a> 
-                      <a data-open="deleteEntry' . $obj->id . '" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Delete User" class="icon icon-Delete top "></a>
+                      <a data-open="deleteEntry' . $obj->id . '" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Delete Entry" class="icon icon-Delete top "></a>
                     </span>' .
             \Atlantis\Helpers\Modal::set('deleteEntry' . $obj->id, 'Delete Entry', 'Are you sure you want to delete ' . $obj->title, 'Delete', '/admin/modules/blog/delete/' . $obj->id);
   }

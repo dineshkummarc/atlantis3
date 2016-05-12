@@ -10,7 +10,7 @@ namespace Module\Api\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class ApiServiceProvider extends \Illuminate\Support\ServiceProvider
+class ApiServiceProvider extends ServiceProvider
 {
 
   public function register()
@@ -45,7 +45,7 @@ class ApiServiceProvider extends \Illuminate\Support\ServiceProvider
   public function boot()
   {    
 
-     $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/api/views/';
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/api/views/';
 
     if (is_dir($themeModViewPath)) {
       $this->loadViewsFrom($themeModViewPath, 'api');

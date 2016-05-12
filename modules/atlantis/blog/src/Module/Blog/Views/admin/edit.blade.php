@@ -1,55 +1,172 @@
 @extends('atlantis-admin::admin-shell')
 
+@section('scripts')
+@parent
+{!! Html::script('vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/js/foundation-datepicker.min.js') !!}
+{!! Html::script('vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/js/plugins/tagsInput/jquery.tagsinput.min.js') !!}
+@stop
+
+@section('styles')
+@parent
+{{-- Add styles per template --}}
+@stop
+
 @section('content')
+<main>
+  <section class="greeting">
+    <div class="row">
+      <div class="columns ">
+        <h1 class="huge page-title">Edit Entry</h1>
+        @if (isset($msgInfo))
+        <div class="callout warning">
+          <h5>{!! $msgInfo !!}</h5>
+        </div>
+        @endif
+        @if (isset($msgSuccess))
+        <div class="callout success">
+          <h5>{!! $msgSuccess !!}</h5>
+        </div>
+        @endif
+        @if (isset($msgError))
+        <div class="callout alert">
+          <h5>{!! $msgError !!}</h5>
+        </div>
+        @endif
+      </div>
+    </div>
+  </section>
+  <section class="editscreen">
+    {!! Form::open(array('url' => '/admin/modules/blog/edit/' . $oBlog->id, 'data-abide' => '', 'novalidate'=> '')) !!}
+    <div class="row">
+      <div class="columns">
+        <div class="float-right">
+          <div class="buttons">
+            {!! Form::input('submit', '_save_close', 'Save &amp; Close', ['class' => 'alert button', 'id'=>'save-close-btn']) !!}
+            {!! Form::input('submit', '_update', 'Update', ['class' => 'alert button', 'id'=>'update-btn']) !!}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="columns small-12">
+        <ul class="tabs" data-tabs id="example-tabs">
+          <li class="tabs-title is-active main">
+            <!-- data-status: active, disabled or dev -->
+            <a href="#panel1" aria-selected="true">{{ $oBlog->title }}</a>
+          </li>
+        </ul>
+        <div class="tabs-content" data-tabs-content="example-tabs">
+          <div class="tabs-panel is-active" id="panel1">
 
-<h1>Edit Entry</h1>
+            <div class="row">
+              <div class="columns large-9">
+                <div class="row">
+                  <div class="columns medium-4">
+                    @if ($errors->get('title'))
+                    <label for="title" class="is-invalid-label"><span class="form-error is-visible">{{ $errors->get('title')[0] }}</span>
+                      {!! Form::input('text', 'title', old('title', $oBlog->title), ['class' => 'is-invalid-input', 'id'=>'title']) !!}
+                    </label>
+                    @else
+                    <label for="title">Title <span class="form-error">is required.</span>
+                      {!! Form::input('text', 'title', old('title', $oBlog->title), ['required'=>'required', 'id'=>'title']) !!}
+                    </label>
+                    @endif
+                  </div>
+                  <div class="columns medium-4">
+                    @if ($errors->get('url'))
+                    <label for="url" class="is-invalid-label"><span class="form-error is-visible">{{ $errors->get('url')[0] }}</span>
+                      {!! Form::input('text', 'url', old('url', $oBlog->url), ['class' => 'is-invalid-input', 'id'=>'url']) !!}
+                    </label>
+                    @else
+                    <label for="url">Entry Url <span class="form-error">is required.</span>
+                      {!! Form::input('text', 'url', old('url', $oBlog->url), ['required'=>'required', 'id'=>'url']) !!}
+                    </label>
+                    @endif                    
+                  </div>
+                  <div class="columns medium-4">
 
-@foreach ($errors->all() as $error)
-<p>{{ $error }}</p>
-@endforeach
-
-{!! Form::open(array('url' => '/admin/modules/blog/edit/' . $oBlog->id, 'class' => 'form-horizontal')) !!}
-<p>
-  <label>Title</label>
-  {!! Form::input('text', 'title', old('title', $oBlog->title), ['class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Entry Url</label>
-  {!! Form::input('text', 'url', old('url', $oBlog->url), ['class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Posted Date</label>
-  {!! Form::input('text', 'posted_date', old('posted_date', $oBlog->posted_date), ['class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Nickname</label>
-  {!! Form::input('text', 'nickname', old('nickname', $oBlog->nickname), ['class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Comments</label>
-  {!! Form::select('allow_comments', $allow_comments_dropdown, $oBlog->allow_comments, ['class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Status</label>
-  {!! Form::select('status', $status_dropdown, $oBlog->status, ['class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Blurb</label>
-  {!! Form::textarea('blurb', old('blurb', $oBlog->blurb), ['rows' => 3, 'class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Use Blurb</label>
-  {!! Form::checkbox('use_blurb', 1, $oBlog->use_blurb, array('id'=>'use_blurb')) !!}
-</p>
-<p>
-  <label>or set how many words you want to use from body</label>
-  {!! Form::input('text', 'body_words', old('body_words', $oBlog->body_words), ['class' => 'form-control']) !!}
-</p>
-<p>
-  <label>Body</label>
-  {!! Form::textarea('body', old('body', $oBlog->body), ['rows' => 5, 'class' => 'form-control']) !!}
-</p>
-<button type="submit">Submit</button>
-{!! Form::close() !!}
-
+                    @if ($errors->get('posted_date'))
+                    <label for="posted_date" class="is-invalid-label"><span class="form-error is-visible ">{{ $errors->get('posted_date')[0] }}</span>
+                      <span class="fa fa-calendar dtp-wrapper">
+                        {!! Form::input('text', 'posted_date', old('posted_date', $posted_date), ['class' => 'is-invalid-input dtp', 'id'=>'posted_date']) !!}
+                      </span> 
+                    </label>
+                    @else
+                    <label for="posted_date">Posted Date
+                      <span class="fa fa-calendar dtp-wrapper">
+                        {!! Form::input('text', 'posted_date', old('posted_date', $posted_date), ['class' => 'dtp', 'id'=>'posted_date']) !!}
+                      </span> 
+                    </label>
+                    @endif
+                  </div>
+                  <div class="columns medium-4">
+                    @if ($errors->get('nickname'))
+                    <label for="nickname" class="is-invalid-label"><span class="form-error is-visible">{{ $errors->get('nickname')[0] }}</span>
+                      {!! Form::input('text', 'nickname', old('nickname', $oBlog->nickname), ['class' => 'is-invalid-input', 'id'=>'nickname']) !!}
+                    </label>
+                    @else
+                    <label for="nickname">Nickname <span class="form-error">is required.</span>
+                      {!! Form::input('text', 'nickname', old('nickname', $oBlog->nickname), ['required'=>'required', 'id'=>'nickname']) !!}
+                    </label>
+                    @endif                 
+                  </div>
+                  <div class="columns medium-4">
+                    <label for="allow_comments">Comments
+                      {!! Form::select('allow_comments', $allow_comments_dropdown, $oBlog->allow_comments, ['id' => 'form-allow_comments']) !!}
+                    </label>                    
+                  </div>
+                  <div class="columns medium-4">
+                    <label for="status">Status
+                      {!! Form::select('status', $status_dropdown, $oBlog->status, ['id' => 'form-status']) !!}
+                    </label>                    
+                  </div>
+                  <div class="columns medium-4">
+                    <label for="">Tags
+                      {!! Form::input('text', 'tags', old('tags', $tags), ['class' => 'inputtags']) !!}
+                    </label>
+                  </div>
+                  <div class="columns end">
+                    <label for="custom_form">Body
+                      {!! \Editor::set('body', old('body', $oBlog->body), ['rows' => 15, 'id' => 'custom_form']) !!}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="columns large-3">
+                <aside>
+                  <ul class="accordion" data-accordion>
+                    <li class="accordion-item is-active" data-accordion-item>
+                      <a href="#" class="accordion-title">Blurb</a>
+                      <div class="accordion-content" data-tab-content>
+                        {!! Form::textarea('blurb', old('blurb', $oBlog->blurb), ['rows' => 5, 'id' => 'blurb']) !!}
+                        <p>Use Blurb</p>
+                        <div class="switch tiny">
+                          {!! Form::checkbox('use_blurb', 1, $oBlog->use_blurb, ['class' => 'switch-input', 'id' => 'useBlurbSwitch']) !!}
+                          <label class="switch-paddle" for="useBlurbSwitch">
+                            <span class="show-for-sr">
+                            </span>
+                          </label>
+                        </div>
+                        <p>or set how many words you want to use from body</p>
+                        {!! Form::input('text', 'body_words', old('body_words', $oBlog->body_words), []) !!}
+                      </div>
+                    </li>
+                  </ul>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {!! Form::close() !!}
+  </section>
+</main>
+<footer>
+  @include('menus-admin::admin/help-sections/menus')
+  <div class="row">
+    <div class="columns">
+    </div>
+  </div>
+</footer>
 @stop

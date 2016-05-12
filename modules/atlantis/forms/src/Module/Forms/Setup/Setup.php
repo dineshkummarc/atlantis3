@@ -19,5 +19,6 @@ return [
     'seeder' => '\Module\Forms\Seed\FormsSeeder',
     'provider' => 'Module\Forms\Providers\FormsServiceProvider',
     'migration' => 'modules/atlantis/forms/src/Module/Forms/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Module to help you generate web forms and embed them into pages.'
    ];

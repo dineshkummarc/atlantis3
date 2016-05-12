@@ -12,5 +12,6 @@ return [
     'seeder' => '\Module\Vanityurl\Seed\VanityurlSeeder', 
     'provider' => 'Module\Vanityurl\Providers\VanityurlServiceProvider',
     'migration' => 'modules/atlantis/vanityurl/src/Module/Vanityurl/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Enables you to create and manage custom page redirects'
    ];

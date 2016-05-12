@@ -8,17 +8,17 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOpenWeatherDataTable extends Migration {
+class CreateOpenweatherTable extends Migration {
 
   /**
    * Run the migrations.
    */
   public function up() {
 
-    Schema::create('openweather_data', function(\Illuminate\Database\Schema\Blueprint $table) {
+    Schema::create('openweather', function(\Illuminate\Database\Schema\Blueprint $table) {
       $table->increments('id');
-      $table->text('data');
-      $table->string('type', 255);
+      $table->string("app_id");
+      $table->string("temperature")->default('C');
       $table->timestamps();
     });
   }
@@ -27,7 +27,7 @@ class CreateOpenWeatherDataTable extends Migration {
    * Reverse the migrations.
    */
   public function down() {
-    Schema::drop('openweather_data');
+    Schema::drop('openweather');
   }
 
 }

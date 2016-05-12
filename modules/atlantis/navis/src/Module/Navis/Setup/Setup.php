@@ -12,5 +12,6 @@ return [
     'seeder' => '\Module\Navis\Seed\NavisSeeder',
     'provider' => 'Module\Navis\Providers\NavisServiceProvider',
     'migration' => 'modules/atlantis/navis/src/Module/Navis/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Generates proper codes for communication with https://www.thenavisway.com/'
    ];

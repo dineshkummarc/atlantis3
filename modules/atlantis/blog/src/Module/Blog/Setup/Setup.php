@@ -17,5 +17,6 @@ return [
     'seeder' => '\Module\Blog\Seed\BlogSeeder',
     'provider' => 'Module\Blog\Providers\BlogServiceProvider',
     'migration' => 'modules/atlantis/blog/src/Module/Blog/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'The Atlantis blog module.'
    ];

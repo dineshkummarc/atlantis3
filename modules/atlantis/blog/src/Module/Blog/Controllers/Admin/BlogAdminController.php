@@ -31,13 +31,21 @@ class BlogAdminController extends AdminModulesController {
 
   public function getIndex($id = null) {
     
-    $oBlogs = BlogRepository::getAll();
+    $aData = array();
 
-    $aParams = array();
+    if (\Session::get('info') != NULL) {
+      $aData['msgInfo'] = \Session::get('info');
+    }
 
-    $aParams['oBlogs'] = $oBlogs;
+    if (\Session::get('success') != NULL) {
+      $aData['msgSuccess'] = \Session::get('success');
+    }
 
-    return view('blog-admin::admin/list', $aParams);
+    if (\Session::get('error') != NULL) {
+      $aData['msgError'] = \Session::get('error');
+    }
+
+    return view('blog-admin::admin/list', $aData);
   }
 
   /*
@@ -50,13 +58,25 @@ class BlogAdminController extends AdminModulesController {
 
   public function getAdd() {
 
-    $aParams = array();
+    $aData = array();
 
-    $aParams['status_dropdown'] = $this->status;
-    $aParams['allow_comments_dropdown'] = $this->allow_comments;
-    $aParams['nickname'] = auth()->user()->name;
+    if (\Session::get('info') != NULL) {
+      $aData['msgInfo'] = \Session::get('info');
+    }
 
-    return view('blog-admin::admin/add', $aParams);
+    if (\Session::get('success') != NULL) {
+      $aData['msgSuccess'] = \Session::get('success');
+    }
+
+    if (\Session::get('error') != NULL) {
+      $aData['msgError'] = \Session::get('error');
+    }
+
+    $aData['status_dropdown'] = $this->status;
+    $aData['allow_comments_dropdown'] = $this->allow_comments;
+    $aData['nickname'] = auth()->user()->name;
+
+    return view('blog-admin::admin/add', $aData);
   }
 
   /*
@@ -72,15 +92,22 @@ class BlogAdminController extends AdminModulesController {
     $blogDB = new BlogRepository();
 
     $validator = $blogDB->validationCreate($request->all());
-
+   
     if (!$validator->fails()) {
 
       $aData = $request->all();
       $aData['user_id'] = auth()->user()->id;
 
-      $blogDB->add($aData);
+      $id = $blogDB->add($aData);
 
-      return redirect('admin/modules/blog')->with('success', 'Success');
+      \Session::flash('success', 'Entry ' . $aData['title'] . ' was created');
+      
+      if ($request->get('_update')) {
+        return redirect('admin/modules/blog/edit/' . $id);
+      } else {
+        return redirect('admin/modules/blog');
+      }
+      
     } else {
       return redirect('admin/modules/blog/add')->withErrors($validator)->withInput();
     }
@@ -98,13 +125,35 @@ class BlogAdminController extends AdminModulesController {
 
     $oBlog = BlogRepository::get($id);
 
-    $aParams = array();
+    $aData = array();
 
-    $aParams['status_dropdown'] = $this->status;
-    $aParams['allow_comments_dropdown'] = $this->allow_comments;
-    $aParams['oBlog'] = $oBlog;
+    if (\Session::get('info') != NULL) {
+      $aData['msgInfo'] = \Session::get('info');
+    }
 
-    return view('blog-admin::admin/edit', $aParams);
+    if (\Session::get('success') != NULL) {
+      $aData['msgSuccess'] = \Session::get('success');
+    }
+
+    if (\Session::get('error') != NULL) {
+      $aData['msgError'] = \Session::get('error');
+    }
+
+    $aTags = array();
+    
+    $tags = \Atlantis\Models\Repositories\TagRepository::getTagsByResourceID('blog', $id);
+    
+    foreach ($tags as $tag) {
+      $aTags[] = $tag->tag;
+    }
+    
+    $aData['posted_date'] = \Atlantis\Helpers\Tools::getExpirationDateForView($oBlog->posted_date);
+    $aData['tags'] = implode(',', $aTags);
+    $aData['status_dropdown'] = $this->status;
+    $aData['allow_comments_dropdown'] = $this->allow_comments;
+    $aData['oBlog'] = $oBlog;
+
+    return view('blog-admin::admin/edit', $aData);
   }
 
   /*
@@ -119,12 +168,20 @@ class BlogAdminController extends AdminModulesController {
 
     $blogDB = new BlogRepository();
 
-    $validator = $blogDB->validationEdit($request->all());
+    $validator = $blogDB->validationCreate($request->all(), $id);
 
     if (!$validator->fails()) {
 
       $blogDB->edit($id, $request->all());
 
+      \Session::flash('success', 'Entry ' . $request->get('title') . ' was edited');
+      
+      if ($request->get('_update')) {
+        return redirect('admin/modules/blog/edit/' . $id);
+      } else {
+        return redirect('admin/modules/blog');
+      }
+      
       return redirect('admin/modules/blog')->with('success', 'Success');
     } else {
       return redirect('admin/modules/blog/edit/' . $id)->withErrors($validator)->withInput();
@@ -142,10 +199,28 @@ class BlogAdminController extends AdminModulesController {
   public function getDelete($id = null) {
 
     if (BlogRepository::deleteEntry($id)) {
-      return redirect('admin/modules/blog')->with('success', 'Success');
+      return redirect('admin/modules/blog')->with('success', 'Entry was deleted');
     } else {
       return redirect('admin/modules/blog')->with('error', 'Invalid ID');
     }
+  }
+  
+  public function postBulkAction(Request $request) {
+
+    if ($request->get('bulk_action_ids') != NULL) {
+
+      $aIDs = explode(',', $request->get('bulk_action_ids'));
+
+      if ($request->get('action') == 'bulk_delete') {
+
+        foreach ($aIDs as $id) {
+          BlogRepository::deleteEntry($id);
+        }
+        \Session::flash('success', 'Entries was deleted');
+      }
+    }
+
+    return redirect()->back();
   }
 
 }

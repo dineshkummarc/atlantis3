@@ -8,7 +8,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOpenWeatherCitiesTable extends Migration {
+class CreateOpenweatherCitiesTable extends Migration {
 
   /**
    * Run the migrations.

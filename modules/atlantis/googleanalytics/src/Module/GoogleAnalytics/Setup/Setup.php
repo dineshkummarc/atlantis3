@@ -12,5 +12,6 @@ return [
     'seeder' => '\Module\GoogleAnalytics\Seed\GoogleAnalyticsSeeder', 
     'provider' => 'Module\GoogleAnalytics\Providers\GoogleAnalyticsServiceProvider',
     'migration' => 'modules/atlantis/googleanalytics/src/Module/GoogleAnalytics/Migrations/',
-    'extra' => null
+    'extra' => null,
+    'description' => 'Embeds Google Analytics or Google Tag Manager tracking code'
    ];

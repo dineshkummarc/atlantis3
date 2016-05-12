@@ -24,5 +24,6 @@ return [
          */
         'type' => 'editor',
         'editorClass' => 'Module\CKEditor\CKEditorBuilder'
-    ]
+    ],
+    'description' => 'The famous WYSIWYG editor.'
 ];

@@ -19,5 +19,6 @@ return [
     'seeder' => '\Module\Menus\Seed\MenusSeeder',
     'provider' => 'Module\Menus\Providers\MenusServiceProvider',
     'migration' => 'modules/atlantis/menus/src/Module/Menus/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Build and manipulate navigational menus for your site.'
    ];

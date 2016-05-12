@@ -51,6 +51,8 @@ class BlogServiceProvider extends ServiceProvider {
     }
       
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'blog-admin');
+    
+    $this->loadTranslationsFrom(__DIR__ . '/../Languages', "blog");
   }
 
 }

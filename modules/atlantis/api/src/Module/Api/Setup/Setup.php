@@ -19,5 +19,6 @@ return [
     'seeder' => '\Module\Api\Seed\ApiSeeder',
     'provider' => 'Module\Api\Providers\ApiServiceProvider',
     'migration' => 'modules/atlantis/api/src/Module/Api/Migrations/',
-    'extra' => NULL
+    'extra' => NULL,
+    'description' => 'Internal Api for Atlantis'
    ];

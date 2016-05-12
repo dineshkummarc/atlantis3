@@ -56,7 +56,7 @@
           </li> -->
           <li class="float-right list-filter">
 
-            <a id="save-close-btn" class="alert button" href="/admin/modules/blog/add">ADD Entry</a>
+            <a id="save-close-btn" class="alert button" href="/admin/modules/blog/add">New Entry</a>
           </li>	
         </ul>
         <div class="tabs-content" data-tabs-content="example-tabs">
