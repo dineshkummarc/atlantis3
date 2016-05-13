@@ -68,7 +68,10 @@ class FormsAdminController extends AdminModulesController {
     }
     
     $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
-
+    
+    $aData['fieldTypes'] = FormBuilder::getFieldTypes();
+    $aData['validationRules'] = array_prepend(FormBuilder::getValidationRules(), '--', NULL);
+    
     $aData['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
 
     return view('forms-admin::admin/add', $aData);
@@ -82,7 +85,7 @@ class FormsAdminController extends AdminModulesController {
    * Responds to requests to POST 
    */
   public function postAdd(Request $request) {
-
+    dd($request->all());
     $modelDB = new FormsRepository();
 
     $validator = $modelDB->validationCreate($request->all());
@@ -148,7 +151,7 @@ class FormsAdminController extends AdminModulesController {
    * Responds to requests to POST
    */
   public function postEdit($id = NULL, Request $request) {
-
+dd($request->all());
     $oModel = new FormsRepository();
 
     $validator = $oModel->validationEdit($request->all());

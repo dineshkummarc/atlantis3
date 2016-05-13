@@ -24,7 +24,7 @@ class CreateFormsItemsTable extends Migration {
       $table->string("validation", 255)->nullable();
       $table->text("attributes")->nullable();
       $table->text("validation_msg")->nullable();      
-      $table->string("field_value", 255)->nullable();
+      $table->text("field_value")->nullable();
       $table->integer("weight");      
       $table->timestamps();     
     });
