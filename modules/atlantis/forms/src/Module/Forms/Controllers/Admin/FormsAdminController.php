@@ -7,6 +7,7 @@ use Module\Forms\Models\Repositories\FormsRepository;
 use Illuminate\Http\Request;
 use Module\Forms\Helpers\Builder as FormBuilder;
 use Module\Forms\Helpers\Captcha as CaptchaHelper;
+use Module\Forms\Models\Repositories\FormsItemsRepository;
 
 class FormsAdminController extends AdminModulesController {
 
@@ -66,12 +67,12 @@ class FormsAdminController extends AdminModulesController {
     if (\Session::get('error') != NULL) {
       $aData['msgError'] = \Session::get('error');
     }
-    
+
     $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
-    
+
     $aData['fieldTypes'] = FormBuilder::getFieldTypes();
     $aData['validationRules'] = array_prepend(FormBuilder::getValidationRules(), '--', NULL);
-    
+    $aData['itemsFields'] = $this->getItemsFields();
     $aData['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
 
     return view('forms-admin::admin/add', $aData);
@@ -85,7 +86,7 @@ class FormsAdminController extends AdminModulesController {
    * Responds to requests to POST 
    */
   public function postAdd(Request $request) {
-    dd($request->all());
+    
     $modelDB = new FormsRepository();
 
     $validator = $modelDB->validationCreate($request->all());
@@ -96,18 +97,19 @@ class FormsAdminController extends AdminModulesController {
 
       $data = $request->all();
       $data['captcha_namespace'] = $aCaptchas[$request->get('select_captcha')]['namespace'];
-      $data['items'] = FormBuilder::getPostItems();
+      //$data['items'] = FormBuilder::getPostItems();
 
       $id = $modelDB->add($data);
-      
+
       \Session::flash('success', 'Form ' . $data['name'] . ' was created');
 
       if ($request->get('_update')) {
         return redirect('admin/modules/forms/edit/' . $id);
       } else {
         return redirect('admin/modules/forms');
-      }     
+      }
     } else {
+      //dd('validations');
       return redirect('admin/modules/forms/add')->withErrors($validator)->withInput();
     }
   }
@@ -121,7 +123,7 @@ class FormsAdminController extends AdminModulesController {
    */
 
   public function getEdit($id = NULL) {
-
+    
     $oModel = FormsRepository::get($id);
 
     $aCaptchas = CaptchaHelper::getAll($this->getModuleConfig());
@@ -139,6 +141,9 @@ class FormsAdminController extends AdminModulesController {
     $aParams['oModel'] = $oModel;
     $aParams['aCaptcha'] = $this->getCaptchasForSelect($aCaptchas);
     $aParams['captcha_select'] = $captcha_select;
+    $aParams['fieldTypes'] = FormBuilder::getFieldTypes();
+    $aParams['validationRules'] = array_prepend(FormBuilder::getValidationRules(), '--', NULL);
+    $aParams['itemsFields'] = $this->getItemsFields(FormsItemsRepository::getItems($id));
 
     return view('forms-admin::admin/edit', $aParams);
   }
@@ -151,7 +156,7 @@ class FormsAdminController extends AdminModulesController {
    * Responds to requests to POST
    */
   public function postEdit($id = NULL, Request $request) {
-dd($request->all());
+
     $oModel = new FormsRepository();
 
     $validator = $oModel->validationEdit($request->all());
@@ -179,7 +184,7 @@ dd($request->all());
         $aData['email_check'] = 0;
       }
 
-      $aData['items'] = FormBuilder::getPostItems();
+      //$aData['items'] = FormBuilder::getPostItems();
       //dd($aData);
       $oModel->edit($id, $aData);
 
@@ -221,6 +226,78 @@ dd($request->all());
     }
 
     return $aSelect;
+  }
+
+  private function getItemsFields($oItems = NULL) {
+
+    $items = self::getItemsNames();
+
+    if (!empty(old())) {
+      $aItems = array();
+      foreach ($items as $item) {
+        if (is_array(old($item))) {
+          foreach (old($item) as $k => $val) {
+            $aItems[$k][$item]['name'] = $item . '[' . $k . ']';
+            $aItems[$k][$item]['value'] = $val;
+          }
+        }
+      }
+    } else {
+      $aItems = array();
+      if ($oItems != NULL && $oItems->count() != 0) {
+        foreach ($oItems as $item) {
+          foreach ($items as $it) {
+            $aItems[$item->id][$it]['name'] = $it . '[' . $item->id . ']';
+            if ($it == 'attributes') {
+              $aAttrs = unserialize($item->$it);
+              $attrs = '';
+              if (is_array($aAttrs)) {
+                foreach ($aAttrs as $attr_k => $attr_v) {
+                  $attrs .= $attr_k . '=>' . $attr_v . "\n";
+                }
+              }
+              $aItems[$item->id][$it]['value'] = trim($attrs);
+            } else if ($it == 'field_value') {              
+              $field_value = unserialize($item->$it);
+              $field_val = '';
+              if (is_array($field_value)) {
+                foreach ($field_value as $fv_k => $fv_v) {
+                  $field_val .= $fv_k . '=>' . $fv_v . "\n";
+                }
+              } else {
+                $field_val = $field_value;
+              }
+              $aItems[$item->id][$it]['value'] = trim($field_val);
+            } else {
+              $aItems[$item->id][$it]['value'] = $item->$it;
+            }
+          }
+        }
+      } else {
+        $aItems = $this->getDefaultValues($items);
+      }
+    }
+    return $aItems;
+  }
+
+  private function getDefaultValues($items) {
+
+    $aI = array();
+    foreach ($items as $k => $item) {
+      $aI[$item]['name'] = $item . '[]';
+      if ($item == 'weight') {
+        $aI[$item]['value'] = 1;
+      } else {
+        $aI[$item]['value'] = NULL;
+      }
+    }
+    $aItems[] = $aI;
+    
+    return $aItems;
+  }
+  
+  public static function getItemsNames() {
+    return ['field_name', 'field_type', 'label', 'validation', 'attributes', 'field_value', 'weight', 'validation_msg'];
   }
 
 }

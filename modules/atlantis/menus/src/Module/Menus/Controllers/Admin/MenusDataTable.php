@@ -154,4 +154,11 @@ class MenusDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
             \Atlantis\Helpers\Modal::set('deleteMenu' . $obj->id, 'Delete Menu', 'Are you sure you want to delete ' . $obj->name, 'Delete', '/admin/modules/menus/delete/' . $obj->id);
   }
 
+  /**
+   * Add class to <table></table> tag
+   * 
+   */
+  public function tableClass() {
+    return NULL;
+  }
 }

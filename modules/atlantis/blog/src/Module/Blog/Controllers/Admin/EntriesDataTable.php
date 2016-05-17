@@ -164,5 +164,13 @@ class EntriesDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterfac
                     </span>' .
             \Atlantis\Helpers\Modal::set('deleteEntry' . $obj->id, 'Delete Entry', 'Are you sure you want to delete ' . $obj->title, 'Delete', '/admin/modules/blog/delete/' . $obj->id);
   }
+  
+  /**
+   * Add class to <table></table> tag
+   * 
+   */
+  public function tableClass() {
+    return NULL;
+  }
 
 }

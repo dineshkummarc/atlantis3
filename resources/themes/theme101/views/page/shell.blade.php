@@ -35,12 +35,12 @@
             <div class="top-bar-left user-menu">
               <div class="account">
                 <span class="icon icon-User left"></span>
-                <div class="username">Milen</div>
+                <div class="username">{{ auth()->user()->name }}</div>
                 <div class="actions">
-                  <a href="#">Setings</a> / <a href="#">Loogout</a>
+                  <a href="/admin/users/edit/{{ auth()->user()->id }}">Setings</a> / <a href="/admin/logout">Loogout</a>
                 </div>
               </div>
-              <h3 class="menu-text left">Site Title</h3>
+              <h3 class="menu-text left">{{ config('atlantis.site_name') }}</h3>
             </div>
             <span data-responsive-toggle="main-nav">
               <span class="menu-icon dark" data-toggle></span>

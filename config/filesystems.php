@@ -45,15 +45,15 @@ return [
 
 		'local' => [
 			'driver' => 'local',
-			'root'   => storage_path().'/app',
+			'root'   => base_path().'/',
 		],
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'your-key',
-			'secret' => 'your-secret',
-			'region' => 'your-region',
-			'bucket' => 'your-bucket',
+			'key'    => 'AKIAIURZGRDHZHQSHIBA',
+			'secret' => 'ONXJS2ens5z3wlK2miP8okyN4nYaPGnqAsIT4w9z',
+			'region' => 'us-west-2',
+			'bucket' => 'a3demo',
 		],
 
 		'rackspace' => [

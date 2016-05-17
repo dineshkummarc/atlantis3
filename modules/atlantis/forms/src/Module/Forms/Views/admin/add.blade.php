@@ -80,8 +80,8 @@
                     </label>                    
                   </div>
                   <div class="columns medium-4">
-                    <label for="btn_value">Submit button name
-                      {!! Form::input('text', 'btn_value', old('btn_value'), ['id' => 'btn_value']) !!}
+                    <label for="btn_value">Submit button name <span class="form-error">is required.</span>
+                      {!! Form::input('text', 'btn_value', old('btn_value'), ['id' => 'btn_value', 'required'=>'required']) !!}
                     </label>                    
                   </div>
                   <div class="columns medium-4">
@@ -98,198 +98,204 @@
                     <hr>
                     <div class="row">
                       <div class="columns large-12">
-                        <label for="">Form Fields<a id="add-menu-item" class="button alert float-right">Add New Item</a></label>
+                        <label for="">Form Fields<a id="add-menu-item" class="button alert float-right">Add New Field</a></label>
                       </div>
                       <ol id="sortable" class="columns large-12">
-                        <li class="row-item" id="row_items_1">
+                        @foreach ($itemsFields as $item)
+                        <li class="row-item" id="row_items_{!! $item['weight']['value'] !!}">
                           <div class="callout">
                             <div class="row menu-item">
-                              <div class="columns large-3">
+                              <div class="columns">
                                 <label for="">
                                   <span class="fa fa-bars move"></span>
-                                  <span class="index">1</span>.
-                                  <!-- ANGEL NOTE na edit ako poleto e required dobawi class required na item-title -->
+                                  <span class="index">{{ $item['weight']['value'] }}</span>.
                                   <span class="item-title">
-                                    NEW FIELD
+                                    {{ $item['field_name']['value'] }}
                                   </span>
                                   <small>                   
-                                    [type="<span class="item-type">text</span>"]
+                                    [type="<span class="item-type">{{ $item['field_type']['value'] }}</span>"]
                                   </small>
                                 </label>
                                 <span class="actions">
-                                  <a data-toggle="advanced-item1" class=""><span data-tooltip title="Show/Hide Advanced Settings" class="icon icon-Settings top"></span></a>
-
+                                  <a data-toggle="advanced-item{!! $item['weight']['value'] !!}" class=""><span data-tooltip title="Show/Hide Advanced Settings" class="icon icon-Settings top"></span></a>
                                 </span>
                               </div>
                               <div class="columns">
-                                <div class="row advanced expanded" data-length="1" id="advanced-item1" data-toggler=".expanded">
+                                <div class="row advanced expanded" data-length="1" id="advanced-item{!! $item['weight']['value'] !!}" data-toggler=".expanded">
                                   <br>
                                   <div class="columns large-3">
-                                    <label for="">
+                                    <label for="{!! $item['field_name']['name'] !!}">
                                       Name <span class="form-error">is required field</span>
                                       <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
-                                      {!! Form::input('text', 'field_name[]', NULL, ['required'=>'required', 'class' => 'name']) !!}
+                                      {!! Form::input('text', $item['field_name']['name'], $item['field_name']['value'], ['required'=>'required', 'class' => 'name']) !!}
                                     </label>
                                     <label for="">
                                       Type  
                                       <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
-                                      {!! Form::select('field_type[]', $fieldTypes, NULL, ['id' => '', 'class' => 'type']) !!}
+                                      {!! Form::select($item['field_type']['name'], $fieldTypes, $item['field_type']['value'], ['id' => '', 'class' => 'type']) !!}
                                       </select>
                                     </label>
+                                  </div>
+                                  <div class="columns large-3">
+                                    <label for="">
+                                      Label
+                                      <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
+                                      {!! Form::input('text', $item['label']['name'], $item['label']['value'], []) !!}
+                                    </label> 
+                                    <label for="">
+                                      Validation
+                                      <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
+                                      {!! Form::select($item['validation']['name'], $validationRules, $item['validation']['value'], ['id' => '']) !!}
+                                    </label>
+                                  </div>
+                                  <div class="columns large-3">
+                                    <label for="">
+                                      Custom Attributes
+                                      <span class="icon icon-Help top" data-tooltip title="Look tips for more information. One per line. placeholder=>Custom attributes"></span>
+                                      {!! Form::textarea($item['attributes']['name'], $item['attributes']['value'], ['rows' => 4, 'cols' => '30', 'id' => '']) !!}
+                                    </label>
+
 
                                   </div>
                                   <div class="columns large-3">
-                                   <label for="">
-                                    Value
-                                    <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
-                                    {!! Form::textarea('field_value[]', NULL, ['rows' => 4, 'cols' => '30', 'id' => '']) !!}
-                                  </label>
-                                  <label for="">
-                                    Custom Attributes
-                                    <span class="icon icon-Help top" data-tooltip title="Look tips for more information. One per line. placeholder=>Custom attributes"></span>
-                                    {!! Form::textarea('attributes[]', NULL, ['rows' => 4, 'cols' => '30', 'id' => '']) !!}
-                                  </label>
+                                    <label for="">
+                                      Value
+                                      <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
+                                      {!! Form::textarea($item['field_value']['name'], $item['field_value']['value'], ['rows' => 4, 'cols' => '30', 'id' => '']) !!}
+                                    </label>
 
-                                </div>
-                                <div class="columns large-3">
-                                  <label for="">
-                                    Validation
-                                    <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
-                                    {!! Form::select('validation[]', $validationRules, NULL, ['id' => '']) !!}
-                                  </label>
-                                  <label for="">
-                                    Error message
-                                    <span class="icon icon-Help top" data-tooltip title="Validation error messag. HTML allowed"></span>
-                                    {!! Form::input('text', 'validation_msg[]', NULL, []) !!}
-                                  </label>
-                                </div>
-                                <div class="columns large-3">
-                                  <label for="">
-                                    Label
-                                    <span class="icon icon-Help top" data-tooltip title="Look tips for more information"></span>
-                                    {!! Form::input('text', 'label[]', NULL, []) !!}
-                                  </label>                                        
-                                  {!! Form::input('hidden', 'weight[]', 1, ['required'=>'required', 'min'=>'1']) !!}
-                                </div>
-                                <div class="columns large-12">
-                                  <a id="btn_delete_1" class="button alert small">Delete Item</a>
+                                    {!! Form::input('hidden', $item['weight']['name'], $item['weight']['value'], ['required'=>'required', 'min'=>'1']) !!}
+                                  </div>
+                                  <div class="columns large-6">
+                                    <label for="">
+                                      Error message
+                                      <span class="icon icon-Help top" data-tooltip title="Validation error messag. HTML allowed"></span>
+                                      {!! Form::input('text', $item['validation_msg']['name'], $item['validation_msg']['value'], []) !!}
+                                    </label>
+                                  </div>
+                                  <div class="columns large-6">
+                                    <label for="">
+                                      Actions<br>
+                                      <a id="btn_delete_{!! $item['weight']['value'] !!}" class="button alert">Delete Item</a>
+                                    </label>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                    </ol>
-                  </div>
-                  <hr>
-                </div>
-                <div class="columns">                  
-                  <label for="use_custom_form">Use Custom Template                      
-                    <div class="switch tiny">
-                      {!! Form::checkbox('use_custom_form', 1, FALSE, ['class' => 'switch-input', 'id' => 'use_custom_form']) !!}
-                      <label class="switch-paddle" for="use_custom_form">
-                        <span class="show-for-sr">
-                        </span>
-                      </label>
+                        </li>
+                        @endforeach
+                      </ol>
                     </div>
-                  </label>                    
-                </div>
-                <div class="columns">
-                  <label for="custom_form">Custom template
-                  {!! \Editor::set('custom_form', old('custom_form'), ['rows' => 15, 'id' => 'custom_form']) !!}
-                </label>
-                <hr>
-              </div>
-              <div class="columns medium-4">
-                <label for="email_check">Should this form email its results?                      
-                  <div class="switch tiny">
-                    {!! Form::checkbox('email_check', 1, FALSE, ['class' => 'switch-input', 'id' => 'email_check']) !!}
-                    <label class="switch-paddle" for="email_check">
-                      <span class="show-for-sr">
-                      </span>
+                    <hr>
+                  </div>
+                  <div class="columns">                  
+                    <label for="use_custom_form">Use Custom Template                      
+                      <div class="switch tiny">
+                        {!! Form::checkbox('use_custom_form', 1, FALSE, ['class' => 'switch-input', 'id' => 'use_custom_form']) !!}
+                        <label class="switch-paddle" for="use_custom_form">
+                          <span class="show-for-sr">
+                          </span>
+                        </label>
+                      </div>
+                    </label>                    
+                  </div>
+                  <div class="columns">
+                    <label for="custom_form">Custom template
+                      {!! \Editor::set('custom_form', old('custom_form'), ['rows' => 15, 'id' => 'custom_form']) !!}
                     </label>
+                    <hr>
                   </div>
-                </label>                    
-              </div>
-              <div class="columns medium-4">
-                <label for="email_from">Email From
-                  {!! Form::input('text', 'email_from', old('email_from'), ['id' => 'email_from']) !!}
-                </label>                    
-              </div>
-              <div class="columns medium-4 end">
-                <label for="emails">Form Email Recipients, Comma Separated
-                  {!! Form::input('text', 'emails', old('emails'), ['id' => 'emails']) !!}
-                </label>                    
-              </div>
-            </div>
-          </div>
-          <div class="columns large-3">
-            <aside>
-              <ul class="accordion" data-accordion>
-                <li class="accordion-item is-active" data-accordion-item>
-                  <a href="#" class="accordion-title">Successful Submit Message</a>
-                  <div class="accordion-content" data-tab-content>
-                    {!! Form::textarea('message', old('message'), ['rows' => 5, 'id' => 'message']) !!}
+                  <div class="columns medium-4">
+                    <label for="email_check">Should this form email its results?                      
+                      <div class="switch tiny">
+                        {!! Form::checkbox('email_check', 1, FALSE, ['class' => 'switch-input', 'id' => 'email_check']) !!}
+                        <label class="switch-paddle" for="email_check">
+                          <span class="show-for-sr">
+                          </span>
+                        </label>
+                      </div>
+                    </label>                    
                   </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">Google Analytics</a>
-                  <div class="accordion-content" data-tab-content>
-                    <p>Use Google Analytics</p>
-                    <div class="switch tiny">
-                      {!! Form::checkbox('ga', 1, TRUE, ['class' => 'switch-input', 'id' => 'gaSwitch']) !!}
-                      <label class="switch-paddle" for="gaSwitch">
-                        <span class="show-for-sr">
-                          Cache Enabled
-                        </span>
-                      </label>
-                    </div>
+                  <div class="columns medium-4">
+                    <label for="email_from">Email From
+                      {!! Form::input('text', 'email_from', old('email_from'), ['id' => 'email_from']) !!}
+                    </label>                    
                   </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">Captcha</a>
-                  <div class="accordion-content" data-tab-content>
-                    <div class="row">
-                      <div class="columns small-6">
-                        <label for="captchaSwitch">Use Captcha</label>
+                  <div class="columns medium-4 end">
+                    <label for="emails">Form Email Recipients, Comma Separated
+                      {!! Form::input('text', 'emails', old('emails'), ['id' => 'emails']) !!}
+                    </label>                    
+                  </div>
+                </div>
+              </div>
+              <div class="columns large-3">
+                <aside>
+                  <ul class="accordion" data-accordion>
+                    <li class="accordion-item is-active" data-accordion-item>
+                      <a href="#" class="accordion-title">Successful Submit Message</a>
+                      <div class="accordion-content" data-tab-content>
+                        {!! Form::textarea('message', old('message'), ['rows' => 5, 'id' => 'message']) !!}
+                      </div>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                      <a href="#" class="accordion-title">Google Analytics</a>
+                      <div class="accordion-content" data-tab-content>
+                        <p>Use Google Analytics</p>
                         <div class="switch tiny">
-                          {!! Form::checkbox('captcha', 1, FALSE, ['class' => 'switch-input', 'id' => 'captchaSwitch']) !!}
-                          <label class="switch-paddle" for="captchaSwitch">
+                          {!! Form::checkbox('ga', 1, TRUE, ['class' => 'switch-input', 'id' => 'gaSwitch']) !!}
+                          <label class="switch-paddle" for="gaSwitch">
                             <span class="show-for-sr">
-                              Use Captcha
+                              Cache Enabled
                             </span>
                           </label>
                         </div>
                       </div>
-                      <div class="columns small-6">
-                        <label for="select_captcha">Select captcha</label>
-                        {!! Form::select('select_captcha', $aCaptcha, NULL, ['id' => 'select_captcha']) !!}
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                      <a href="#" class="accordion-title">Captcha</a>
+                      <div class="accordion-content" data-tab-content>
+                        <div class="row">
+                          <div class="columns small-6">
+                            <label for="captchaSwitch">Use Captcha</label>
+                            <div class="switch tiny">
+                              {!! Form::checkbox('captcha', 1, FALSE, ['class' => 'switch-input', 'id' => 'captchaSwitch']) !!}
+                              <label class="switch-paddle" for="captchaSwitch">
+                                <span class="show-for-sr">
+                                  Use Captcha
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="columns small-6">
+                            <label for="select_captcha">Select captcha</label>
+                            {!! Form::select('select_captcha', $aCaptcha, NULL, ['id' => 'select_captcha']) !!}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">Before form text</a>
-                  <div class="accordion-content" data-tab-content>                        
-                    {!! Form::textarea('before_form_text', old('before_form_text'), ['rows' => 5, 'id'=>'before_form_text']) !!}
-                  </div>
-                </li>
-                <li class="accordion-item" data-accordion-item>
-                  <a href="#" class="accordion-title">After form text</a>
-                  <div class="accordion-content" data-tab-content>                        
-                    {!! Form::textarea('after_form_text', old('after_form_text'), ['rows' => 5, 'id'=>'after_form_text']) !!}
-                  </div>
-                </li>                   
-              </ul>
-            </aside>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                      <a href="#" class="accordion-title">Before form text</a>
+                      <div class="accordion-content" data-tab-content>                        
+                        {!! Form::textarea('before_form_text', old('before_form_text'), ['rows' => 5, 'id'=>'before_form_text']) !!}
+                      </div>
+                    </li>
+                    <li class="accordion-item" data-accordion-item>
+                      <a href="#" class="accordion-title">After form text</a>
+                      <div class="accordion-content" data-tab-content>                        
+                        {!! Form::textarea('after_form_text', old('after_form_text'), ['rows' => 5, 'id'=>'after_form_text']) !!}
+                      </div>
+                    </li>                   
+                  </ul>
+                </aside>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-{!! Form::close() !!}
-</section>
+    {!! Form::close() !!}
+  </section>
 </main>
 <footer>
   @include('forms-admin::admin/help-sections/forms')
@@ -301,7 +307,7 @@
 @stop
 
 <script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function(event) {
+  document.addEventListener("DOMContentLoaded", function (event) {
 
     $(document).on('keyup', '.row.advanced .name', function (ev) {
       $(this).closest('li.row-item').find('.item-title').text($(this).val() || 'NEW Field');
@@ -319,7 +325,7 @@
         $.each($('ol#sortable>li'), function (key, val) {
           $(this).find('[type="hidden"][name*="weight"]').val(key + 1);
           $(this).find('.index').text((key + 1));
-        });     
+        });
 
 
       }

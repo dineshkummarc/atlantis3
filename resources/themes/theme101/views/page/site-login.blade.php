@@ -1,7 +1,36 @@
 @extends('atlantis::' . config('atlantis.frontend_shell_view'))
 
-@section('content')
+@section('headTags')
+@parent
+{{-- Add custom tags in <head> per template --}}
+{{-- <meta name="test"> --}}
+@stop
 
+@section('tracking_header')
+@parent
+{{-- Add tracking header per template --}}
+@stop
+
+@section('scripts')
+@parent
+{{-- Add scripts per template --}}
+{{-- <script src="http://a3.angel.dev.gentecsys.net/media/js/vendor/jquery.js"></script> --}}
+@stop
+
+@section('styles')
+@parent
+{{-- Add styles per template --}}
+@stop
+
+@section('js')
+@parent
+{{-- Add js per template --}}
+{{--  <script>
+  $(document).ready(function () { ... --}}
+@stop
+
+@section('content')
+@parent
 <h1>Page Protected Login</h1>
 
 

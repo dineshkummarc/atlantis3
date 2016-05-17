@@ -416,7 +416,7 @@ class Builder {
                 'placeholder' => 'Name'
             ],
             'validation_msg' => 'Name must not be empty',
-            'field_value' => [],
+            'field_value' => 'Angel Bangel',
             'weight' => 1
         ],
         [
