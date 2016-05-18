@@ -119,10 +119,10 @@ class Builder {
       /** <input type="text"> */
       if ($item->field_type == self::$_TYPE_INPUT_TEXT) {
 
-        if (isset(array_values($aFieldValues)[0])) {
+        if (is_array($aFieldValues) && isset(array_values($aFieldValues)[0])) {
           $value = array_values($aFieldValues)[0];
         } else {
-          $value = '';
+          $value = $aFieldValues;
         }
 
         $data[$k] = view('forms::items/input-text', ['item' => $item, 'required' => $required, 'field' => self::createInputText($item, $value)]);
@@ -130,10 +130,10 @@ class Builder {
         /** <input type="password"> */
       } else if ($item->field_type == self::$_TYPE_INPUT_PASSWORD) {
 
-        if (isset(array_values($aFieldValues)[0])) {
+        if (is_array($aFieldValues) && isset(array_values($aFieldValues)[0])) {
           $value = array_values($aFieldValues)[0];
         } else {
-          $value = '';
+          $value = $aFieldValues;
         }
 
         $data[$k] = view('forms::items/input-password', ['item' => $item, 'required' => $required, 'field' => self::createInputPassword($item, $value)]);
@@ -141,10 +141,10 @@ class Builder {
         /** <textarea></textarea> */
       } else if ($item->field_type == self::$_TYPE_TEXTAREA) {
 
-        if (isset(array_values($aFieldValues)[0])) {
+        if (is_array($aFieldValues) && isset(array_values($aFieldValues)[0])) {
           $value = array_values($aFieldValues)[0];
         } else {
-          $value = '';
+          $value = $aFieldValues;
         }
 
         $data[$k] = view('forms::items/textarea', ['item' => $item, 'required' => $required, 'field' => self::createTextarea($item, $value)]);
@@ -244,11 +244,11 @@ class Builder {
       foreach ($this->formItems as $item) {
 
         $aFieldValues = unserialize($item->field_value);
-
-        if (isset(array_values($aFieldValues)[0])) {
+       
+        if (is_array($aFieldValues) && isset(array_values($aFieldValues)[0])) {
           $value = array_values($aFieldValues)[0];
         } else {
-          $value = '';
+          $value = $aFieldValues;
         }
 
         if ($token == $item->field_name) {
