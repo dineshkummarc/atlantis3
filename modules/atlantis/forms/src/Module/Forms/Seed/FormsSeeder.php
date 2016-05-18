@@ -40,13 +40,13 @@ class FormsSeeder extends \Illuminate\Database\Seeder {
     $data = $this->getData();
 
     foreach ($data as $row) {
-      DB::table('forms')->insert($row);
+      \DB::table('forms')->insert($row);
     }
 
     $dataItems = $this->getDataItems();
 
     foreach ($dataItems as $row) {
-      DB::table('forms_items')->insert($row);
+      \DB::table('forms_items')->insert($row);
     }
   }
 
