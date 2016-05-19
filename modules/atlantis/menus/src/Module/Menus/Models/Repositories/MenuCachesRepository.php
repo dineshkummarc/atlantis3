@@ -30,7 +30,7 @@ class MenuCachesRepository {
 
     if ($model == NULL) {
       //create cache
-      \Atlantis\Helpers\MenuBuilder::makeCache($menu_id);
+      \Module\Menus\Helpers\MenuBuilder::makeCache($menu_id);
       return MenuCaches::where('menu_id', '=', $menu_id)->get()->first();
     } else {
       return $model;
