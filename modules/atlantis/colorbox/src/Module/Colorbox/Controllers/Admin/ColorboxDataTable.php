@@ -1,11 +1,11 @@
 <?php
 
-namespace Module\Forms\Controllers\Admin;
+namespace Module\Colorbox\Controllers\Admin;
 
-use Module\Forms\Models\Forms;
+use Module\Colorbox\Models\Colorbox;
 use Illuminate\Support\Facades\DB;
 
-class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface {
+class ColorboxDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface {
 
   public function __construct() {
 
@@ -19,7 +19,7 @@ class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
 
     return [
         [
-            'title' => '<span class="fa fa-check-square-o"></span>',
+            'title' => '<span class="fa fa-check-square-o select-all"></span>',
             'class-th' => 'checkbox no-sort',
             'class-td' => 'checkbox',
             'key' => 'checkbox',
@@ -79,7 +79,7 @@ class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
   public function bulkActions() {
 
     return [
-        'url' => 'admin/modules/forms/bulk-action',
+        'url' => 'admin/modules/colorbox/bulk-action',
         'actions' => [
             [
                 'name' => 'Delete',
@@ -91,7 +91,7 @@ class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
 
   public function getData(\Illuminate\Http\Request $request) {
 
-    $model = DB::table('forms');
+    $model = DB::table('colorbox');
 
     /*
      * SEARCH
@@ -144,14 +144,14 @@ class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
           'checkbox' => '<span data-atl-checkbox>' . \Form::checkbox($obj->id, NULL, FALSE, ['data-id' => $obj->id]) . '</span>',
           'id' => $obj->id,
           'name' => $this->nameTd($obj),
-          'func' => htmlentities('<div data-pattern-func="module:forms@build-' . $obj->id . '"></div>'),
+          'func' => htmlentities('<div data-pattern-func="module:colorbox@build-' . $obj->id . '"></div>'),
           'updated_at' => $obj->updated_at
       ];
     }
 
     return response()->json([
                 'drow' => $request->get('draw'),
-                'recordsTotal' => Forms::count(),
+                'recordsTotal' => Colorbox::count(),
                 'recordsFiltered' => $count,
                 'data' => $data
     ]);
@@ -160,12 +160,12 @@ class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
   private function nameTd($obj) {
 
     return '<span class="tags hidden">tags</span>
-                    <a class="item" href="/admin/modules/forms/edit/' . $obj->id . '">' . $obj->name . '</a>
+                    <a class="item" href="/admin/modules/colorbox/edit/' . $obj->id . '">' . $obj->name . '</a>
                     <span class="actions">
-                      <a data-tooltip title="Edit Form" href="/admin/modules/forms/edit/' . $obj->id . '" class="icon icon-Edit top"></a> 
-                      <a data-open="deleteForm' . $obj->id . '" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Delete Form" class="icon icon-Delete top "></a>
+                      <a data-tooltip title="Edit Item" href="/admin/modules/colorbox/edit/' . $obj->id . '" class="icon icon-Edit top"></a> 
+                      <a data-open="deleteItem' . $obj->id . '" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Delete Item" class="icon icon-Delete top "></a>
                     </span>' .
-            \Atlantis\Helpers\Modal::set('deleteForm' . $obj->id, 'Delete Form', 'Are you sure you want to delete ' . $obj->name, 'Delete', '/admin/modules/forms/delete/' . $obj->id);
+            \Atlantis\Helpers\Modal::set('deleteItem' . $obj->id, 'Delete Item', 'Are you sure you want to delete ' . $obj->name, 'Delete', '/admin/modules/colorbox/delete/' . $obj->id);
   }
 
   /**
