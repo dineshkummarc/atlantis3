@@ -60,6 +60,9 @@
           <li class="tabs-title is-active main">
             <!-- data-status: active, disabled or dev -->
             <a href="#panel1" aria-selected="true">{{ $model->name }}</a>
+            <span class="actions">
+              <a data-open="deleteItem" data-tooltip title="Delete Item" class="icon icon-Delete top"></a>
+            </span>
           </li>
         </ul>
         <div class="tabs-content" data-tabs-content="example-tabs">
@@ -124,6 +127,7 @@
     <div class="columns">
     </div>
   </div>
+  {!! \Atlantis\Helpers\Modal::set('deleteItem', 'Delete Item', 'Are you sure you want to delete ' . $model->name, 'Delete', '/admin/modules/colorbox/delete/' . $model->id) !!}
 </footer>
 @endif
 @stop
