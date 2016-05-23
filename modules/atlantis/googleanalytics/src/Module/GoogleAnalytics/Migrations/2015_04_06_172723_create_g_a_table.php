@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * Migration: GoogleAnalytics
+ * @Atlantis CMS
+ * v 1.0
+ */
 
 use Illuminate\Database\Migrations\Migration;
 

@@ -1,6 +1,12 @@
 <?php
 
-namespace Module\GoogleAnalytics\Seed;
+ namespace Module\GoogleAnalytics\Seed;
+
+/*
+ * Seed: GoogleAnalytics
+ * @Atlantis CMS
+ * v 1.0
+ */
 
 class GoogleAnalyticsSeeder extends \Illuminate\Database\Seeder {
   
