@@ -4,14 +4,11 @@ namespace Module\Blog\Models;
 
  class Search extends \Atlantis\Models\Base {
 
-   public static function get( $search ) {
+   public static function get($search) {
      
-     //DO all operations here , need to return an array with name / url keypair 
+     //DO all operations here , need to return an array with  url / name keypair
      
-     return [  "demo page" => "/demo-page" ]; 
-     
-     
-   }
-   
+     return [config('blog.config.anchor_url') . '/demo-page' => 'name'];    
+   }   
    
  }
