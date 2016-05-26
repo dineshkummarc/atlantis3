@@ -32,6 +32,7 @@ class MenusSeeder extends \Illuminate\Database\Seeder {
                   'adminURL' => $setup['adminURL'],
                   'icon' => $setup['icon'],
                   'active' => 1,
+                  'description' => $setup['description'],
                   'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                   'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
       ]);

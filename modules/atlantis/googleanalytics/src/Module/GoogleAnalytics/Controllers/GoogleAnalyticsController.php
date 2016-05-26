@@ -21,13 +21,12 @@ class GoogleAnalyticsController extends Controller {
   public static function getTrackingCode() {   
 
     $result = GoogleAnalyticsRepository::get(1);
-
+    
     if ($result->active == "GTM") {
 
-      return \View::make('googleanalytics::gtm', [ 'tag_manager_code' => $result->tag_manager_code]);
+      return view('googleanalytics::gtm', ['tag_manager_code' => $result->tag_manager_code]);
     } else {
-
-      return \View::make('googleanalytics::ga', [ 'tracking_code' => $result->tracking_code]);
+      return view('googleanalytics::ga', ['tracking_code' => $result->tracking_code]);
     }
   }
 

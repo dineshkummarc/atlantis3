@@ -17,7 +17,7 @@ class GoogleAnalyticsEvent extends \Illuminate\Support\Facades\Event {
   public function trackingCode() {
 
     $t = \App::make('Transport');
-
+    
     $t->setEventValue("page.tracking_header", array("name" => \Module\GoogleAnalytics\Controllers\GoogleAnalyticsController::getTrackingCode(), "weight" => 10));
   }
 
