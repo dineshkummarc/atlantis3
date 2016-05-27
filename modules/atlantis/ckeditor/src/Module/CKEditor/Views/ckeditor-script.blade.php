@@ -8,13 +8,9 @@
 
   });
 
-  CKEDITOR.on('instanceReady', function (ev) {
+  //CKEDITOR.on('instanceReady', function (ev) {
     // Ends self-closing tags the HTML4 way, like <br>.
-    ev.editor.dataProcessor.writer.selfClosingEnd = '>';
-  });
-
-  $.each(CKEDITOR.dtd.$removeEmpty, function (i, value) {
-    CKEDITOR.dtd.$removeEmpty[i] = 0;
-  });
+    //ev.editor.dataProcessor.writer.selfClosingEnd = '>';
+  //});
 
 </script>

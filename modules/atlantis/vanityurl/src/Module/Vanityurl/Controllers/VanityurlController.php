@@ -1,26 +1,29 @@
 <?php
 
-namespace Module\Vanityurl\Controllers;
+namespace Module\VanityUrl\Controllers;
+
+/*
+ * Controller: VanityUrl
+ * @Atlantis CMS
+ * v 1.0
+ */
 
 use App\Http\Controllers\Controller;
+use Module\VanityUrl\Models\Repositories\VanityUrlRepository;
 
-use Illuminate\Support\Facades\Redirect;
+class VanityUrlController extends Controller {
 
-class VanityurlController extends Controller {
-  
-  public function redirect($path) {
+  public function __construct() {
     
-      $model = new \Module\Vanityurl\Models\Vanity(); 
-      
-      $result = $model::where("source_url" , "=" , $path)->first(); 
-      
-      if ( $result ) {
-
-           return Redirect( $result->dest_url )->send();
-           
-      }
-      
   }
 
+  public function redirect($path) {
+
+    $result = VanityUrlRepository::findSourceURL($path);
+    
+    if ($result != NULL) {
+      return redirect($result->dest_url)->send();
+    }
+  }
 
 }

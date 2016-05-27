@@ -1,19 +1,27 @@
 <?php
 
-namespace Module\Vanityurl\Seed;
+ namespace Module\VanityUrl\Seed;
 
-class VanityurlSeeder extends \Illuminate\Database\Seeder {
-  
-  public function run() {
-    
-     $setup = require( base_path(). '/modules/atlantis/vanityurl/src/Module/Vanityurl/Setup/Setup.php');
-    
+/*
+ * Seed: VanityUrl
+ * @Atlantis CMS
+ * v 1.0
+ */
+
+class VanityUrlSeeder extends \Illuminate\Database\Seeder
+{
+
+  public function run()
+  {
+
+     $setup = require(base_path(). '/modules/atlantis/vanityurl/src/Module/VanityUrl/Setup/Setup.php');
+
      //check for the module with the same name
     $result = \DB::table("modules")
-            ->where("name", "=", "VanityUrl")->first();
-    
+            ->where("name", "=", $setup['name'])->first();
+
     if (is_null($result)) {
-      
+
       \DB::table("modules")
               ->insert([
                   'name' => $setup['name'],
@@ -30,9 +38,8 @@ class VanityurlSeeder extends \Illuminate\Database\Seeder {
                   'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                   'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
               ]);
-      
-    }
-    
- }
- 
+
+     }
+  }
+
 }

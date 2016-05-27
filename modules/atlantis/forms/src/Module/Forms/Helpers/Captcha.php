@@ -81,7 +81,8 @@ class Captcha {
 
         if (is_file($configFile)) {
 
-          $captchaConfig = require_once($configFile);
+          $captchaConfig = require($configFile);
+         
           array_push($aCaptchas, $captchaConfig);
         }
       }
@@ -93,15 +94,16 @@ class Captcha {
   public static function getCaptchaConfig($captchaNamespace) {
 
     $formsSetup = config('forms.setup');
-
+    
     $aConfigs = self::getAll($formsSetup);
-
+ 
     foreach ($aConfigs as $config) {
       if ($captchaNamespace == $config['namespace']) {
+        
         return $config;
       }
     }
-    
+   
     abort(404, 'Captcha config not found by namespace: ' . $captchaNamespace);
   }
 
