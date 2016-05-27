@@ -35,13 +35,12 @@ class MenuBuilder {
         }
       }
     }
-    
-    if (isset($aHelper)) {      
+
+    if (isset($aHelper)) {
       return $this->getList($aHelper, $aAllIDs);
     } else {
       return $aAllIDs;
     }
-    
   }
 
   public function getMenu($nMenuID, $forCache = FALSE) {
@@ -50,7 +49,7 @@ class MenuBuilder {
     $aID = array();
 
     $aID = $this->getList([$nMenuID], array());
-   
+
     array_push($aID, intval($nMenuID));
 
     $list_menu_id = array_unique($aID);
@@ -159,19 +158,19 @@ class MenuBuilder {
 
           if (strstr($MenuItem['item_url'], "http") || strstr($MenuItem['item_url'], "javascript") || strstr($MenuItem['item_url'], "#")) {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" onclick=' . $MenuItem["onclick"] . ' ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" onclick=' . $MenuItem["onclick"] . ' ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
           } else {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="' . url() . '/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" onclick=' . $MenuItem["onclick"] . ' ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" onclick=' . $MenuItem["onclick"] . ' ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
           }
         } else {
 
           if (strstr($MenuItem['item_url'], "http") || strstr($MenuItem['item_url'], "javascript") || strstr($MenuItem['item_url'], "#")) {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
           } else {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="' . url() . '/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
           }
         }
 
@@ -206,9 +205,15 @@ class MenuBuilder {
     //libxml_clear_errors();
 
     $xpath = new \DOMXpath($dom);
+   
+    $path = request()->path();
 
-    $elements = $xpath->query("//a[@href='" . request()->url() . "']");
-
+    if ($path == '/') {
+      $elements = $xpath->query("//a[@href='" . $path . "']");
+    } else {
+      $elements = $xpath->query("//a[@href='/" . $path . "']");
+    }
+    
     $elements1 = $xpath->query("//a[@href='" . request()->url() . "']");
 
     if ($elements->length > 0) {
