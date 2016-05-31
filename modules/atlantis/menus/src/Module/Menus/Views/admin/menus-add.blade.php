@@ -59,6 +59,11 @@
                       <span class="icon icon-Help top" data-tooltip title="Css class for the menu."></span> {!! Form::input('text', 'css', old('css'), ['id'=>'css']) !!}
                     </label>
                   </div>
+                  <div class="columns medium-4">
+                    <label for="menu_attributes">Menu Attributes
+                      {!! Form::input('text', 'menu_attributes', old('menu_attributes'), ['id'=>'menu_attributes']) !!}
+                    </label>
+                  </div>
                   <div class="columns medium-4 end">
                     <label for="element_id">Menu Element ID
                       <span class="icon icon-Help top" data-tooltip title="ID of the menu."></span> {!! Form::input('text', 'element_id', old('element_id'), ['id'=>'element_id']) !!}

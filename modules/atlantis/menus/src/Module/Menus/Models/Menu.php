@@ -17,6 +17,7 @@ class Menu extends Base {
   protected $fillable = [
       'name',
       'css',
+      'menu_attributes',
       'element_id'
   ];
 

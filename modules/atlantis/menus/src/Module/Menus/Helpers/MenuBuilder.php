@@ -67,6 +67,7 @@ class MenuBuilder {
       $aMenuItems[$menu->item_id]['mid'] = $menu->menu_id;
       $aMenuItems[$menu->item_id]['menu_name'] = $menu->name;
       $aMenuItems[$menu->item_id]['menu_css'] = $menu->css;
+      $aMenuItems[$menu->item_id]['menu_attributes'] = $menu->menu_attributes;
       $aMenuItems[$menu->item_id]['menu_element_id'] = $menu->element_id;
 
       $aMenuItems[$menu->item_id]['id'] = $menu->item_id;
@@ -106,7 +107,7 @@ class MenuBuilder {
       }
     }
     reset($aMenuItems);
-
+    
     $menu = $this->listMenu($aMenuItems, "0", key($aMenuItems));
 
     if ($forCache) {
@@ -132,10 +133,16 @@ class MenuBuilder {
     $i = 1;
     $sClass = "";
     $sCssID = "";
+    $menuAttr = "";
 
     if ($menuID != "") {
 
       $sClass = "class='" . $aMenuItems[$menuID]["menu_css"] . " id" . $aMenuItems[$menuID]["mid"] . "'";
+      
+      if (!empty($aMenuItems[$menuID]["menu_attributes"])) {
+        $menuAttr = ' ' . $aMenuItems[$menuID]["menu_attributes"];
+      }
+      
       if (!empty($aMenuItems[$menuID]["menu_element_id"])) {
         $sCssID = "id='" . $aMenuItems[$menuID]["menu_element_id"] . "'";
       } else {
@@ -145,9 +152,9 @@ class MenuBuilder {
 
     if ($aMenuItems[$menuID]["menu_css"] == "" && $aMenuItems[$menuID]["menu_element_id"] == "") {
 
-      $output = "\n" . '<ul>' . "\n";
+      $output = "\n" . '<ul' . $menuAttr . '>' . "\n";
     } else {
-      $output = "\n" . '<ul ' . $sClass . " " . $sCssID . ">" . "\n";
+      $output = "\n" . '<ul ' . $sClass . ' ' . $sCssID . '' . $menuAttr . '>' . "\n";
     }
 
     foreach ($aMenuItems as $MenuItem) {
@@ -158,19 +165,19 @@ class MenuBuilder {
 
           if (strstr($MenuItem['item_url'], "http") || strstr($MenuItem['item_url'], "javascript") || strstr($MenuItem['item_url'], "#")) {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" onclick=' . $MenuItem["onclick"] . ' ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li class="' . $MenuItem['class'] . '" id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="' . $MenuItem['item_url'] . '" onclick="' . $MenuItem["onclick"] . '" ' . $MenuItem['attributes'] . 'target="_blank">' . htmlentities($MenuItem['item_label']) . '</a>';
           } else {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" onclick=' . $MenuItem["onclick"] . ' ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li class="' . $MenuItem['class'] . '" id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" onclick="' . $MenuItem["onclick"] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
           }
         } else {
 
           if (strstr($MenuItem['item_url'], "http") || strstr($MenuItem['item_url'], "javascript") || strstr($MenuItem['item_url'], "#")) {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li class="' . $MenuItem['class'] . '" id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="' . $MenuItem['item_url'] . '" ' . $MenuItem['attributes'] . 'target="_blank">' . htmlentities($MenuItem['item_label']) . '</a>';
           } else {
 
-            $output .= '<li id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" class="' . $MenuItem['class'] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
+            $output .= '<li class="' . $MenuItem['class'] . '" id="' . str_replace(" ", "-", strtolower($MenuItem['menu_name'])) . '-item' . $i . '" ><a href="/' . $MenuItem['item_url'] . '" ' . $MenuItem['attributes'] . '>' . htmlentities($MenuItem['item_label']) . '</a>';
           }
         }
 
@@ -205,7 +212,7 @@ class MenuBuilder {
     //libxml_clear_errors();
 
     $xpath = new \DOMXpath($dom);
-   
+
     $path = request()->path();
 
     if ($path == '/') {
@@ -213,21 +220,31 @@ class MenuBuilder {
     } else {
       $elements = $xpath->query("//a[@href='/" . $path . "']");
     }
-    
+
     $elements1 = $xpath->query("//a[@href='" . request()->url() . "']");
 
     if ($elements->length > 0) {
 
       $li = $elements->item(0)->parentNode;
 
-      $li->setAttribute("class", "active");
+      $liClass = $li->getAttribute('class');
+      if (empty($liClass)) {
+        $li->setAttribute("class", "active");
+      } else {
+        $li->setAttribute('class', $liClass . ' active');
+      }
 
       return $dom->saveXML();
     } elseif ($elements1->length > 0) {
 
       $li = $elements1->item(0)->parentNode;
 
-      $li->setAttribute("class", "active");
+      $liClass = $li->getAttribute('class');
+      if (empty($liClass)) {
+        $li->setAttribute("class", "active");
+      } else {
+        $li->setAttribute('class', $liClass . ' active');
+      }
 
       return $dom->saveXML();
     } else {

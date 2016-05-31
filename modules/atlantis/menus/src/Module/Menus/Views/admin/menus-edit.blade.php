@@ -87,6 +87,11 @@
                       {!! Form::input('text', 'css', old('css', $menu->css), ['id'=>'css']) !!}
                     </label>                    
                   </div>
+                  <div class="columns medium-4">
+                    <label for="menu_attributes">Menu Attributes
+                      {!! Form::input('text', 'menu_attributes', old('menu_attributes', $menu->menu_attributes), ['id'=>'menu_attributes']) !!}
+                    </label>
+                  </div>
                   <div class="columns large-4">
                     <label for="element_id">Menu Element ID
                       <span class="icon icon-Help top" data-tooltip title="ID of the menu."></span>
