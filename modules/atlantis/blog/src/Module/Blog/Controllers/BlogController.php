@@ -4,39 +4,42 @@ namespace Module\Blog\Controllers;
 
 use App\Http\Controllers\Controller;
 use Module\Blog\Models\Repositories\BlogRepository;
+use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller {
-  
-  private static $title;
 
+  public static $title;
   private $config;
-  
-  public function __construct() {
-     //$this->middleware('auth');
 
-     $this->config = config('blog.config');
-    
+  public function __construct() {
+
+    $this->config = config('blog.config');
   }
-  
-  public static  function getTitle() {
+
+  /**
+   * <div data-pattern-func="module:blog@single"></div>
+   */
+  public function single() {
     
-       return self::$title;
+    $base_route = \Route::input('page');
+
+    $entry = DB::table('blog')->where(DB::raw('CONCAT("' . $this->config['anchor_url'] . '/", url)'), "/" . $base_route)->first();
+
+    if (count($entry)) {
+
+      self::$title = $entry->title;
+
+      return view('blog::blog-single', ['data' => $entry]);
+    } else {
+      return redirect('404');
+    }
   }
-  
-  public function index($aParams = NULL) {
-            
-        self::$title = "my Cool Blog entry";
-    
-        //return \View::make('atlantis::shell' ,  [ 'msg'  => "Demo" ] );
-    
-        return "blog index method " . json_encode($aParams);
-  }
-  
-  /*
+
+  /**
    * <div data-pattern-func="module:blog@all"></div>
    */
   public function all() {
-    
+
     $oBlogs = BlogRepository::getAll();
 
     $aParams = array();
@@ -45,7 +48,6 @@ class BlogController extends Controller {
     $aParams['anchor_url'] = $this->config['anchor_url'];
 
     return view('blog::blog-list', $aParams);
-    
   }
 
 }

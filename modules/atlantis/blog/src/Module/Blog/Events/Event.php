@@ -11,7 +11,7 @@ class Event extends \Illuminate\Support\Facades\Event{
   
   
     public function subscribe($events) {
-    
+      
     $events->listen('page.title', 'Module\Blog\Events\Event@pageTitle');
     
   }
@@ -21,7 +21,7 @@ class Event extends \Illuminate\Support\Facades\Event{
     
      $t = \App::make('Transport');
      
-     $t->setEventValue("page.title", array("title" => \Module\Blog\Controllers\BlogController::getTitle() , "weight" => 10) );
+     $t->setEventValue("page.title", array("title" => \Module\Blog\Controllers\BlogController::$title , "weight" => 10) );
       
   }
 
