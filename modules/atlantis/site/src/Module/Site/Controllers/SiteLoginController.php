@@ -1,6 +1,6 @@
 <?php
 
-namespace Site\Controllers;
+namespace Module\Site\Controllers;
 
 use Atlantis\Controllers\SiteLoginController as BaseSiteLoginController; 
 
