@@ -7,7 +7,7 @@
     RewriteBase /
 
     # Redirect Trailing Slashes...
-    RewriteRule ^(.*?)\.(css|js|jpg|jpeg|png|pdf|eot|ttf|woff|woff2|otf|svg|eot|gif)$ - [L,R=301]
+    RewriteRule ^(.*?)\.(css|js|jpg|jpeg|JPEG|png|pdf|eot|ttf|woff|woff2|otf|svg|eot|gif)$ - [L,R=301]    
 
     RewriteRule ^(.*)/$ /$1 [L,R=301]
 

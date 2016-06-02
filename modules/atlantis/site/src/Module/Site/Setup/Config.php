@@ -16,8 +16,5 @@ return [
     *[
     *    'Module\Site\CustomController' => 'Module\\Site\\Controllers\\CustomController'
     *]
-    */
-    'appBind' => [
-        'Module\Site' => 'Module\\Site\\Controllers\\SiteController'
-    ]
+    */    
    ];
