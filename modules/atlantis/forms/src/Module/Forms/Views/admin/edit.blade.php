@@ -217,7 +217,7 @@
                   </div>
                   <div class="columns medium-4">
                     <label for="email_from">Email From
-                      {!! Form::input('text', 'email_from', old('email_from', $oModel->email_form), ['id' => 'email_from']) !!}
+                      {!! Form::input('text', 'email_from', old('email_from', $oModel->email_from), ['id' => 'email_from']) !!}
                     </label>                    
                   </div>
                   <div class="columns medium-4 end">

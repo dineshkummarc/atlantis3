@@ -25,7 +25,7 @@ class FormsController extends Controller {
    * <div data-pattern-func="module:forms@build-1"></div>
    */
   public function build($aParams = NULL) {
-    
+
     if (isset($aParams[0])) {
 
       $form_id = $aParams[0];
@@ -91,6 +91,8 @@ class FormsController extends Controller {
          */
         \Event::fire('form.submitted', [request()->all()]);
 
+        $this->sendMail($form, request()->all());
+
         if (empty($form->redirect_url)) {
 
           return redirect()->back()->send();
@@ -154,6 +156,8 @@ class FormsController extends Controller {
          */
         \Event::fire('form.submitted', [request()->all()]);
 
+        $this->sendMail($form, request()->all());
+
         if (empty($form->redirect_url)) {
 
           return redirect()->back()->send();
@@ -172,6 +176,28 @@ class FormsController extends Controller {
     }
 
     return view('forms::form-builder-custom', $aData);
+  }
+
+  private function sendMail($form, $data) {
+
+    if ($form->email_check == 1) {
+
+      $aData['post'] = $data;
+      
+      $aMails = array_filter(explode(',', $form->emails));
+      
+      foreach ($aMails as $mail_to) {
+
+        \Illuminate\Support\Facades\Mail::send('forms::form-email', $aData, function ($message) use ($mail_to, $form) {
+     
+          if (empty($form->email_from)) {
+            $form->email_from = 'noreply@atlantis-cms.com';
+          }
+          
+        $message->to(trim($mail_to))->from($form->email_from, 'AtlantisCMS WebMaster')->subject($form->name . ' form');
+        });
+      }      
+    }
   }
 
 }
