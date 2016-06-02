@@ -187,8 +187,15 @@ class FormsAdminController extends AdminModulesController {
       //$aData['items'] = FormBuilder::getPostItems();
       //dd($aData);
       $oModel->edit($id, $aData);
+      
+      \Session::flash('success', 'Form ' . $request->get('name') . ' was edited');
+      
+      if ($request->get('_update')) {
+        return redirect('admin/modules/forms/edit/' . $id);
+      } else {
+        return redirect('admin/modules/forms');
+      }
 
-      return redirect('admin/modules/forms')->with('success', 'Success');
     } else {
       return redirect('admin/modules/forms/edit/' . $id)->withErrors($validator)->withInput();
     }

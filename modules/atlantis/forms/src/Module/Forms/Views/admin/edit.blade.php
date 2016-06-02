@@ -41,6 +41,9 @@
       <div class="columns">
         <div class="float-right">
           <div class="buttons">
+             <a href="/admin/modules/forms" class="back button tiny top primary" title="Go to Forms" data-tooltip>
+              <span class=" back icon icon-Goto"></span>
+            </a>
             {!! Form::input('submit', '_save_close', 'Save &amp; Close', ['class' => 'alert button', 'id'=>'save-close-btn']) !!}
             {!! Form::input('submit', '_update', 'Update', ['class' => 'alert button', 'id'=>'update-btn']) !!}
           </div>
