@@ -213,7 +213,7 @@ class Builder {
 
           if ($key == $err) {
 
-            $customBody = preg_replace('/{!!' . $err . '!!}/im', $err_message[0], $customBody);
+            $customBody = preg_replace('/{!!' . $err . '!!}/im', self::createErrorMsg($err_message[0]), $customBody);
           }
         }
         $customBody = preg_replace('/{!!' . $err . '!!}/im', '', $customBody);
@@ -400,6 +400,10 @@ class Builder {
     } else {
       return '<input type="submit" class="' . $form->btn_class . '" value="' . $form->btn_value . '">';
     }
+  }
+  
+  public static function createErrorMsg($error) {
+    return view('forms::items/error-msg', ['error' => $error]);
   }
 
   public static function getPostItems() {

@@ -236,7 +236,7 @@
                     <li class="accordion-item is-active" data-accordion-item>
                       <a href="#" class="accordion-title">Successful Submit Message</a>
                       <div class="accordion-content" data-tab-content>
-                        {!! Form::textarea('message', old('message', $oModel->messages), ['rows' => 5, 'id' => 'message']) !!}
+                        {!! Form::textarea('message', old('message', $oModel->message), ['rows' => 5, 'id' => 'message']) !!}
                       </div>
                     </li>
                     <li class="accordion-item" data-accordion-item>
