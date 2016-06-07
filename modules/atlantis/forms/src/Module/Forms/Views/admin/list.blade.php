@@ -55,9 +55,9 @@
             </a>
           </li> -->
           <li class="float-right list-filter">
-
+            <a data-open="configForms" class="alert button">Config</a>
             <a id="save-close-btn" class="alert button" href="/admin/modules/forms/add">Add Form</a>
-          </li>	
+          </li> 
         </ul>
         <div class="tabs-content" data-tabs-content="example-tabs">
           <div class="tabs-panel is-active" id="panel1">
@@ -93,6 +93,28 @@
   <div class="row">
     <div class="columns">
     </div>
+  </div>
+  <div class="reveal" id="configForms" data-reveal>
+    {!! Form::open(['url' => 'admin/modules/forms/update-config']) !!}    
+    <h1>Config</h1>
+
+    <hr>
+    <h5>ReCaptcha</h5>    
+    <p>Register API keys at <a href="https://www.google.com/recaptcha/admin" target="blank">https://www.google.com/recaptcha/admin</a></p>
+    <label for="re_captcha_site_key">Site Key
+      <span class="icon icon-Help top" data-tooltip title="Register API keys at https://www.google.com/recaptcha/admin"></span>
+      {!! Form::input('text', 're_captcha_site_key', old('re_captcha_site_key', isset($config['re_captcha_site_key']) ? $config['re_captcha_site_key'] : NULL), ['id'=>'re_captcha_site_key']) !!}
+    </label>    
+    <label for="re_captcha_secret">Secret
+      {!! Form::input('text', 're_captcha_secret', old('re_captcha_secret', isset($config['re_captcha_secret']) ? $config['re_captcha_secret'] : NULL), ['id'=>'re_captcha_secret']) !!}
+    </label>
+    <hr>
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <input type="submit" name="_update_config" value="Update" id="update-btn" class="success button">
+    {!! Form::close() !!}
   </div>
 </footer>
 @stop

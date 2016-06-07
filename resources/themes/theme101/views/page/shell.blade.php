@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@section('title') {!! $_page->seo_title !!} @show</title>
+    <title>@yield('title'){!! $_page->seo_title !!}</title>
 
     @section('headTags')
     @foreach($_headTags as $tag)
@@ -25,47 +25,8 @@
 
   </head>
   <body class="{!! $body_class !!}">
-
-    @if (config('atlantis.show_shortcut_bar') && auth()->user() != NULL && auth()->user()->hasRole('admin-login'))
-    <div class="admin-shortcut">
-      <link rel="stylesheet" href="vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/css/admin-bar.css"> 
-      <div class="row">
-        <div class="columns">
-          <div class="top-bar" id="user-menu">
-            <div class="top-bar-left user-menu">
-              <div class="account">
-                <span class="icon icon-User left"></span>
-                <div class="username">{{ auth()->user()->name }}</div>
-                <div class="actions">
-                  <a href="/admin/users/edit/{{ auth()->user()->id }}">Setings</a> / <a href="/admin/logout">Loogout</a>
-                </div>
-              </div>
-              <h3 class="menu-text left">{{ config('atlantis.site_name') }}</h3>
-            </div>
-            <span data-responsive-toggle="main-nav">
-              <span class="menu-icon dark" data-toggle></span>
-            </span>
-            <div id="main-nav" class="top-bar-right">
-              <ul class="dropdown menu" data-dropdown-menu>
-                <li class="active"><a href="#">Pages</a></li>
-                <li><a href="#">Patterns</a></li>
-                <li><a href="#">Modules</a>
-                  <ul class="menu vertical">
-                    <li><a href="#">One</a></li>
-                    <li><a href="#">Two</a></li>
-                    <li><a href="#">Three</a></li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="#" class="icon icon-Tools"></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>       
-    </div>
-    @endif
+    
+    {!! MenuNavigation::setShortcutBar() !!}
 
     @section('tracking_header')
     {!! $tracking_header !!}
@@ -85,7 +46,7 @@
     @section('js')
     @foreach( $_js as $js )
     {!! $js !!}
-    @endforeach     
+    @endforeach
     @show
 
   </body>

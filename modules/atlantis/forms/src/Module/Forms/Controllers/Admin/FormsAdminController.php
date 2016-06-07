@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Module\Forms\Helpers\Builder as FormBuilder;
 use Module\Forms\Helpers\Captcha as CaptchaHelper;
 use Module\Forms\Models\Repositories\FormsItemsRepository;
+use Module\Forms\Models\Repositories\FormsConfigRepository;
 
 class FormsAdminController extends AdminModulesController {
 
@@ -39,7 +40,9 @@ class FormsAdminController extends AdminModulesController {
     }
 
     $oModels = FormsRepository::getAll();
-
+    
+    $aData['config'] = FormsConfigRepository::getConfig();
+   
     $aData['oModels'] = $oModels;
 
     return view('forms-admin::admin/list', $aData);
@@ -222,6 +225,13 @@ class FormsAdminController extends AdminModulesController {
     $model = \Module\Forms\Models\Repositories\FormsResultsRepository::getResults($id);
 
     \Module\Forms\Helpers\Export::toCSV($model, $id);
+  }
+  
+  public function postUpdateConfig(Request $request) {
+    $model = new FormsConfigRepository();
+    $model->updateConfig($request->all());
+    
+    return redirect()->back()->with('success', 'Config was updated');
   }
 
   private function getCaptchasForSelect($aCaptchas) {

@@ -9,8 +9,8 @@ class ReCaptchaAdapter implements \Module\Forms\Interfaces\CaptchaAdapterInterfa
    * 
    * @var String
    */
-  private $site_key = '6LduMRkTAAAAABdjo1UHU-7WIFzeXu8z5Augq8ZI';
-  private $secret = '6LduMRkTAAAAAC6sp-dCNJRzbtYkIj2t7rxgISGQ';
+  private $site_key = NULL;
+  private $secret = NULL;
 
   /**
    * reCAPTCHA supported 40+ languages listed here: https://developers.google.com/recaptcha/docs/language
@@ -23,6 +23,13 @@ class ReCaptchaAdapter implements \Module\Forms\Interfaces\CaptchaAdapterInterfa
 
   public function build($captchaPath) {
 
+    $this->site_key = \Module\Forms\Models\Repositories\FormsConfigRepository::getConfigKey('re_captcha_site_key');
+    $this->secret = \Module\Forms\Models\Repositories\FormsConfigRepository::getConfigKey('re_captcha_secret');
+    
+    if (empty($this->site_key) || empty($this->secret)) {
+      return 'Please set site key and secret';
+    }
+    
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->has('g-recaptcha-response')) {
 
       require_once $captchaPath . 'ReCaptcha/vendor/src/autoload.php';
