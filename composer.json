@@ -36,6 +36,7 @@
 		],
 		"post-create-project-cmd": [
 			"php artisan key:generate",
+                        "php artisan atlantis:key:generate",
 			"chmod -R 775 storage",
                         "chmod -R 775 resources/media",
                         "chmod -R 775 bootstrap/cache",
