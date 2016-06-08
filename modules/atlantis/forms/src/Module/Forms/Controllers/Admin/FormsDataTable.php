@@ -162,6 +162,7 @@ class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
     return '<span class="tags hidden">tags</span>
                     <a class="item" href="/admin/modules/forms/edit/' . $obj->id . '">' . $obj->name . '</a>
                     <span class="actions">
+                    <a data-tooltip title="Export Form to CSV" href="/admin/modules/forms/export-csv/' . $obj->id . '" class="icon icon-Export top"></a> 
                       <a data-tooltip title="Edit Form" href="/admin/modules/forms/edit/' . $obj->id . '" class="icon icon-Edit top"></a> 
                       <a data-open="deleteForm' . $obj->id . '" data-tooltip aria-haspopup="true" data-disable-hover="false" tabindex="1" title="Delete Form" class="icon icon-Delete top "></a>
                     </span>' .
