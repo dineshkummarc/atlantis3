@@ -130,3 +130,11 @@ a > img {
 	border: none;
 	outline: 1px solid #0782C1;
 }
+
+[data-pattern-id], [data-pattern-func], [data-pattern-name], [data-storage] {
+   border:1px solid red;
+   margin-bottom:5px;
+   padding:2px 5px;
+   font-style:italic;
+   background-color:#C9C9C9 ;
+}
