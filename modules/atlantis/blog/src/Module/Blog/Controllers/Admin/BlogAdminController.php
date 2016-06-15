@@ -222,5 +222,5 @@ class BlogAdminController extends AdminModulesController {
 
     return redirect()->back();
   }
-
+  
 }

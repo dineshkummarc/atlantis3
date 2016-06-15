@@ -1,6 +1,5 @@
 <?php
 
-
 /*
  * Setup: Forms
  * @Atlantis CMS

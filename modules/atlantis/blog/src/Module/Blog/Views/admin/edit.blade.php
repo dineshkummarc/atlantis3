@@ -40,7 +40,7 @@
     <div class="row">
       <div class="columns">
         <div class="float-right">
-          <div class="buttons">
+          <div class="buttons">           
             {!! Form::input('submit', '_save_close', 'Save &amp; Close', ['class' => 'alert button', 'id'=>'save-close-btn']) !!}
             {!! Form::input('submit', '_update', 'Update', ['class' => 'alert button', 'id'=>'update-btn']) !!}
           </div>
@@ -154,6 +154,9 @@
                   </ul>
                 </aside>
               </div>
+            </div>
+            <div class="row">
+              {!! \MediaTools::createGallerySelector($oBlog->gallery_id) !!}
             </div>
           </div>
         </div>

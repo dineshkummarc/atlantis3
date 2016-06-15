@@ -124,7 +124,7 @@
                     <label for="">Tags
                       {!! Form::input('text', 'tags', old('tags'), ['class' => 'inputtags']) !!}
                     </label>
-                  </div>
+                  </div>                  
                   <div class="columns end">
                     <label for="custom_form">Body
                       {!! \Editor::set('body', old('body'), ['rows' => 15, 'id' => 'custom_form']) !!}
@@ -155,6 +155,11 @@
                 </aside>
               </div>
             </div>
+
+            <div class="row">
+              {!! \MediaTools::createGallerySelector() !!}
+            </div>
+            
           </div>
         </div>
       </div>

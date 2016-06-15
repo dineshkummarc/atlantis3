@@ -24,7 +24,8 @@ class Blog extends Base {
       'use_blurb',
       'body_words',
       'posted_date',
-      'status'
+      'status',
+      'gallery_id'
   ];
 
 }
