@@ -168,7 +168,7 @@
   </section>
 </main>
 <footer>
-  @include('menus-admin::admin/help-sections/menus')
+  
   <div class="row">
     <div class="columns">
     </div>

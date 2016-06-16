@@ -38,7 +38,8 @@
 			"php artisan key:generate",
                         "php artisan atlantis:key:generate",
 			"chmod -R 775 storage",
-                        "chmod -R 775 resources/media",
+                        "chmod -R 775 resources",
+                        "chmod -R 775 modules",
                         "chmod -R 775 bootstrap/cache",
 			"php install-instructions.php"
 		]
