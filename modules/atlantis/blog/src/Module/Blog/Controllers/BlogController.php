@@ -20,7 +20,7 @@ class BlogController extends Controller {
    * <div data-pattern-func="module:blog@single"></div>
    */
   public function single() {
-    
+
     $base_route = \Route::input('page');
 
     $entry = DB::table('blog')->where(DB::raw('CONCAT("' . $this->config['anchor_url'] . '/", url)'), "/" . $base_route)->first();
@@ -42,9 +42,12 @@ class BlogController extends Controller {
 
     $oBlogs = BlogRepository::getAll();
 
+    $featureImages = \MediaTools::getFeaturedImages($oBlogs);
+
     $aParams = array();
 
     $aParams['oBlogs'] = $oBlogs;
+    $aParams['featureImages'] = $featureImages;
     $aParams['anchor_url'] = $this->config['anchor_url'];
 
     return view('blog::blog-list', $aParams);
