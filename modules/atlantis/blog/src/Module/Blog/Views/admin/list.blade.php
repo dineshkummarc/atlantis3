@@ -55,9 +55,9 @@
             </a>
           </li> -->
           <li class="float-right list-filter">
-
+            <a data-open="configBlog" class="alert button">Config</a>
             <a id="save-close-btn" class="alert button" href="/admin/modules/blog/add">New Entry</a>
-          </li>	
+          </li> 
         </ul>
         <div class="tabs-content" data-tabs-content="example-tabs">
           <div class="tabs-panel is-active" id="panel1">
@@ -94,5 +94,23 @@
     <div class="columns">
     </div>
   </div>
+  
+    <div class="reveal" id="configBlog" data-reveal>
+    {!! Form::open(['url' => 'admin/modules/blog/update-config']) !!}    
+    <h1>Config</h1>
+
+
+    <label for="anchor_url">Anchor url
+      {!! Form::input('text', 'anchor_url', old('anchor_url', isset($config['anchor_url']) ? $config['anchor_url'] : NULL), ['id'=>'anchor_url']) !!}
+    </label>
+ 
+
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <input type="submit" name="_update_config" value="Update" id="update-btn" class="success button">
+    {!! Form::close() !!}
+  </div>
+  
 </footer>
 @stop

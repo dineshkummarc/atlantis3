@@ -5,15 +5,16 @@ namespace Module\Blog\Controllers;
 use App\Http\Controllers\Controller;
 use Module\Blog\Models\Repositories\BlogRepository;
 use Illuminate\Support\Facades\DB;
+use Module\Blog\Models\Repositories\BlogConfigRepository;
 
 class BlogController extends Controller {
 
   public static $title;
-  private $config;
+  //private $config;
 
   public function __construct() {
 
-    $this->config = config('blog.config');
+    //$this->config = config('blog.config');
   }
 
   /**
@@ -23,7 +24,7 @@ class BlogController extends Controller {
 
     $base_route = \Route::input('page');
 
-    $entry = DB::table('blog')->where(DB::raw('CONCAT("' . $this->config['anchor_url'] . '/", url)'), "/" . $base_route)->first();
+    $entry = DB::table('blog')->where(DB::raw('CONCAT("' . BlogConfigRepository::getConfigKey('anchor_url') . '/", url)'), "/" . $base_route)->first();
 
     if (count($entry)) {
 
@@ -48,7 +49,7 @@ class BlogController extends Controller {
 
     $aParams['oBlogs'] = $oBlogs;
     $aParams['featuredImages'] = $featuredImages;
-    $aParams['anchor_url'] = $this->config['anchor_url'];
+    $aParams['anchor_url'] = BlogConfigRepository::getConfigKey('anchor_url');
 
     return view('blog::blog-list', $aParams);
   }

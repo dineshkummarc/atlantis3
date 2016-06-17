@@ -155,9 +155,7 @@
                 </aside>
               </div>
             </div>
-            <div class="row">
-              {!! \MediaTools::createGallerySelector($oBlog->gallery_id) !!}
-            </div>
+            {!! \MediaTools::createGallerySelector($oBlog->gallery_id) !!}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ namespace Module\Blog\Controllers\Admin;
 use Module\Blog\Models\Repositories\BlogRepository;
 use Illuminate\Http\Request;
 use Atlantis\Controllers\Admin\AdminModulesController;
+use Module\Blog\Models\Repositories\BlogConfigRepository;
 
 class BlogAdminController extends AdminModulesController {
 
@@ -45,6 +46,8 @@ class BlogAdminController extends AdminModulesController {
       $aData['msgError'] = \Session::get('error');
     }
 
+    $aData['config'] = BlogConfigRepository::getConfig();
+    
     return view('blog-admin::admin/list', $aData);
   }
 
@@ -221,6 +224,13 @@ class BlogAdminController extends AdminModulesController {
     }
 
     return redirect()->back();
+  }
+  
+  public function postUpdateConfig(Request $request) {
+    $model = new BlogConfigRepository();
+    $model->updateConfig($request->all());
+    
+    return redirect()->back()->with('success', 'Config was updated');
   }
   
 }

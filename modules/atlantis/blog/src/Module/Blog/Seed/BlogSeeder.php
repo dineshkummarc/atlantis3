@@ -29,9 +29,28 @@ class BlogSeeder extends \Illuminate\Database\Seeder {
                   'description' => $setup['description'],
                   'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
                   'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
-              ]);
-      
+              ]);      
     }
     
+    
+    $data = $this->getConfigData();
+
+    foreach ($data as $row) {
+      \DB::table('blog_config')->insert($row);
+    }    
  }
+ 
+ private function getConfigData() {
+
+    return [
+        [
+            'id' => 1,
+            'config_key' => 'anchor_url',
+            'config_value' => serialize('/blog'),
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]
+    ];
+  }
+ 
 }

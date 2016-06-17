@@ -155,10 +155,7 @@
                 </aside>
               </div>
             </div>
-
-            <div class="row">
-              {!! \MediaTools::createGallerySelector() !!}
-            </div>
+            {!! \MediaTools::createGallerySelector() !!}           
             
           </div>
         </div>

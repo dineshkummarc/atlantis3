@@ -18,10 +18,5 @@ return [
      */
     'appBind' => [
         'Module\Blog' => 'Module\\Blog\\Controllers\\BlogController'
-    ],
-    
-    /*
-     * change with the same page url for blog
-     */
-    'anchor_url' => '/blog'
+    ]   
 ];
