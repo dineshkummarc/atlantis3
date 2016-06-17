@@ -51,6 +51,8 @@ class FormsServiceProvider extends \Illuminate\Support\ServiceProvider {
     }
       
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'forms-admin');
+    
+    $this->loadTranslationsFrom(__DIR__ . '/../Languages', "forms");
   }
 
 }
