@@ -144,7 +144,7 @@ class FormsDataTable implements \Atlantis\Helpers\Interfaces\DataTableInterface 
           'checkbox' => '<span data-atl-checkbox>' . \Form::checkbox($obj->id, NULL, FALSE, ['data-id' => $obj->id]) . '</span>',
           'id' => $obj->id,
           'name' => $this->nameTd($obj),
-          'func' => htmlentities('<div data-pattern-func="module:forms@build-' . $obj->id . '"></div>'),
+          'func' => htmlentities('<div data-pattern-func="module:forms@build-' . $obj->id . ',true"></div>'),
           'updated_at' => $obj->updated_at
       ];
     }

@@ -15,17 +15,28 @@ class FormsRepository {
    */
   private $rules_create = [
       'name' => 'required',
-      'btn_value' => 'required'
+      'btn_value' => 'required',
+      'email_from' => 'email'
   ];
 
   public function validationCreate($data) {
 
-    return Validator::make($data, $this->rules_create);
+    $messages = [
+        'required' => trans('forms::validation.required'),
+        'email' => trans('forms::validation.email')
+    ];
+
+    return Validator::make($data, $this->rules_create, $messages);
   }
 
   public function validationEdit($data) {
 
-    return Validator::make($data, $this->rules_create);
+    $messages = [
+        'required' => trans('forms::validation.required'),
+        'email' => trans('forms::validation.email')
+    ];
+
+    return Validator::make($data, $this->rules_create, $messages);
   }
 
   public function add($data) {

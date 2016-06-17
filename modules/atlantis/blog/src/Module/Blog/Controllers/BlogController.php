@@ -42,12 +42,12 @@ class BlogController extends Controller {
 
     $oBlogs = BlogRepository::getAll();
 
-    $featureImages = \MediaTools::getFeaturedImages($oBlogs);
+    $featuredImages = \MediaTools::getFeaturedImages($oBlogs);
 
     $aParams = array();
 
     $aParams['oBlogs'] = $oBlogs;
-    $aParams['featureImages'] = $featureImages;
+    $aParams['featuredImages'] = $featuredImages;
     $aParams['anchor_url'] = $this->config['anchor_url'];
 
     return view('blog::blog-list', $aParams);

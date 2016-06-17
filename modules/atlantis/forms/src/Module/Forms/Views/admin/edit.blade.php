@@ -218,10 +218,16 @@
                       </div>
                     </label>                    
                   </div>
-                  <div class="columns medium-4">
-                    <label for="email_from">Email From
+                  <div class="columns medium-4">                   
+                    @if ($errors->get('email_from'))
+                    <label for="email_from">Email from (your@yourhost.com)<span class="form-error is-visible">{{ $errors->get('email_from')[0] }}</span>
+                       {!! Form::input('text', 'email_from', old('email_from', $oModel->email_from), ['id' => 'email_from']) !!}
+                    </label>
+                    @else
+                    <label for="email_from">Email from (your@yourhost.com)
                       {!! Form::input('text', 'email_from', old('email_from', $oModel->email_from), ['id' => 'email_from']) !!}
-                    </label>                    
+                    </label> 
+                    @endif        
                   </div>
                   <div class="columns medium-4 end">
                     <label for="emails">Form Email Recipients, Comma Separated
@@ -299,7 +305,7 @@
   </section>
 </main>
 <footer>
-  @include('forms-admin::admin/help-sections/forms')
+  @include('forms-admin::admin/help-sections/forms-add-edit')
   <div class="row">
     <div class="columns">
     </div>

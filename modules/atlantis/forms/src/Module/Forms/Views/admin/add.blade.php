@@ -41,7 +41,7 @@
       <div class="columns">
         <div class="float-right">
           <div class="buttons">
-             <a href="/admin/modules/forms" class="back button tiny top primary" title="Go to Forms" data-tooltip>
+            <a href="/admin/modules/forms" class="back button tiny top primary" title="Go to Forms" data-tooltip>
               <span class=" back icon icon-Goto"></span>
             </a>
             {!! Form::input('submit', '_save_close', 'Save &amp; Close', ['class' => 'alert button', 'id'=>'save-close-btn']) !!}
@@ -219,11 +219,17 @@
                         </label>
                       </div>
                     </label>                    
-                  </div>
+                  </div>                  
                   <div class="columns medium-4">
-                    <label for="email_from">Email From
+                    @if ($errors->get('email_from'))
+                    <label for="email_from">Email from (your@yourhost.com)<span class="form-error is-visible">{{ $errors->get('email_from')[0] }}</span>
                       {!! Form::input('text', 'email_from', old('email_from'), ['id' => 'email_from']) !!}
-                    </label>                    
+                    </label>
+                    @else
+                    <label for="email_from">Email from (your@yourhost.com)
+                      {!! Form::input('text', 'email_from', old('email_from'), ['id' => 'email_from']) !!}
+                    </label> 
+                    @endif
                   </div>
                   <div class="columns medium-4 end">
                     <label for="emails">Form Email Recipients, Comma Separated
@@ -301,7 +307,7 @@
   </section>
 </main>
 <footer>
-  @include('forms-admin::admin/help-sections/forms')
+  @include('forms-admin::admin/help-sections/forms-add-edit')
   <div class="row">
     <div class="columns">
     </div>

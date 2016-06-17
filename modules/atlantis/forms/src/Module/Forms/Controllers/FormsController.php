@@ -65,14 +65,14 @@ class FormsController extends Controller {
 
     $aData['form'] = $form;
     $aData['escaped_name'] = strtolower(str_replace(" ", "-", $form->name));
-    $aData['url'] = request()->url();
+    $aData['url'] = str_replace(request()->url(), '', request()->fullUrl());
     $aData['items'] = $formsBuilder->buildItems();
     $aData['custom_form_attributes'] = $formsBuilder->getCustomFormAttributes();
     $aData['submit_button'] = FormsBuilder::createSubmitButton($form);
     $aData['captcha'] = $captchaView;
 
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->get('form_id') == $form->id) {
-      //dd(request()->all());
+      
       $validator = new FormsValidator($formItems);
       $validator->make(request()->all());
 
@@ -80,7 +80,9 @@ class FormsController extends Controller {
       if ($captcha != NULL) {
         $captchaFails = $captcha->fails();
       }
-
+      
+       $form->redirect_url = str_replace('{{url}}', str_replace(request()->url(), '', request()->fullUrl()), $form->redirect_url);
+      
       if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
         FormsResultsRepository::saveResults(request());
@@ -94,7 +96,6 @@ class FormsController extends Controller {
         $this->sendMail($form, request()->all());
 
         if (empty($form->redirect_url)) {
-
           return redirect()->back()->send();
         } else {
           return redirect($form->redirect_url)->send();
@@ -106,7 +107,13 @@ class FormsController extends Controller {
           $messageBag = $captcha->getErrors($messageBag);
         }
 
-        return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        if (empty($form->redirect_url)) {
+          return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        } else {
+          return redirect($form->redirect_url)->withErrors($messageBag)->withInput()->send();
+        }
+        
+        
       }
     }
     return view('forms::form-builder', $aData);
@@ -134,7 +141,7 @@ class FormsController extends Controller {
     $aData['custom_form_attributes'] = $formsBuilder->getCustomFormAttributes();
     $aData['form'] = $form;
     $aData['escaped_name'] = strtolower(str_replace(" ", "-", $form->name));
-    $aData['url'] = request()->url();
+    $aData['url'] = str_replace(request()->url(), '', request()->fullUrl());
 
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->get('form_id') == $form->id) {
 
@@ -145,6 +152,8 @@ class FormsController extends Controller {
       if ($captcha != NULL) {
         $captchaFails = $captcha->fails();
       }
+      
+      $form->redirect_url = str_replace('{{url}}', str_replace(request()->url(), '', request()->fullUrl()), $form->redirect_url);
 
       if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
@@ -159,7 +168,6 @@ class FormsController extends Controller {
         $this->sendMail($form, request()->all());
 
         if (empty($form->redirect_url)) {
-
           return redirect()->back()->send();
         } else {
           return redirect($form->redirect_url)->send();
@@ -171,7 +179,11 @@ class FormsController extends Controller {
           $messageBag = $captcha->getErrors($messageBag);
         }
 
-        return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        if (empty($form->redirect_url)) {
+          return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        } else {
+          return redirect($form->redirect_url)->withErrors($messageBag)->withInput()->send();
+        }
       }
     }
 
