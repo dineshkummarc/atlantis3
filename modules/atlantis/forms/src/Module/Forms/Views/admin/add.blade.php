@@ -99,7 +99,16 @@
                   </div>
                   <div class="columns">
                     <hr>
-                    <div class="row">
+                    <div class="row">                      
+
+                      @if ($errors->get('field_value'))
+                      <div class="columns large-12 ">
+                        @foreach ($errors->get('field_value') as $filed_value_error)
+                        <div class="callout alert"><h5>{{ $filed_value_error }}</h5></div>
+                        @endforeach
+                      </div>
+                      @endif
+
                       <div class="columns large-12">
                         <label for="">Form Fields<a id="add-menu-item" class="button alert float-right">Add New Field</a></label>
                       </div>

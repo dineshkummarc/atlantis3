@@ -54,6 +54,9 @@ return [
     "url" => "The :attribute format is invalid.",
     "timezone" => "The :attribute must be a valid zone.",
     
-    'valid_url' => 'The url format is invalid.'
+    'valid_url' => 'The url format is invalid.',
+    'valid_checkbox' => 'Invalid checkbox value.',
+    'valid_select' => 'Invalid dropdown value.',
+    'valid_radio' => 'Invalid radio button value.',
    
 ];

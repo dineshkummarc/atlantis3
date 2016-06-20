@@ -200,6 +200,7 @@ class FormsAdminController extends AdminModulesController {
       }
 
     } else {
+      
       return redirect('admin/modules/forms/edit/' . $id)->withErrors($validator)->withInput();
     }
   }

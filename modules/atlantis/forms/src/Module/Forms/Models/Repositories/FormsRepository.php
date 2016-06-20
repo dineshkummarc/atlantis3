@@ -5,6 +5,7 @@ namespace Module\Forms\Models\Repositories;
 use Module\Forms\Models\Forms;
 use Illuminate\Support\Facades\Validator;
 use Module\Forms\Models\Repositories\FormsItemsRepository;
+use Module\Forms\Helpers\Builder;
 
 class FormsRepository {
 
@@ -16,14 +17,18 @@ class FormsRepository {
   private $rules_create = [
       'name' => 'required',
       'btn_value' => 'required',
-      'email_from' => 'email'
+      'email_from' => 'email',
+      'field_value' => 'valid_checkbox|valid_select|valid_radio'
   ];
 
   public function validationCreate($data) {
 
     $messages = [
         'required' => trans('forms::validation.required'),
-        'email' => trans('forms::validation.email')
+        'email' => trans('forms::validation.email'),
+        'valid_checkbox' => trans('forms::validation.valid_checkbox'),
+        'valid_select' => trans('forms::validation.valid_select'),
+        'valid_radio' => trans('forms::validation.valid_radio')
     ];
 
     return Validator::make($data, $this->rules_create, $messages);
@@ -33,7 +38,10 @@ class FormsRepository {
 
     $messages = [
         'required' => trans('forms::validation.required'),
-        'email' => trans('forms::validation.email')
+        'email' => trans('forms::validation.email'),
+        'valid_checkbox' => trans('forms::validation.valid_checkbox'),
+        'valid_select' => trans('forms::validation.valid_select'),
+        'valid_radio' => trans('forms::validation.valid_radio')
     ];
 
     return Validator::make($data, $this->rules_create, $messages);
@@ -136,6 +144,78 @@ class FormsRepository {
     } else {
       return FALSE;
     }
+  }
+
+  public function validCheckbox($attribute, $value, $parameters, $validator) {
+
+    $aFieldTypes = request()->get('field_type');
+
+    foreach ($aFieldTypes as $key => $type) {
+      if ($type == Builder::$_TYPE_CHECKBOX) {
+
+        $val = $value[$key];
+
+        $rows = explode("\n", $val);
+
+        foreach ($rows as $row) {
+
+          $aVal = explode('=>', $row);
+
+          if (!isset($aVal[1])) {
+            return FALSE;
+          }
+        }
+      }
+    }
+    return TRUE;
+  }
+
+  public function validSelect($attribute, $value, $parameters, $validator) {
+
+    $aFieldTypes = request()->get('field_type');
+
+    foreach ($aFieldTypes as $key => $type) {
+      if ($type == Builder::$_TYPE_SELECT) {
+
+        $val = $value[$key];
+
+        $rows = explode("\n", $val);
+
+        foreach ($rows as $row) {
+
+          $aVal = explode('=>', $row);
+
+          if (!isset($aVal[1])) {
+            return FALSE;
+          }
+        }
+      }
+    }
+    return TRUE;
+  }
+
+  public function validRadio($attribute, $value, $parameters, $validator) {
+
+    $aFieldTypes = request()->get('field_type');
+
+    foreach ($aFieldTypes as $key => $type) {
+      if ($type == Builder::$_TYPE_RADIO) {
+
+        $val = $value[$key];
+
+        $rows = explode("\n", $val);
+
+        foreach ($rows as $row) {
+
+          $aVal = explode('=>', $row);
+
+          if (!isset($aVal[1])) {
+            return FALSE;
+          }
+        }
+      }
+    }
+    return TRUE;
   }
 
 }

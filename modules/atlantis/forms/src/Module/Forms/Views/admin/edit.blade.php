@@ -41,7 +41,7 @@
       <div class="columns">
         <div class="float-right">
           <div class="buttons">
-             <a href="/admin/modules/forms" class="back button tiny top primary" title="Go to Forms" data-tooltip>
+            <a href="/admin/modules/forms" class="back button tiny top primary" title="Go to Forms" data-tooltip>
               <span class=" back icon icon-Goto"></span>
             </a>
             {!! Form::input('submit', '_save_close', 'Save &amp; Close', ['class' => 'alert button', 'id'=>'save-close-btn']) !!}
@@ -100,6 +100,15 @@
                   <div class="columns">
                     <hr>
                     <div class="row">
+
+                      @if ($errors->get('field_value'))
+                      <div class="columns large-12 ">
+                        @foreach ($errors->get('field_value') as $filed_value_error)
+                        <div class="callout alert"><h5>{{ $filed_value_error }}</h5></div>
+                        @endforeach
+                      </div>
+                      @endif
+
                       <div class="columns large-12">
                         <label for="">Form Fields<a id="add-menu-item" class="button alert float-right">Add New Field</a></label>
                       </div>
@@ -221,7 +230,7 @@
                   <div class="columns medium-4">                   
                     @if ($errors->get('email_from'))
                     <label for="email_from">Email from (your@yourhost.com)<span class="form-error is-visible">{{ $errors->get('email_from')[0] }}</span>
-                       {!! Form::input('text', 'email_from', old('email_from', $oModel->email_from), ['id' => 'email_from']) !!}
+                      {!! Form::input('text', 'email_from', old('email_from', $oModel->email_from), ['id' => 'email_from']) !!}
                     </label>
                     @else
                     <label for="email_from">Email from (your@yourhost.com)

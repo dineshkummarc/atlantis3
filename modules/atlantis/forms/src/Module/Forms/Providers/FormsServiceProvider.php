@@ -10,7 +10,7 @@ namespace Module\Forms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class FormsServiceProvider extends \Illuminate\Support\ServiceProvider {
+class FormsServiceProvider extends ServiceProvider {
 
   public function register() {
 
@@ -35,13 +35,16 @@ class FormsServiceProvider extends \Illuminate\Support\ServiceProvider {
     /** When form is submitted * */
     $t->registerEvent('form.submitted');
 
-    //routes for modules should be included in the register method to preceed the base routes
+    \Illuminate\Support\Facades\Validator::extend('valid_checkbox', 'Module\Forms\Models\Repositories\FormsRepository@validCheckbox');
+    \Illuminate\Support\Facades\Validator::extend('valid_select', 'Module\Forms\Models\Repositories\FormsRepository@validSelect');
+    \Illuminate\Support\Facades\Validator::extend('valid_radio', 'Module\Forms\Models\Repositories\FormsRepository@validRadio');
 
+    //routes for modules should be included in the register method to preceed the base routes
     include __DIR__ . '/../../../routes.php';
   }
 
   public function boot() {
-    
+
     $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/forms/views/';
 
     if (is_dir($themeModViewPath)) {
@@ -49,9 +52,9 @@ class FormsServiceProvider extends \Illuminate\Support\ServiceProvider {
     } else {
       $this->loadViewsFrom(__DIR__ . '/../Views/', 'forms');
     }
-      
+
     $this->loadViewsFrom(__DIR__ . '/../Views/', 'forms-admin');
-    
+
     $this->loadTranslationsFrom(__DIR__ . '/../Languages', "forms");
   }
 
