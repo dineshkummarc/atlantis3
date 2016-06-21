@@ -71,7 +71,7 @@
   </section>
 </main>
 <footer>
-  @include('forms-admin::admin/help-sections/forms')
+ 
   <div class="row">
     <div class="columns">
     </div>
