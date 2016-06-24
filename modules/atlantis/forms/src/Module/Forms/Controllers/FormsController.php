@@ -25,7 +25,7 @@ class FormsController extends Controller {
    * <div data-pattern-func="module:forms@build-1"></div>
    */
   public function build($aParams = NULL) {
-    
+
     if (isset($aParams[0])) {
 
       $form_id = $aParams[0];
@@ -72,7 +72,7 @@ class FormsController extends Controller {
     $aData['captcha'] = $captchaView;
 
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->get('form_id') == $form->id) {
-      
+
       $validator = new FormsValidator($formItems);
       $validator->make(request()->all());
 
@@ -80,9 +80,9 @@ class FormsController extends Controller {
       if ($captcha != NULL) {
         $captchaFails = $captcha->fails();
       }
-      
-       $form->redirect_url = str_replace('{{url}}', str_replace(url(), '', request()->fullUrl()), $form->redirect_url);
-      
+
+      $form->redirect_url = str_replace('{{url}}', str_replace(url(), '', request()->fullUrl()), $form->redirect_url);
+
       if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
         FormsResultsRepository::saveResults(request());
@@ -107,13 +107,7 @@ class FormsController extends Controller {
           $messageBag = $captcha->getErrors($messageBag);
         }
 
-        if (empty($form->redirect_url)) {
-          return redirect()->back()->withErrors($messageBag)->withInput()->send();
-        } else {
-          return redirect($form->redirect_url)->withErrors($messageBag)->withInput()->send();
-        }
-        
-        
+        return redirect()->back()->withErrors($messageBag)->withInput()->send();
       }
     }
     return view('forms::form-builder', $aData);
@@ -152,7 +146,7 @@ class FormsController extends Controller {
       if ($captcha != NULL) {
         $captchaFails = $captcha->fails();
       }
-      
+
       $form->redirect_url = str_replace('{{url}}', str_replace(url(), '', request()->fullUrl()), $form->redirect_url);
 
       if (!$validator->fails() && !$captchaFails) {
@@ -179,11 +173,7 @@ class FormsController extends Controller {
           $messageBag = $captcha->getErrors($messageBag);
         }
 
-        if (empty($form->redirect_url)) {
-          return redirect()->back()->withErrors($messageBag)->withInput()->send();
-        } else {
-          return redirect($form->redirect_url)->withErrors($messageBag)->withInput()->send();
-        }
+        return redirect()->back()->withErrors($messageBag)->withInput()->send();
       }
     }
 
@@ -195,20 +185,20 @@ class FormsController extends Controller {
     if ($form->email_check == 1) {
 
       $aData['post'] = $data;
-      
+
       $aMails = array_filter(explode(',', $form->emails));
-      
+
       foreach ($aMails as $mail_to) {
 
         \Illuminate\Support\Facades\Mail::send('forms::form-email', $aData, function ($message) use ($mail_to, $form) {
-     
+
           if (empty($form->email_from)) {
             $form->email_from = 'noreply@atlantis-cms.com';
           }
-          
-        $message->to(trim($mail_to))->from($form->email_from, 'AtlantisCMS WebMaster')->subject($form->name . ' form');
+
+          $message->to(trim($mail_to))->from($form->email_from, 'AtlantisCMS WebMaster')->subject($form->name . ' form');
         });
-      }      
+      }
     }
   }
 
