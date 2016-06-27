@@ -13,6 +13,7 @@ class Event extends \Illuminate\Support\Facades\Event{
     public function subscribe($events) {
       
     $events->listen('page.title', 'Module\Blog\Events\Event@pageTitle');
+    $events->listen('page.meta_description', 'Module\Blog\Events\Event@pageDescription');
     
   }
   
@@ -25,5 +26,13 @@ class Event extends \Illuminate\Support\Facades\Event{
       
   }
 
+  
+  public function pageDescription() {
+    
+     $t = \App::make('Transport');
+     
+     $t->setEventValue("page.meta_description", array("title" => \Module\Blog\Controllers\BlogController::$description , "weight" => 10) );
+      
+  }
   
 }

@@ -10,6 +10,8 @@ use Module\Blog\Models\Repositories\BlogConfigRepository;
 class BlogController extends Controller {
 
   public static $title;
+  public static $description;
+
   //private $config;
 
   public function __construct() {
@@ -28,9 +30,31 @@ class BlogController extends Controller {
 
     if (count($entry)) {
 
-      self::$title = $entry->title;
+      $data = array();
 
-      return view('blog::blog-single', ['data' => $entry]);
+      $data['data'] = $entry;
+
+      self::$title = $entry->title;
+      self::$description = $entry->description;
+
+      $images = \MediaTools::getImagesByGallery($entry->gallery_id);
+      $data['images'] = $images;
+
+      $ogData = [
+          'type' => 'article',
+          'title' => $entry->title,
+          'description' => $entry->description,
+          'url' => url(BlogConfigRepository::getConfigKey('anchor_url') . '/' . $entry->url),
+          'author' => $entry->nickname
+      ];
+      
+      if (isset($images[0])) {
+        $ogData['image'] = url($images[0]->original_filename);
+      }
+     
+      \Atlantis\Helpers\Assets::registerContentWithKey('opengraph', $ogData);
+
+      return view('blog::blog-single', $data);
     } else {
       return redirect('404');
     }

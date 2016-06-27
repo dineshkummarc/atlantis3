@@ -1,6 +1,6 @@
 <h1>{{ $data->title }}</h1>
 
-@foreach (\MediaTools::getImagesByGallery($data->gallery_id) as $image)
+@foreach ($images as $image)
 
 <img src="{!! $image->thumbnail !!}">
 

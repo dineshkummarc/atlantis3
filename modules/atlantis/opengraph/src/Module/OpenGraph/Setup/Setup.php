@@ -4,14 +4,14 @@
 /*
  * Setup: OpenGraph
  * @Atlantis CMS
- * v 1.0
+ * v 1.1
  */
 
 return [
     'name' => 'OpenGraph',
     'author' => 'Atlantis CMS',
-    'version' => '1.0',
-    'adminURL' => NULL, // admin/modules/opengraph
+    'version' => '1.1',
+    'adminURL' => 'admin/modules/opengraph', // 
     'icon' => 'Tag', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/opengraph/src',
     'moduleNamespace' => 'Module\OpenGraph',

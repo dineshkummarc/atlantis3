@@ -1,14 +1,9 @@
 <?php
 
-/*
- *  \Config::get('module.blog') ;
- */
-
-
 return [
     'name' => 'Blog',
     'author' => 'Atlantis CMS', 
-    'version' => '1.2',
+    'version' => '1.4',
     'adminURL' => 'admin/modules/blog',
     'icon' => 'Blog', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/blog/src',

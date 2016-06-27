@@ -40,7 +40,10 @@
     <div class="row">
       <div class="columns">
         <div class="float-right">
-          <div class="buttons">           
+          <div class="buttons">
+            <a href="/admin/modules/blog" class="back button tiny top primary" title="Go to Blog list" data-tooltip>
+              <span class=" back icon icon-Goto"></span>
+            </a>
             {!! Form::input('submit', '_save_close', 'Save &amp; Close', ['class' => 'alert button', 'id'=>'save-close-btn']) !!}
             {!! Form::input('submit', '_update', 'Update', ['class' => 'alert button', 'id'=>'update-btn']) !!}
           </div>
@@ -151,6 +154,14 @@
                         {!! Form::input('text', 'body_words', old('body_words', $oBlog->body_words), []) !!}
                       </div>
                     </li>
+
+                    <li class="accordion-item" data-accordion-item>
+                      <a href="#" class="accordion-title">Description</a>
+                      <div class="accordion-content" data-tab-content>
+                        {!! Form::textarea('description', old('description', $oBlog->description), ['rows' => 5, 'id' => 'description']) !!}                 
+                      </div>
+                    </li>
+
                   </ul>
                 </aside>
               </div>
@@ -164,7 +175,7 @@
   </section>
 </main>
 <footer>
-  
+
   <div class="row">
     <div class="columns">
     </div>

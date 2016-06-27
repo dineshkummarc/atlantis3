@@ -5,4 +5,4 @@
  * v 1.0
  */
 
- //Route::controller('admin/modules/opengraph' , 'Module\OpenGraph\Controllers\Admin\OpenGraphAdminController');
+ Route::controller('admin/modules/opengraph' , 'Module\OpenGraph\Controllers\Admin\OpenGraphAdminController');
