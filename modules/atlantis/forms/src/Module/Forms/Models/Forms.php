@@ -28,6 +28,7 @@ class Forms extends Base {
       'before_form_text',
       'after_form_text',
       'redirect_url',
+      'redirect_url_error',
       'use_custom_form',
       'custom_form'
   ];

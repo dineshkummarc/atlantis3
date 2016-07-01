@@ -93,8 +93,13 @@
                     </label>                    
                   </div>
                   <div class="columns medium-4">
-                    <label for="redirect_url">Redirect url
+                    <label for="redirect_url">Redirect url after success
                       {!! Form::input('text', 'redirect_url', old('redirect_url', $oModel->redirect_url), ['id' => 'redirect_url']) !!}
+                    </label>                    
+                  </div>
+                  <div class="columns medium-4">
+                    <label for="redirect_url_error">Redirect url after error
+                      {!! Form::input('text', 'redirect_url_error', old('redirect_url_error', $oModel->redirect_url_error), ['id' => 'redirect_url_error']) !!}
                     </label>                    
                   </div>
                   <div class="columns">

@@ -37,9 +37,9 @@ class FormsController extends Controller {
         $formItems = FormsItemsRepository::getItems($form_id);
 
         if ($form->use_custom_form == 0) {
-          return $this->normalBuild($form, $formItems);
+          return $this->normalBuild($form, $formItems, $aParams);
         } else {
-          return $this->customTemplateBuild($form, $formItems);
+          return $this->customTemplateBuild($form, $formItems, $aParams);
         }
       } else {
         abort(404, "form with ID: " . $form_id . " not found");
@@ -49,9 +49,9 @@ class FormsController extends Controller {
     }
   }
 
-  private function normalBuild($form, $formItems) {
+  private function normalBuild($form, $formItems, $patt_func_params) {
 
-    $aData = array();
+    $aData['patt_func_params'] = $patt_func_params;
     $captcha = NULL;
     $captchaView = NULL;
 
@@ -82,6 +82,7 @@ class FormsController extends Controller {
       }
 
       $form->redirect_url = str_replace('{{url}}', str_replace(url(), '', request()->fullUrl()), $form->redirect_url);
+      $form->redirect_url_error = str_replace('{{url}}', str_replace(url(), '', request()->fullUrl()), $form->redirect_url_error);
 
       if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
@@ -107,7 +108,11 @@ class FormsController extends Controller {
           $messageBag = $captcha->getErrors($messageBag);
         }
 
-        return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        if (empty($form->redirect_url_error)) {
+          return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        } else {
+          return redirect($form->redirect_url_error)->withErrors($messageBag)->withInput()->send();
+        }
       }
     }
     return view('forms::form-builder', $aData);
@@ -117,9 +122,9 @@ class FormsController extends Controller {
    * {{submit_button}} - add submit button / always needed
    */
 
-  private function customTemplateBuild($form, $formItems) {
+  private function customTemplateBuild($form, $formItems, $patt_func_params) {
 
-    $aData = array();
+    $aData['patt_func_params'] = $patt_func_params;
     $captcha = NULL;
     $captchaView = NULL;
 
@@ -148,6 +153,7 @@ class FormsController extends Controller {
       }
 
       $form->redirect_url = str_replace('{{url}}', str_replace(url(), '', request()->fullUrl()), $form->redirect_url);
+      $form->redirect_url_error = str_replace('{{url}}', str_replace(url(), '', request()->fullUrl()), $form->redirect_url_error);
 
       if (!$validator->fails() && !$captchaFails) {
         //save post data in DB 
@@ -173,7 +179,11 @@ class FormsController extends Controller {
           $messageBag = $captcha->getErrors($messageBag);
         }
 
-        return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        if (empty($form->redirect_url_error)) {
+          return redirect()->back()->withErrors($messageBag)->withInput()->send();
+        } else {
+          return redirect($form->redirect_url_error)->withErrors($messageBag)->withInput()->send();
+        }
       }
     }
 

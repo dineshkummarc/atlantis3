@@ -41,3 +41,4 @@
   </div>
   @endif
 </div>
+{{-- dd($patt_func_params) --}}

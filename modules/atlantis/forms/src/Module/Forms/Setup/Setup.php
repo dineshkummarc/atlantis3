@@ -3,13 +3,13 @@
 /*
  * Setup: Forms
  * @Atlantis CMS
- * v 1.5
+ * v 1.6
  */
 
 return [
     'name' => 'Forms',
     'author' => 'Atlantis CMS',
-    'version' => '1.5',
+    'version' => '1.6',
     'adminURL' => 'admin/modules/forms', // admin/modules/forms
     'icon' => 'Files', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/forms/src',
