@@ -245,6 +245,24 @@ class FormsAdminController extends AdminModulesController {
 
     return $aSelect;
   }
+  
+  public function postBulkAction(Request $request) {
+
+    if ($request->get('bulk_action_ids') != NULL) {
+
+      $aIDs = explode(',', $request->get('bulk_action_ids'));
+
+      if ($request->get('action') == 'bulk_delete') {
+
+        foreach ($aIDs as $id) {
+          FormsRepository::deleteEntry($id);
+        }
+        \Session::flash('success', 'Forms was deleted');
+      }
+    }
+
+    return redirect()->back();
+  }
 
   private function getItemsFields($oItems = NULL) {
 
