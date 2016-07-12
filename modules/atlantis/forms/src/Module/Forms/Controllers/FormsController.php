@@ -72,7 +72,7 @@ class FormsController extends Controller {
     $aData['captcha'] = $captchaView;
 
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->get('form_id') == $form->id) {
-
+      
       $validator = new FormsValidator($formItems);
       $validator->make(request()->all());
 
@@ -97,9 +97,9 @@ class FormsController extends Controller {
         $this->sendMail($form, request()->all());
 
         if (empty($form->redirect_url)) {
-          return redirect()->back()->send();
+          app('AtlantisRedirect')->set(redirect()->back());
         } else {
-          return redirect($form->redirect_url)->send();
+          app('AtlantisRedirect')->set(redirect($form->redirect_url));
         }
       } else {
 
@@ -109,10 +109,11 @@ class FormsController extends Controller {
         }
 
         if (empty($form->redirect_url_error)) {
-          return redirect()->back()->withErrors($messageBag)->withInput()->send();
+          app('AtlantisRedirect')->set(redirect()->back()->withErrors($messageBag)->withInput());
         } else {
-          return redirect($form->redirect_url_error)->withErrors($messageBag)->withInput()->send();
+          app('AtlantisRedirect')->set(redirect($form->redirect_url_error)->withErrors($messageBag)->withInput());
         }
+        
       }
     }
     return view('forms::form-builder', $aData);
@@ -168,9 +169,9 @@ class FormsController extends Controller {
         $this->sendMail($form, request()->all());
 
         if (empty($form->redirect_url)) {
-          return redirect()->back()->send();
+          app('AtlantisRedirect')->set(redirect()->back());
         } else {
-          return redirect($form->redirect_url)->send();
+          app('AtlantisRedirect')->set(redirect($form->redirect_url));
         }
       } else {
 
@@ -180,10 +181,10 @@ class FormsController extends Controller {
         }
 
         if (empty($form->redirect_url_error)) {
-          return redirect()->back()->withErrors($messageBag)->withInput()->send();
+          app('AtlantisRedirect')->set(redirect()->back()->withErrors($messageBag)->withInput());
         } else {
-          return redirect($form->redirect_url_error)->withErrors($messageBag)->withInput()->send();
-        }
+          app('AtlantisRedirect')->set(redirect($form->redirect_url_error)->withErrors($messageBag)->withInput());
+        }       
       }
     }
 
