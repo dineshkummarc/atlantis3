@@ -17,6 +17,18 @@ class OpenWeatherAdminController extends AdminModulesController {
     
     $aData = array();
 
+    if (\Session::get('info') != NULL) {
+      $aData['msgInfo'] = \Session::get('info');
+    }
+
+    if (\Session::get('success') != NULL) {
+      $aData['msgSuccess'] = \Session::get('success');
+    }
+
+    if (\Session::get('error') != NULL) {
+      $aData['msgError'] = \Session::get('error');
+    }
+
     $openWeather = OpenWeatherRepository::get();
     $openWeatherCities = OpenWeatherCitiesRepository::getCity();
 
@@ -48,14 +60,14 @@ class OpenWeatherAdminController extends AdminModulesController {
 
     OpenWeatherRepository::add($request->all());
 
-    return redirect('admin/modules/openweather');
+    return redirect('admin/modules/openweather')->with('success', 'Updated');
   }
 
   public function postAddCity(Request $request) {
 
     OpenWeatherCitiesRepository::addCityID($request->get('id'));
 
-    return redirect('admin/modules/openweather');
+    return redirect('admin/modules/openweather')->with('success', 'Updated');
   }
 
 }
