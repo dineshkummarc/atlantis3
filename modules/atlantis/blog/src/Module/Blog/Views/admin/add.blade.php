@@ -128,6 +128,20 @@
                       {!! Form::input('text', 'tags', old('tags'), ['class' => 'inputtags']) !!}
                     </label>
                   </div>                  
+                  <div class="columns medium-4">
+                    <label for="seo_title">Seo Title
+                      <span class="icon icon-Help top" data-tooltip title="This title appears between the <title> tags"></span>
+                      {!! Form::input('text', 'seo_title', old('seo_title'), ['id'=>'seo_title']) !!}
+                    </label>
+                  </div>
+                  
+                  <div class="columns medium-4">
+                    <label for="meta_description">Meta Description 
+                      <small id="meta_description_info">255 characters left</small>
+                      <span class="icon icon-Help top" data-tooltip title="If you leave this field blank, the global description will be used."></span>
+                      {!! Form::input('text', 'meta_description', old('meta_description'), ['id'=>'meta_description']) !!}
+                    </label>
+                  </div>                 
                   <div class="columns end">
                     <label for="custom_form">Body
                       {!! \Editor::set('body', old('body'), ['rows' => 15, 'id' => 'custom_form']) !!}
@@ -139,7 +153,7 @@
                 <aside>
                   <ul class="accordion" data-accordion>
                     <li class="accordion-item is-active" data-accordion-item>
-                      <a href="#" class="accordion-title">Blurb</a>
+                      <a href="#" class="accordion-title">Add Custom Blurb</a>
                       <div class="accordion-content" data-tab-content>
                         {!! Form::textarea('blurb', old('blurb'), ['rows' => 5, 'id' => 'blurb']) !!}
                         <p>Use Blurb</p>

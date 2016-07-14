@@ -4,35 +4,32 @@ namespace Module\Blog\Events;
 
 use Illuminate\Queue\SerializesModels;
 
-class Event extends \Illuminate\Support\Facades\Event{
+class Event extends \Illuminate\Support\Facades\Event {
 
-  
   use SerializesModels;
-  
-  
-    public function subscribe($events) {
-      
+
+  public function subscribe($events) {
+
     $events->listen('page.title', 'Module\Blog\Events\Event@pageTitle');
     $events->listen('page.meta_description', 'Module\Blog\Events\Event@pageDescription');
-    
-  }
-  
-  
-  public function pageTitle() {
-    
-     $t = \App::make('Transport');
-     
-     $t->setEventValue("page.title", array("title" => \Module\Blog\Controllers\BlogController::$title , "weight" => 10) );
-      
   }
 
-  
-  public function pageDescription() {
-    
-     $t = \App::make('Transport');
-     
-     $t->setEventValue("page.meta_description", array("title" => \Module\Blog\Controllers\BlogController::$description , "weight" => 10) );
-      
+  public function pageTitle() {
+
+    $title = \Module\Blog\Controllers\BlogController::$title;
+
+    if ($title != NULL || !empty($title)) {
+      \App::make('Transport')->setEventValue("page.title", array("title" => $title, "weight" => 10), TRUE);
+    }
   }
-  
+
+  public function pageDescription() {
+
+    $description = \Module\Blog\Controllers\BlogController::$description;
+
+    if ($description != NULL || !empty($description)) {
+      \App::make('Transport')->setEventValue("page.meta_description", array("title" => $description, "weight" => 10), TRUE);
+    }
+  }
+
 }

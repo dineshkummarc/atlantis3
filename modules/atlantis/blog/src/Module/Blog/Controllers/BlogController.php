@@ -34,8 +34,8 @@ class BlogController extends Controller {
 
       $data['data'] = $entry;
 
-      self::$title = $entry->title;
-      self::$description = $entry->description;
+      self::$title = $entry->seo_title;
+      self::$description = $entry->meta_description;
 
       $images = \MediaTools::getImagesByGallery($entry->gallery_id);
       $data['images'] = $images;

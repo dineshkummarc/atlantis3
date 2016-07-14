@@ -1,7 +1,7 @@
 {
   "name": "Blog",
   "author": "Atlantis CMS",
-  "version": "1.4",
+  "version": "1.5",
   "adminURL": "admin\/modules\/blog",
   "icon": "Blog",
   "path": "atlantis\/blog\/src",

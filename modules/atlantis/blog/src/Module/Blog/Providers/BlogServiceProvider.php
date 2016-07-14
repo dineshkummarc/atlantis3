@@ -36,9 +36,7 @@ class BlogServiceProvider extends ServiceProvider {
 
   public function boot() {
 
-    //$t = \App::make('Transport');
-
-    //$t->setEventValue("search.providers", [ 'search' => \Module\Blog\Models\Search::class, 'weight' => 10]);
+   //\App::make('Transport')->setEventValue("search.providers", [ 'search' => \Module\Blog\Models\Search::class, 'weight' => 10]);
     
     $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/blog/views/';
 
