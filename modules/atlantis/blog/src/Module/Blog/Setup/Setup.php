@@ -3,7 +3,7 @@
 return [
     'name' => 'Blog',
     'author' => 'Atlantis CMS', 
-    'version' => '1.5',
+    'version' => '1.5.1',
     'adminURL' => 'admin/modules/blog',
     'icon' => 'Blog', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/blog/src',
