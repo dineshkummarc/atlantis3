@@ -15,26 +15,31 @@ class CreateFormsItemsTable extends Migration {
    */
   public function up() {
 
-    Schema::create('forms_items', function(\Illuminate\Database\Schema\Blueprint $table) {
-      $table->increments('id');
-      $table->integer("form_id");
-      $table->string("label", 255)->nullable();
-      $table->string("field_type", 255)->nullable();
-      $table->string("field_name", 255)->nullable();
-      $table->string("validation", 255)->nullable();
-      $table->text("attributes")->nullable();
-      $table->text("validation_msg")->nullable();      
-      $table->text("field_value")->nullable();
-      $table->integer("weight");      
-      $table->timestamps();     
-    });
+    if (!Schema::hasTable('forms_items')) {
+      Schema::create('forms_items', function(\Illuminate\Database\Schema\Blueprint $table) {
+        $table->increments('id');
+        $table->integer("form_id");
+        $table->string("label", 255)->nullable();
+        $table->string("field_type", 255)->nullable();
+        $table->string("field_name", 255)->nullable();
+        $table->string("validation", 255)->nullable();
+        $table->text("attributes")->nullable();
+        $table->text("validation_msg")->nullable();
+        $table->text("field_value")->nullable();
+        $table->integer("weight");
+        $table->timestamps();
+      });
+    }
   }
 
   /**
    * Reverse the migrations.
    */
   public function down() {
-    Schema::drop('forms_items');
+
+    if (Schema::hasTable('forms_items')) {
+      Schema::drop('forms_items');
+    }
   }
 
 }

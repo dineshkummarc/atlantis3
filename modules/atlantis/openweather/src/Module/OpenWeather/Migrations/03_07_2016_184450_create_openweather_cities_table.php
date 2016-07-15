@@ -15,21 +15,26 @@ class CreateOpenweatherCitiesTable extends Migration {
    */
   public function up() {
 
-    Schema::create('openweather_cities', function(\Illuminate\Database\Schema\Blueprint $table) {
-      $table->integer('id')->primary();
-      $table->string('name', 255);
-      $table->string('country', 255);
-      $table->double('lon', 255);
-      $table->double('lat', 255);
-      $table->timestamps();
-    });
+    if (!Schema::hasTable('openweather_cities')) {
+      Schema::create('openweather_cities', function(\Illuminate\Database\Schema\Blueprint $table) {
+        $table->integer('id')->primary();
+        $table->string('name', 255);
+        $table->string('country', 255);
+        $table->double('lon', 255);
+        $table->double('lat', 255);
+        $table->timestamps();
+      });
+    }
   }
 
   /**
    * Reverse the migrations.
    */
   public function down() {
-    Schema::drop('openweather_cities');
+
+    if (Schema::hasTable('openweather_cities')) {
+      Schema::drop('openweather_cities');
+    }
   }
 
 }

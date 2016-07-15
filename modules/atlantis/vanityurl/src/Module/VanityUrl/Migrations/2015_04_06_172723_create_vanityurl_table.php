@@ -14,20 +14,25 @@ class CreateVanityurlTable extends Migration {
    * Run the migrations.
    */
   public function up() {
-    //
-    Schema::create('vanityurl', function(\Illuminate\Database\Schema\Blueprint $table) {
-      $table->increments('id');
-      $table->string("source_url");
-      $table->string("dest_url");
-      $table->timestamps();
-    });
+
+    if (!Schema::hasTable('vanityurl')) {
+      Schema::create('vanityurl', function(\Illuminate\Database\Schema\Blueprint $table) {
+        $table->increments('id');
+        $table->string("source_url");
+        $table->string("dest_url");
+        $table->timestamps();
+      });
+    }
   }
 
   /**
    * Reverse the migrations.
    */
   public function down() {
-    //
+
+    if (Schema::hasTable('vanityurl')) {
+      Schema::drop('vanityurl');
+    }
   }
 
 }

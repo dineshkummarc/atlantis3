@@ -3,7 +3,7 @@
 return [
     'name' => 'Navis', 
     'author' => 'Atlantis CMS', 
-    'version' => '1.0',
+    'version' => '1.1',
     'adminURL' => NULL, // admin/modules/navis
     'icon' => 'Goto', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/navis/src',

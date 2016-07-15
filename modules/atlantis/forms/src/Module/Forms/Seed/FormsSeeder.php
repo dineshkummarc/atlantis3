@@ -68,7 +68,7 @@ class FormsSeeder extends \Illuminate\Database\Seeder {
             'captcha_namespace' => 'Module\Forms\Captcha\ReCaptcha',
             'ga' => 1,
             'before_form_text' => 'This is demo for the form builder',
-            'after_form_text' => 'name',
+            'after_form_text' => 'just text',
             'use_custom_form' => 0,
             'custom_form' => '',
             'redirect_url' => '',

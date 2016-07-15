@@ -4,13 +4,13 @@
 /*
  * Setup: OpenWeather
  * @Atlantis CMS
- * v 1.1
+ * v 1.1.2
  */
 
 return [
     'name' => 'OpenWeather',
     'author' => 'Atlantis CMS',
-    'version' => '1.1.1',
+    'version' => '1.1.2',
     'adminURL' => 'admin/modules/openweather', // admin/modules/openweather
     'icon' => 'Umbrella', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/openweather/src',

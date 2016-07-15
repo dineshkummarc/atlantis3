@@ -4,13 +4,13 @@
 /*
  * Setup: Menus
  * @Atlantis CMS
- * v 1.0
+ * v 1.1
  */
 
 return [
     'name' => 'Menus',
     'author' => 'Atlantis CMS',
-    'version' => '1.0',
+    'version' => '1.1',
     'adminURL' => 'admin/modules/menus', // admin/modules/menus
     'icon' => 'Menu', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/menus/src',

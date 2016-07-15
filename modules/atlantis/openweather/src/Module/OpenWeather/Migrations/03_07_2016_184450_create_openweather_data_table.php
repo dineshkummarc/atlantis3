@@ -15,19 +15,24 @@ class CreateOpenweatherDataTable extends Migration {
    */
   public function up() {
 
-    Schema::create('openweather_data', function(\Illuminate\Database\Schema\Blueprint $table) {
-      $table->increments('id');
-      $table->text('data');
-      $table->string('type', 255);
-      $table->timestamps();
-    });
+    if (!Schema::hasTable('openweather_data')) {
+      Schema::create('openweather_data', function(\Illuminate\Database\Schema\Blueprint $table) {
+        $table->increments('id');
+        $table->text('data');
+        $table->string('type', 255);
+        $table->timestamps();
+      });
+    }
   }
 
   /**
    * Reverse the migrations.
    */
   public function down() {
-    Schema::drop('openweather_data');
+
+    if (Schema::hasTable('openweather_data')) {
+      Schema::drop('openweather_data');
+    }
   }
 
 }
