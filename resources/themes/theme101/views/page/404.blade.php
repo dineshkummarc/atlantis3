@@ -15,6 +15,6 @@
 <h1>Sorry, can't find this page</h1>
 @endif
 
-{{ $content }}
+{!! $content !!}
 
 @stop
