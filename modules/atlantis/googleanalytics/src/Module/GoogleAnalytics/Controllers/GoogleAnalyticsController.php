@@ -9,19 +9,16 @@ use Module\GoogleAnalytics\Models\Repositories\GoogleAnalyticsRepository;
  * @Atlantis CMS
  * v 1.0
  */
-
 use App\Http\Controllers\Controller;
 
 class GoogleAnalyticsController extends Controller {
 
-  public function __construct() {
-    
-  }
+  use \Module\GoogleAnalytics\Traits\GoogleAnalyticsTrait;
 
-  public static function getTrackingCode() {   
+  public static function getTrackingCode() {
 
     $result = GoogleAnalyticsRepository::get(1);
-    
+
     if ($result->active == "GTM") {
 
       return view('googleanalytics::gtm', ['tag_manager_code' => $result->tag_manager_code]);

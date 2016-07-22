@@ -15,9 +15,7 @@ use App\Http\Controllers\Controller;
 
 class OpenWeatherController extends Controller {
 
-  public function __construct() {
-    
-  }
+  use \Module\OpenWeather\Traits\OpenWeatherTrait;
 
   /**
    * <div data-pattern-func="module:openweather@now"></div>
@@ -25,7 +23,6 @@ class OpenWeatherController extends Controller {
   public function now() {
 
     \Atlantis\Helpers\Assets::registerScript('https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js', 10);
-
 
     $openWeather = OpenWeatherRepository::get();
     $oData = OpenWeatherDataRepository::getNowData();

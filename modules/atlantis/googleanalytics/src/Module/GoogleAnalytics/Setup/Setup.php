@@ -4,13 +4,13 @@
 /*
  * Setup: GoogleAnalytics
  * @Atlantis CMS
- * v 1.1
+ * v 1.2
  */
 
 return [
     'name' => 'Google Analytics',
     'author' => 'Atlantis CMS',
-    'version' => '1.1',
+    'version' => '1.2',
     'adminURL' => 'admin/modules/googleanalytics', // admin/modules/googleanalytics
     'icon' => 'ChartUp', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
     'path' => 'atlantis/googleanalytics/src',

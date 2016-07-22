@@ -14,6 +14,8 @@ use App\Http\Controllers\Controller;
 
 class ColorboxController extends Controller {
 
+  use \Module\Colorbox\Traits\ColorboxTrait;
+  
   public function __construct() {
     
     $assets_path = config('atlantis.modules_dir') . config('colorbox.setup.path') . '/Module/Colorbox/Assets/';

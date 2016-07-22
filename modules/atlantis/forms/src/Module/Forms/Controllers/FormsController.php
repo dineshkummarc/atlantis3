@@ -8,19 +8,17 @@ use Module\Forms\Models\Repositories\FormsResultsRepository;
 use Module\Forms\Helpers\Builder as FormsBuilder;
 use Module\Forms\Helpers\Validator as FormsValidator;
 use Illuminate\Support\MessageBag;
+use App\Http\Controllers\Controller;
+
 /**
  * Controller: Forms
  * @Atlantis CMS
  * v 1.0
  */
-use App\Http\Controllers\Controller;
-
 class FormsController extends Controller {
 
-  public function __construct() {
-    
-  }
-
+  use \Module\Forms\Traits\FormsTrait;
+  
   /**
    * <div data-pattern-func="module:forms@build-1"></div>
    */
@@ -51,6 +49,7 @@ class FormsController extends Controller {
 
   private function normalBuild($form, $formItems, $patt_func_params) {
 
+
     $aData['patt_func_params'] = $patt_func_params;
     $captcha = NULL;
     $captchaView = NULL;
@@ -72,7 +71,7 @@ class FormsController extends Controller {
     $aData['captcha'] = $captchaView;
 
     if (request()->method() == \App\Http\Requests\Request::METHOD_POST && request()->get('form_id') == $form->id) {
-      
+
       $validator = new FormsValidator($formItems);
       $validator->make(request()->all());
 
@@ -113,7 +112,6 @@ class FormsController extends Controller {
         } else {
           app('AtlantisRedirect')->set(redirect($form->redirect_url_error)->withErrors($messageBag)->withInput());
         }
-        
       }
     }
     return view('forms::form-builder', $aData);
@@ -184,7 +182,7 @@ class FormsController extends Controller {
           app('AtlantisRedirect')->set(redirect()->back()->withErrors($messageBag)->withInput());
         } else {
           app('AtlantisRedirect')->set(redirect($form->redirect_url_error)->withErrors($messageBag)->withInput());
-        }       
+        }
       }
     }
 

@@ -9,15 +9,10 @@ use Module\Blog\Models\Repositories\BlogConfigRepository;
 
 class BlogController extends Controller {
 
+  use \Module\Blog\Traits\BlogTrait;
+
   public static $title;
   public static $description;
-
-  //private $config;
-
-  public function __construct() {
-
-    //$this->config = config('blog.config');
-  }
 
   /**
    * <div data-pattern-func="module:blog@single"></div>
@@ -47,11 +42,11 @@ class BlogController extends Controller {
           'url' => url(BlogConfigRepository::getConfigKey('anchor_url') . '/' . $entry->url),
           'author' => $entry->nickname
       ];
-      
+
       if (isset($images[0])) {
         $ogData['image'] = url($images[0]->original_filename);
       }
-     
+
       \Atlantis\Helpers\Assets::registerContentWithKey('opengraph', $ogData);
 
       return view('blog::blog-single', $data);
