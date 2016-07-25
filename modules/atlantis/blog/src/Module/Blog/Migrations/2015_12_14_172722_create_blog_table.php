@@ -35,6 +35,7 @@ class CreateBlogTable extends Migration {
     
     if (Schema::hasTable('blog')) {
       Schema::drop('blog');
+      \Atlantis\Models\Repositories\TagRepository::deleteTags('blog');
     }
   }
 
