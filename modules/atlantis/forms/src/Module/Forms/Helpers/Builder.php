@@ -13,6 +13,8 @@ class Builder {
   public static $_TYPE_CHECKBOX = 'checkbox';
   public static $_TYPE_RADIO = 'radio';
   public static $_TYPE_SELECT = 'select';
+  public static $_TYPE_SELECT_COUNTRIES = 'select:countries';
+  public static $_TYPE_SELECT_STATES = 'select:states';
   public static $_TYPE_FILE = 'file';
 
   /**
@@ -64,6 +66,8 @@ class Builder {
         self::$_TYPE_CHECKBOX => 'Checkbox',
         self::$_TYPE_RADIO => 'Radio button',
         self::$_TYPE_SELECT => 'Dropdown',
+        self::$_TYPE_SELECT_COUNTRIES => 'Dropdown Countries',
+        self::$_TYPE_SELECT_STATES => 'Dropdown States',
         self::$_TYPE_FILE => 'File'
     ];
   }
@@ -169,14 +173,82 @@ class Builder {
 
         $aSelects = array();
         $checked = NULL;
-        foreach ($aFieldValues as $k => $value) {
+        foreach ($aFieldValues as $key => $value) {
 
           if (stristr($value, '::checked')) {
             $value = str_replace('::checked', '', $value);
-            $checked = '[' . $k . '] => [' . $value . ']';
+            $checked = '[' . $key . '] => [' . $value . ']';
           }
 
-          $aSelects['[' . $k . '] => [' . $value . ']'] = $value;
+          $aSelects['[' . $key . '] => [' . $value . ']'] = $value;
+        }
+
+        $data[$k] = view('forms::items/select', ['item' => $item, 'required' => $required, 'field' => self::createSelect($item, $aSelects, $checked)]);
+
+        /**
+         * <select name="country">
+         * <option value="bg">Bulgaria</option>
+         * <option value="gr">Greece</option>
+         * .
+         * .
+         * </select>
+         */
+      } else if ($item->field_type == self::$_TYPE_SELECT_COUNTRIES) {
+
+        $aSelects = array();
+        $checked = NULL;
+
+        if (is_array($aFieldValues)) {
+
+          foreach ($aFieldValues as $key => $value) {
+
+            if (stristr($value, '::checked')) {
+              $value = str_replace('::checked', '', $value);
+              $checked = '[' . $key . '] => [' . $value . ']';
+            }
+
+            $aSelects['[' . $key . '] => [' . $value . ']'] = $value;
+          }
+        }
+
+        $aCountires = require(__DIR__ . '/../Data/Countries.php');
+
+        foreach ($aCountires as $c_key => $c_name) {
+          $aSelects['[' . $c_key . '] => [' . $c_name . ']'] = $c_name;
+        }
+
+        $data[$k] = view('forms::items/select', ['item' => $item, 'required' => $required, 'field' => self::createSelect($item, $aSelects, $checked)]);
+
+        /**
+         * <select name="states">
+         * <option value="fl">Florida</option>
+         * <option value="ga">Georgia</option>
+         * .
+         * .
+         * </select>
+         */
+      } else if ($item->field_type == self::$_TYPE_SELECT_STATES) {
+
+        $aSelects = array();
+        $checked = NULL;
+
+        if (is_array($aFieldValues)) {
+
+          foreach ($aFieldValues as $key => $value) {
+
+            if (stristr($value, '::checked')) {
+              $value = str_replace('::checked', '', $value);
+              $checked = '[' . $key . '] => [' . $value . ']';
+            }
+
+            $aSelects['[' . $key . '] => [' . $value . ']'] = $value;
+          }
+        }
+
+        $aStates = require(__DIR__ . '/../Data/States.php');
+
+        foreach ($aStates as $s_key => $s_name) {
+          $aSelects['[' . $s_key . '] => [' . $s_name . ']'] = $s_name;
         }
 
         $data[$k] = view('forms::items/select', ['item' => $item, 'required' => $required, 'field' => self::createSelect($item, $aSelects, $checked)]);
@@ -244,7 +316,7 @@ class Builder {
       foreach ($this->formItems as $item) {
 
         $aFieldValues = unserialize($item->field_value);
-       
+
         if (is_array($aFieldValues) && isset(array_values($aFieldValues)[0])) {
           $value = array_values($aFieldValues)[0];
         } else {
@@ -298,6 +370,75 @@ class Builder {
               }
 
               $aSelects['[' . $k . '] => [' . $value . ']'] = $value;
+            }
+
+            $buildItem = self::createSelect($item, $aSelects, $checked);
+
+
+            /**
+             * <select name="country">
+             * <option value="bg">Bulgaria</option>
+             * <option value="gr">Greece</option>
+             * .
+             * .
+             * </select>
+             */
+          } else if ($item->field_type == self::$_TYPE_SELECT_COUNTRIES) {
+
+            $aSelects = array();
+            $checked = NULL;
+
+            if (is_array($aFieldValues)) {
+
+              foreach ($aFieldValues as $key => $value) {
+
+                if (stristr($value, '::checked')) {
+                  $value = str_replace('::checked', '', $value);
+                  $checked = '[' . $key . '] => [' . $value . ']';
+                }
+
+                $aSelects['[' . $key . '] => [' . $value . ']'] = $value;
+              }
+            }
+
+            $aCountires = require(__DIR__ . '/../Data/Countries.php');
+
+            foreach ($aCountires as $c_key => $c_name) {
+              $aSelects['[' . $c_key . '] => [' . $c_name . ']'] = $c_name;
+            }
+
+            $buildItem = self::createSelect($item, $aSelects, $checked);
+
+            /**
+             * <select name="states">
+             * <option value="fl">Florida</option>
+             * <option value="ga">Georgia</option>
+             * .
+             * .
+             * </select>
+             */
+          } else if ($item->field_type == self::$_TYPE_SELECT_STATES) {
+
+            $aSelects = array();
+            $checked = NULL;
+
+            if (is_array($aFieldValues)) {
+
+              foreach ($aFieldValues as $key => $value) {
+
+                if (stristr($value, '::checked')) {
+                  $value = str_replace('::checked', '', $value);
+                  $checked = '[' . $key . '] => [' . $value . ']';
+                }
+
+                $aSelects['[' . $key . '] => [' . $value . ']'] = $value;
+              }
+            }
+
+            $aStates = require(__DIR__ . '/../Data/States.php');
+
+            foreach ($aStates as $s_key => $s_name) {
+              $aSelects['[' . $s_key . '] => [' . $s_name . ']'] = $s_name;
             }
 
             $buildItem = self::createSelect($item, $aSelects, $checked);
@@ -401,9 +542,9 @@ class Builder {
       return '<input type="submit" class="' . $form->btn_class . '" value="' . $form->btn_value . '">';
     }
   }
-  
+
   public static function createErrorMsg($error) {
     return view('forms::items/error-msg', ['error' => $error]);
-  } 
+  }
 
 }
