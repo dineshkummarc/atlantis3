@@ -3,15 +3,22 @@
 /*
  * Setup: CKEditor
  * @Atlantis CMS
- * v 1.0
+ * v 1.1
  */
 
 return [
     'name' => 'CKEditor',
     'author' => 'Atlantis CMS',
-    'version' => '1.0',
+    'version' => '1.1',
     'adminURL' => NULL, // admin/modules/ckeditor
-    'icon' => 'Pencil', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+    /**
+     * ex. icon icon-Files
+     * http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+     * 
+     * ex. fa fa-beer
+     * http://fontawesome.io/icons/
+     */
+    'icon' => 'icon icon-Pencil',
     'path' => 'atlantis/ckeditor/src',
     'moduleNamespace' => 'Module\CKEditor',
     'seedNamespace' => 'Module\CKEditor\Seed',

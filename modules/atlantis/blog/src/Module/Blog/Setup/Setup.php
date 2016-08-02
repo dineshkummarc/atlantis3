@@ -3,9 +3,16 @@
 return [
     'name' => 'Blog',
     'author' => 'Atlantis CMS', 
-    'version' => '1.5.3',
+    'version' => '1.5.4',
     'adminURL' => 'admin/modules/blog',
-    'icon' => 'Blog', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+    /**
+     * ex. icon icon-Files
+     * http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+     * 
+     * ex. fa fa-beer
+     * http://fontawesome.io/icons/
+     */
+    'icon' => 'icon icon-Blog',
     'path' => 'atlantis/blog/src',
     'seedNamespace' => 'Module\Blog\Seed',
     'moduleNamespace' => 'Module\Blog',

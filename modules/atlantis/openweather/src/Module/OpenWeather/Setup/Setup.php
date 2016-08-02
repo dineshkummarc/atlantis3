@@ -4,15 +4,22 @@
 /*
  * Setup: OpenWeather
  * @Atlantis CMS
- * v 1.1.3
+ * v 1.1.4
  */
 
 return [
     'name' => 'OpenWeather',
     'author' => 'Atlantis CMS',
-    'version' => '1.1.3',
+    'version' => '1.1.4',
     'adminURL' => 'admin/modules/openweather', // admin/modules/openweather
-    'icon' => 'Umbrella', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+    /**
+     * ex. icon icon-Files
+     * http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+     * 
+     * ex. fa fa-beer
+     * http://fontawesome.io/icons/
+     */
+    'icon' => 'icon icon-Umbrella',
     'path' => 'atlantis/openweather/src',
     'moduleNamespace' => 'Module\OpenWeather',
     'seedNamespace' => 'Module\OpenWeather\Seed',    

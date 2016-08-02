@@ -4,15 +4,22 @@
 /*
  * Setup: OpenGraph
  * @Atlantis CMS
- * v 1.1
+ * v 1.2
  */
 
 return [
     'name' => 'OpenGraph',
     'author' => 'Atlantis CMS',
-    'version' => '1.1',
-    'adminURL' => 'admin/modules/opengraph', // 
-    'icon' => 'Tag', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+    'version' => '1.2',
+    'adminURL' => 'admin/modules/opengraph', //
+    /**
+     * ex. icon icon-Files
+     * http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+     * 
+     * ex. fa fa-beer
+     * http://fontawesome.io/icons/
+     */
+    'icon' => 'icon icon-Tag',
     'path' => 'atlantis/opengraph/src',
     'moduleNamespace' => 'Module\OpenGraph',
     'seedNamespace' => 'Module\OpenGraph\Seed',    

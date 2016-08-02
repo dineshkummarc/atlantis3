@@ -3,15 +3,22 @@
 /*
  * Setup: Forms
  * @Atlantis CMS
- * v 1.7.4
+ * v 1.7.5
  */
 
 return [
     'name' => 'Forms',
     'author' => 'Atlantis CMS',
-    'version' => '1.7.4',
+    'version' => '1.7.5',
     'adminURL' => 'admin/modules/forms', // admin/modules/forms
-    'icon' => 'Files', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+    /**
+     * ex. icon icon-Files
+     * http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+     * 
+     * ex. fa fa-beer
+     * http://fontawesome.io/icons/
+     */
+    'icon' => 'icon icon-Files',
     'path' => 'atlantis/forms/src',
     'moduleNamespace' => 'Module\Forms',
     'seedNamespace' => 'Module\Forms\Seed',    

@@ -3,9 +3,16 @@
 return [
     'name' => 'Navis', 
     'author' => 'Atlantis CMS', 
-    'version' => '1.1',
+    'version' => '1.2',
     'adminURL' => NULL, // admin/modules/navis
-    'icon' => 'Goto', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+    /**
+     * ex. icon icon-Files
+     * http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+     * 
+     * ex. fa fa-beer
+     * http://fontawesome.io/icons/
+     */
+    'icon' => 'icon icon-Goto',
     'path' => 'atlantis/navis/src',
     'seedNamespace' => 'Module\Navis\Seed', 
     'moduleNamespace' => 'Module\Navis',

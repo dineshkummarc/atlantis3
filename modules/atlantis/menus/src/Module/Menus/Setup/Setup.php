@@ -4,15 +4,22 @@
 /*
  * Setup: Menus
  * @Atlantis CMS
- * v 1.1
+ * v 1.2
  */
 
 return [
     'name' => 'Menus',
     'author' => 'Atlantis CMS',
-    'version' => '1.1',
+    'version' => '1.2',
     'adminURL' => 'admin/modules/menus', // admin/modules/menus
-    'icon' => 'Menu', // http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+    /**
+     * ex. icon icon-Files
+     * http://docteur-abrar.com/wp-content/themes/thunder/admin/stroke-gap-icons/index.html
+     * 
+     * ex. fa fa-beer
+     * http://fontawesome.io/icons/
+     */
+    'icon' => 'icon icon-Menu',
     'path' => 'atlantis/menus/src',
     'moduleNamespace' => 'Module\Menus',
     'seedNamespace' => 'Module\Menus\Seed',    
