@@ -3,13 +3,13 @@
 /*
  * Setup: CKEditor
  * @Atlantis CMS
- * v 1.1
+ * v 1.1.1
  */
 
 return [
     'name' => 'CKEditor',
     'author' => 'Atlantis CMS',
-    'version' => '1.1',
+    'version' => '1.1.3',
     'adminURL' => NULL, // admin/modules/ckeditor
     /**
      * ex. icon icon-Files

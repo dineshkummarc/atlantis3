@@ -29,7 +29,7 @@ class CKEditorBuilder implements \Atlantis\Helpers\Interfaces\EditorBuilderInter
 
     $pathVendor = config('atlantis.modules_dir') . config('ckeditor.setup.path') . '/Module/CKEditor/Vendor';
 
-    return [$pathVendor . '/ckeditor/ckeditor.js'];
+    return [$pathVendor . '/cke/ckeditor.js'];
   }
 
   public function styles() {
