@@ -14,7 +14,7 @@
 @section('scripts')
 @parent
 {{-- Add scripts per template --}}
-{{-- <script src="http://a3.angel.dev.gentecsys.net/media/js/vendor/jquery.js"></script> --}}
+{{-- <script src="{{$_storage}}/media/js/vendor/jquery.js"></script> --}}
 @stop
 
 @section('styles')
@@ -35,4 +35,4 @@
   {{-- trans('site::messages.welcome') --}}
   {!! $content !!}
 </div>
-@stop  
+@stop

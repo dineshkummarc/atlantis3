@@ -50,10 +50,11 @@ return [
 
 		's3' => [
 			'driver' => 's3',
-			'key'    => 'AKIAIURZGRDHZHQSHIBA',
-			'secret' => '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',
-			'region' => 'us-west-2',
-			'bucket' => 'a3demo',
+			'key'    => '',
+			'secret' => '',
+			'region' => '',
+			'bucket' => '',,
+            'distribution_id' => '' // cloudfront
 		],
 
 		'rackspace' => [
