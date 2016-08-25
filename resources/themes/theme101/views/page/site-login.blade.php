@@ -44,7 +44,7 @@
 
 
 <div id='loginForm'>
-  {!! Form::open(["url" => \Site\Controllers\SiteLoginController::$route_login . $urlQuery]) !!} 
+  {!! Form::open(["url" => config('page-protected.route_login') . $urlQuery]) !!} 
     {!! Form::input("text", "username", '' , array("id" => "username")) !!}
       <br />
       {!! Form::input("password", "password", '' , array("id" => "password")) !!}
