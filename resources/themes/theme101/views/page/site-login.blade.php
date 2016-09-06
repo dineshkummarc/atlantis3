@@ -33,6 +33,7 @@
 @parent
 <h1>Page Protected Login</h1>
 
+{!! $content !!}
 
 @if( $errors->all() ) 
   @foreach($errors->all() as $error)
@@ -44,7 +45,7 @@
 
 
 <div id='loginForm'>
-  {!! Form::open(["url" => config('page-protected.route_login') . $urlQuery]) !!} 
+  {!! Form::open(["url" => config('page-protected.route_login')]) !!} 
     {!! Form::input("text", "username", '' , array("id" => "username")) !!}
       <br />
       {!! Form::input("password", "password", '' , array("id" => "password")) !!}

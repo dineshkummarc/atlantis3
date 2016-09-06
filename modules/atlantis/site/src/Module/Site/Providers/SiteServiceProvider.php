@@ -35,7 +35,7 @@ class SiteServiceProvider extends \Illuminate\Support\ServiceProvider {
 
   public function boot() {
     
-    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/forms/views/';
+    $themeModViewPath = \Atlantis\Helpers\Themes\ThemeTools::getFullThemePath() . '/modules/site/views/';
 
     if (is_dir($themeModViewPath)) {
       $this->loadViewsFrom($themeModViewPath, 'site');
