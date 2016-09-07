@@ -78,6 +78,10 @@ class BlogRepository {
 
     return Blog::all();
   }
+  
+  public static function getAllPublished() {
+    return Blog::where('status', '=', 'published')->get();
+  }
 
   public static function get($id) {
 
