@@ -53,7 +53,7 @@ return [
 			'key'    => '',
 			'secret' => '',
 			'region' => '',
-			'bucket' => '',,
+			'bucket' => '',
             'distribution_id' => '' // cloudfront
 		],
 
