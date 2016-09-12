@@ -34,7 +34,8 @@
       "php artisan clear-compiled",
       "php artisan optimize",
       "php artisan view:clear",
-      "php artisan cache:clear"
+      "php artisan cache:clear",
+      "php artisan atlantis:migrate y"
     ],
     "post-create-project-cmd": [
       "php artisan key:generate",
