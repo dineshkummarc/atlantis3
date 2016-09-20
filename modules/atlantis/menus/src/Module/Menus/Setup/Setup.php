@@ -4,13 +4,13 @@
 /*
  * Setup: Menus
  * @Atlantis CMS
- * v 1.2
+ * v 1.2.1
  */
 
 return [
     'name' => 'Menus',
     'author' => 'Atlantis CMS',
-    'version' => '1.2',
+    'version' => '1.2.1',
     'adminURL' => 'admin/modules/menus', // admin/modules/menus
     /**
      * ex. icon icon-Files

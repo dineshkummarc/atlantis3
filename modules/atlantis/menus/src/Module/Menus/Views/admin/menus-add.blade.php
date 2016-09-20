@@ -25,6 +25,9 @@
       <div class="columns">
         <div class="float-right">
           <div class="buttons">
+            <a href="/admin/modules/menus" class="back button tiny top primary" title="Go to Menus" data-tooltip>
+              <span class=" back icon icon-Goto"></span>
+            </a>
             {!! Form::input('submit', '_save_close', 'Save &amp; Close', ['class' => 'alert button', 'id'=>'save-close-btn']) !!} {!! Form::input('submit', '_update', 'Update', ['class' => 'alert button', 'id'=>'update-btn']) !!}
           </div>
         </div>
@@ -96,7 +99,7 @@
                         </label>
                         <span class="actions">
                           <a data-toggle="advanced-item1" class=""><span data-tooltip title="Show/Hide Advanced Settings" class="icon icon-Settings top"></span></a>
-                          
+
                         </span>
                       </div>
                       <div class="columns">
@@ -160,7 +163,7 @@
 @stop
 
 <script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function(event) { 
+  document.addEventListener("DOMContentLoaded", function (event) {
     $("#sortable").sortable({
       onDrop: function ($item, container, _super, event) {
         $item.removeClass(container.group.options.draggedClass).removeAttr("style");
@@ -169,7 +172,7 @@
         $.each($('ol#sortable>li'), function (key, val) {
           $(this).find('[type="hidden"][name*="weight"]').val(key + 1);
           $(this).find('.index').text((key + 1));
-        });     
+        });
 
 
       }
