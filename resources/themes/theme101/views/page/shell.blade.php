@@ -11,21 +11,24 @@
     @endforeach
     @show
 
-    @section('scripts')
-    @foreach($_scripts as $script)
-    {!! $script !!}
-    @endforeach
-    @show
-
     @section('styles')
-    @foreach($_styles as $style) 
+    <link media="all" type="text/css" rel="stylesheet" href="/resources/themes/theme101/assets/css/app.css">
+    @foreach($_styles as $style)
     {!! $style !!}
     @endforeach
     @show
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="/resources/themes/theme101/assets/js/parallax.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+    var scene = document.getElementById('scene');
+    var parallax = new Parallax(scene, {invertX: false, invertY: true, limitX: false, scalarX: 2, scalarY: 8});
+    });
+    </script>
 
   </head>
   <body class="{!! $body_class !!}">
-    
+
     {!! MenuNavigation::setShortcutBar() !!}
 
     @section('tracking_header')
@@ -46,6 +49,12 @@
     @section('js')
     @foreach( $_js as $js )
     {!! $js !!}
+    @endforeach
+    @show
+
+    @section('scripts')
+    @foreach($_scripts as $script)
+    {!! $script !!}
     @endforeach
     @show
 
