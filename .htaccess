@@ -1,7 +1,11 @@
+<FilesMatch "\.(env|htaccess)$">
+        deny from all
+</FilesMatch>
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews
-    </IfModule>
+    </IfModule>    
 
     RewriteEngine On
     RewriteBase /
