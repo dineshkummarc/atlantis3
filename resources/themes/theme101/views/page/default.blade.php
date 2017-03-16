@@ -71,14 +71,14 @@
 <main class="container">
 <div class="row">
   <div class="column u-full-width">
-    <h4>Thank you for being part of the Atlantis Community!</h4>
+    <h4>Thank you for being part of the Atlantis Community! Please feel free to join us on our <a href="https://www.facebook.com/atlantiscms" target="_blank">Facebook</a> and Twitter <a href="https://twitter.com/atlantiscms" target="_blank">@atlantiscms</a></h4>
   </div>
 </div>
 </main>
 
 <footer>
   <div class="row container">
-    <div class="column u-full-width">Copyright © 2017 Atlantis CMS. </div>
+    <div class="column u-full-width">Copyright © 2017 Atlantis CMS. Powered by <a href="http://www.atlantis-cms.com" target="_blank" style="color: #fff; text-decoration: underline;">Atlantis CMS</a> </div>
   </div>
 </footer>
 @stop
