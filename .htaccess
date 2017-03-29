@@ -1,4 +1,4 @@
-<FilesMatch "\.(env|htaccess)$">
+<FilesMatch "\.(env|htaccess|git)$">
         deny from all
 </FilesMatch>
 
