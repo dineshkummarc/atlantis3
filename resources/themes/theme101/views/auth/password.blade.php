@@ -39,7 +39,7 @@
     <div class="columns large-3 large-centered text-center">
       <div class="input-group">
         <span class="icon icon-Mail input-group-label"></span>
-        {!! Form::input("email", "email",  old('email'), array("id" => "email","class"=>"input-group-field", "placeholder" => "Email")) !!}
+        {!! Form::input("text", "email",  old('email'), array("id" => "email","class"=>"input-group-field", "placeholder" => "Username or Email")) !!}
       </div>
 
       {!! Form::submit('Send Password Reset Link',['class'=>'alert button expanded']) !!}
