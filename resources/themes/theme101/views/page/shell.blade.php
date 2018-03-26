@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <base href="{{ url('/') }}/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title'){!! $_page->seo_title !!}</title>
 
@@ -12,7 +13,7 @@
     @show
 
     @section('styles')
-    <link media="all" type="text/css" rel="stylesheet" href="/resources/themes/theme101/assets/css/app.css">
+    <link media="all" type="text/css" rel="stylesheet" href="{{  config('atlantis.theme_path') }}/assets/css/app.css">
     @foreach($_styles as $style)
     {!! $style !!}
     @endforeach
