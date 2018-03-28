@@ -19,7 +19,7 @@
     @endforeach
     @show
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="/resources/themes/theme101/assets/js/parallax.min.js"></script>
+    <script src="{{  config('atlantis.theme_path') }}/assets/js/parallax.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
     var scene = document.getElementById('scene');

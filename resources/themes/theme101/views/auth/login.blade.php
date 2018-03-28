@@ -13,7 +13,7 @@
 <div class="row">
   <div class="columns large-3 large-centered text-center">
     <div style="height:120px;line-height:120px;"></div>
-    <img src="/vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/images/atlantis_logo.png" alt="">
+    <img src="vendor/atlantis-labs/atlantis3-framework/src/Atlantis/Assets/images/atlantis_logo.png" alt="">
     <br><br>
     @if( $errors->all() ) 
     @foreach($errors->all() as $error)
