@@ -8,7 +8,7 @@
     "atlantis-labs/atlantis3-framework": "2.*"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.0",
+    "phpunit/phpunit": "~6.0",
     "phpspec/phpspec": "~2.1"
   },
   "autoload": {
@@ -45,6 +45,10 @@
       "chmod -R 775 modules",
       "chmod -R 775 bootstrap/cache",
       "php install-instructions.php"
+    ],
+    "post-autoload-dump": [
+        "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+        "@php artisan package:discover"
     ]
   },
   "config": {
