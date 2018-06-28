@@ -38,17 +38,13 @@
       "php artisan atlantis:migrate y"
     ],
     "post-create-project-cmd": [
-      "php artisan key:generate",
+      "php artisan key:generate --force",
       "php artisan atlantis:key:generate",
       "chmod -R 775 storage",
       "chmod -R 775 resources",
       "chmod -R 775 modules",
       "chmod -R 775 bootstrap/cache",
       "php install-instructions.php"
-    ],
-    "post-autoload-dump": [
-        "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-        "@php artisan package:discover"
     ]
   },
   "config": {
